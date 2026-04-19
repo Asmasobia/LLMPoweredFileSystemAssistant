@@ -1,0 +1,3 @@
+Summary for JOHN DOE
+
+The candidate has 5+ years of experience in software engineering with expertise in Python, JavaScript, and cloud technologies. The candidate is passionate about building scalable applications and has experience in developing microservices, managing AWS infrastructure, and leading teams. The candidate also has experience in building full-stack applications, implementing CI/CD pipelines, and working with various databases and tools.

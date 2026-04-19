@@ -1,0 +1,31 @@
+CHRIS LEE
+Mobile App Developer
+
+CONTACT
+Email: chris.lee@email.com
+Phone: (555) 567-8901
+Location: Los Angeles, CA
+
+SUMMARY
+Mobile developer with 4 years of experience building iOS and Android apps.
+Proficient in Swift, Kotlin, and cross-platform development with Flutter.
+
+EXPERIENCE
+Senior Mobile Developer | AppWorks Studio | 2022 - Present
+- Developed iOS apps using Swift and SwiftUI
+- Built cross-platform apps with Flutter and Dart
+- Integrated Firebase for authentication and real-time databases
+
+Mobile Developer | MobileFirst Inc. | 2020 - 2022
+- Created Android apps using Kotlin and Jetpack Compose
+- Implemented push notifications and in-app purchases
+- Published 5 apps on App Store and Google Play
+
+SKILLS
+Languages: Swift, Kotlin, Dart, JavaScript
+Frameworks: SwiftUI, Jetpack Compose, Flutter, React Native
+Tools: Xcode, Android Studio, Firebase, Fastlane
+Other: REST APIs, GraphQL, CI/CD for mobile
+
+EDUCATION
+B.S. Software Engineering | UCLA | 2020

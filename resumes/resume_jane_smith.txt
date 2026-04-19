@@ -1,0 +1,31 @@
+JANE SMITH
+Data Scientist
+
+CONTACT
+Email: jane.smith@email.com
+Phone: (555) 234-5678
+Location: New York, NY
+
+SUMMARY
+Data scientist with 4 years of experience in machine learning, statistical analysis,
+and data visualization. Skilled in Python and R.
+
+EXPERIENCE
+Senior Data Scientist | DataDriven Corp | 2022 - Present
+- Built ML models for customer churn prediction with 92% accuracy
+- Created dashboards using Tableau and Power BI
+- Led A/B testing initiatives across product teams
+
+Data Analyst | Analytics Pro | 2020 - 2022
+- Analyzed large datasets using Python and SQL
+- Developed automated reporting pipelines
+- Collaborated with engineering teams on data infrastructure
+
+SKILLS
+Languages: Python, R, SQL
+Libraries: Pandas, NumPy, Scikit-learn, TensorFlow, PyTorch
+Tools: Jupyter, Tableau, Power BI, Spark, Airflow
+
+EDUCATION
+M.S. Data Science | Columbia University | 2020
+B.S. Statistics | University of Michigan | 2018

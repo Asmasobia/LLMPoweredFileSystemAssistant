@@ -1,0 +1,32 @@
+MARIA GARCIA
+DevOps Engineer
+
+CONTACT
+Email: maria.garcia@email.com
+Phone: (555) 456-7890
+Location: Seattle, WA
+
+SUMMARY
+DevOps engineer with 6 years of experience in cloud infrastructure,
+CI/CD pipelines, and container orchestration. AWS and Azure certified.
+
+EXPERIENCE
+Senior DevOps Engineer | CloudScale Inc. | 2021 - Present
+- Managed Kubernetes clusters serving 10M+ requests daily
+- Automated infrastructure using Terraform and Ansible
+- Reduced deployment time by 70% with optimized CI/CD pipelines
+
+DevOps Engineer | InfraTech | 2018 - 2021
+- Set up monitoring with Prometheus, Grafana, and ELK stack
+- Migrated on-premise applications to AWS
+- Implemented Docker containerization for 20+ services
+
+SKILLS
+Languages: Python, Bash, Go, YAML
+Tools: Docker, Kubernetes, Terraform, Ansible, Jenkins
+Cloud: AWS, Azure, GCP
+Monitoring: Prometheus, Grafana, Datadog, ELK Stack
+
+EDUCATION
+B.S. Information Technology | University of Washington | 2018
+AWS Solutions Architect Professional Certification

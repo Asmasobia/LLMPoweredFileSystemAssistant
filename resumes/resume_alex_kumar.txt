@@ -1,0 +1,31 @@
+ALEX KUMAR
+Full Stack Developer
+
+CONTACT
+Email: alex.kumar@email.com
+Phone: (555) 345-6789
+Location: Austin, TX
+
+SUMMARY
+Full stack developer with 3 years of experience building web applications
+using JavaScript, React, and Node.js. Strong background in agile development.
+
+EXPERIENCE
+Full Stack Developer | WebSolutions Inc. | 2022 - Present
+- Built responsive web apps using React and TypeScript
+- Designed RESTful APIs with Node.js and Express
+- Implemented authentication using OAuth 2.0 and JWT
+
+Junior Developer | CodeStart | 2021 - 2022
+- Developed frontend components using HTML, CSS, JavaScript
+- Wrote unit tests with Jest and React Testing Library
+- Participated in daily standups and sprint planning
+
+SKILLS
+Languages: JavaScript, TypeScript, HTML, CSS, SQL
+Frameworks: React, Node.js, Express, Next.js
+Databases: PostgreSQL, MongoDB, Redis
+Tools: Git, Docker, AWS, Vercel
+
+EDUCATION
+B.S. Computer Science | University of Texas at Austin | 2021
