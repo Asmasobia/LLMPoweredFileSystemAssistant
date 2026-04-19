@@ -1,0 +1,30 @@
+JOHN DOE
+Software Engineer
+
+CONTACT
+Email: john.doe@email.com
+Phone: (555) 123-4567
+Location: San Francisco, CA
+
+SUMMARY
+Experienced software engineer with 5+ years of expertise in Python, JavaScript,
+and cloud technologies. Passionate about building scalable applications.
+
+EXPERIENCE
+Senior Software Engineer | TechCorp Inc. | 2021 - Present
+- Developed microservices using Python and FastAPI
+- Managed AWS infrastructure with Terraform
+- Led a team of 4 engineers
+
+Software Engineer | StartupXYZ | 2019 - 2021
+- Built full-stack applications with React and Node.js
+- Implemented CI/CD pipelines using GitHub Actions
+- Worked with PostgreSQL and MongoDB databases
+
+SKILLS
+Languages: Python, JavaScript, TypeScript, SQL
+Frameworks: FastAPI, Django, React, Node.js
+Tools: Docker, Kubernetes, AWS, Git, Terraform
+
+EDUCATION
+B.S. Computer Science | University of California, Berkeley | 2019
