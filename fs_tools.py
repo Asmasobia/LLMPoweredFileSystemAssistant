@@ -4,7 +4,7 @@ import datetime
 from pathlib import Path
 
 
-def read_file(filepath: str) -> dict:
+def read_file(filepath: str, **kwargs) -> dict:
     """Read resume files (PDF, TXT, DOCX) and return structured response."""
     try:
         filepath = Path(filepath)
@@ -53,19 +53,29 @@ def read_file(filepath: str) -> dict:
         return {"success": False, "error": str(e)}
 
 
-def list_files(directory: str, extension: str = None) -> list:
+def list_files(directory: str, extension: str = None, **kwargs) -> list:
     """List all files in a directory, optionally filtered by extension."""
     try:
         directory = Path(directory)
         if not directory.exists():
             return [{"success": False, "error": f"Directory not found: {directory}"}]
 
+        # Ignore empty or invalid extensions
+        if extension and extension.strip() in ("", "."):
+            extension = None
+
+        # Handle comma-separated extensions
+        ext_list = None
+        if extension:
+            ext_list = [e.strip() if e.strip().startswith(".") else f".{e.strip()}" for e in extension.split(",")]
+
         files = []
         for item in directory.iterdir():
             if not item.is_file():
                 continue
-            if extension and not item.suffix.lower() == (extension if extension.startswith(".") else f".{extension}"):
-                continue
+            if ext_list:
+                if item.suffix.lower() not in [e.lower() for e in ext_list]:
+                    continue
             stat = item.stat()
             files.append({
                 "name": item.name,
@@ -80,7 +90,7 @@ def list_files(directory: str, extension: str = None) -> list:
         return [{"success": False, "error": str(e)}]
 
 
-def write_file(filepath: str, content: str) -> dict:
+def write_file(filepath: str, content: str, **kwargs) -> dict:
     """Write content to file, creating directories if needed."""
     try:
         filepath = Path(filepath)
@@ -92,7 +102,7 @@ def write_file(filepath: str, content: str) -> dict:
         return {"success": False, "error": str(e)}
 
 
-def search_in_file(filepath: str, keyword: str) -> dict:
+def search_in_file(filepath: str, keyword: str, **kwargs) -> dict:
     """Search for keyword in file content with surrounding context."""
     result = read_file(filepath)
     if not result.get("success"):
