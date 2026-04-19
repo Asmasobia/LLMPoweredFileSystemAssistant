@@ -1,12 +1,11 @@
 import json
 import os
 from dotenv import load_dotenv
-import openai
+from groq import Groq
 import fs_tools
 
 load_dotenv()
-openai.api_key = os.getenv("GROQ_API_KEY")
-openai.api_base = "https://api.groq.com/openai/v1"
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 TOOLS = [
     {
@@ -80,50 +79,88 @@ TOOL_MAP = {
 SYSTEM_PROMPT = """You are a helpful file system assistant specializing in resume management.
 You can read, list, search, and write files using the provided tools.
 Always use tools to interact with the file system. Be concise and helpful.
-IMPORTANT: The resumes are stored in the 'resumes' folder (relative path). Always use relative paths like 'resumes/' not absolute paths."""
-
-
+IMPORTANT: The resumes are stored in the 'resumes' folder (relative path). Always use relative paths like 'resumes/' not absolute paths.
+When searching multiple files, search them one at a time. Only call ONE tool at a time.
+IMPORTANT: Always call list_files first to get actual filenames before reading or searching files. Never guess filenames.
+When listing files, do NOT pass an extension filter unless the user specifically asks for a certain file type. Call list_files with only the directory parameter."""
 def run_assistant(user_query: str, messages: list = None) -> str:
     if messages is None:
         messages = [{"role": "system", "content": SYSTEM_PROMPT}]
 
     messages.append({"role": "user", "content": user_query})
 
-    max_iterations = 5
+    max_iterations = 10
     iteration = 0
 
     while iteration < max_iterations:
         iteration += 1
-        response = openai.ChatCompletion.create(
-            model="llama-3.3-70b-versatile",
-            messages=messages,
-            tools=TOOLS,
-            tool_choice="auto",
-        )
+
+        try:
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=messages,
+                tools=TOOLS,
+                tool_choice="auto",
+            )
+        except Exception as e:
+            # If tool call fails, retry without tools to get a text response
+            try:
+                response = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=messages,
+                )
+                return response.choices[0].message.content
+            except Exception as e2:
+                return f"Error: {e2}"
 
         msg = response.choices[0].message
-        messages.append(msg)
 
-        tool_calls = msg.get("tool_calls")
-        if not tool_calls:
-            return msg["content"]
-
-        for tool_call in tool_calls:
-            fn_name = tool_call["function"]["name"]
-            fn_args = json.loads(tool_call["function"]["arguments"])
-
-            print(f"  [Tool Call] {fn_name}({fn_args})")
-            result = TOOL_MAP[fn_name](**fn_args)
-            result_str = json.dumps(result, default=str)
-            print(f"  [Result] {result_str[:200]}")
-
+        if msg.tool_calls:
             messages.append({
-                "role": "tool",
-                "tool_call_id": tool_call["id"],
-                "content": result_str,
+                "role": "assistant",
+                "content": msg.content or "",
+                "tool_calls": [
+                    {
+                        "id": tc.id,
+                        "type": "function",
+                        "function": {"name": tc.function.name, "arguments": tc.function.arguments}
+                    } for tc in msg.tool_calls
+                ],
             })
 
-    return "Max iterations reached. Last tool results were returned above."
+            for tool_call in msg.tool_calls:
+                fn_name = tool_call.function.name
+                fn_args = json.loads(tool_call.function.arguments)
+
+                print(f"  [Tool Call] {fn_name}({fn_args})")
+                result = TOOL_MAP[fn_name](**fn_args)
+                result_str = json.dumps(result, default=str)
+                print(f"  [Result] {result_str[:200]}")
+
+                messages.append({
+                    "role": "tool",
+                    "tool_call_id": tool_call.id,
+                    "content": result_str,
+                })
+
+            # Force a text response after tool results (no more tool calls)
+            try:
+                follow_up = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=messages,
+                )
+                result_msg = follow_up.choices[0].message.content
+                messages.append({"role": "assistant", "content": result_msg})
+                return result_msg
+            except Exception:
+                return result_str
+
+        else:
+            messages.append({"role": "assistant", "content": msg.content})
+            return msg.content
+
+    return "Max iterations reached."
+
 
 def main():
     print("=== LLM File System Assistant ===")
