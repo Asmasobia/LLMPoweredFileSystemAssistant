@@ -1,0 +1,30 @@
+CHRISTOPHER LEE
+Go Backend Developer
+
+CONTACT
+Email: christopher.lee@email.com
+Phone: (555) 330-4466
+Location: Seattle, WA
+
+SUMMARY
+Backend developer with 4 years of experience building microservices in Go and Python.
+
+EXPERIENCE
+Senior Backend Developer | GoScale Inc. | 2022 - Present
+- Built high-performance microservices in Go handling 100K+ RPS
+- Designed gRPC APIs and protocol buffer schemas
+- Implemented distributed tracing with Jaeger
+
+Backend Developer | ServerTech | 2020 - 2022
+- Developed REST APIs using Go and Python Flask
+- Managed PostgreSQL and Redis databases
+- Built event-driven systems with Kafka
+
+SKILLS
+Languages: Go, Python, SQL, TypeScript
+Frameworks: Gin, Echo, Flask, FastAPI
+Databases: PostgreSQL, Redis, Cassandra, MongoDB
+Tools: Docker, Kubernetes, Kafka, gRPC, Jaeger
+
+EDUCATION
+B.S. Computer Science | University of Washington | 2020

@@ -1,0 +1,32 @@
+RYAN WALKER
+Full Stack Python Developer
+
+CONTACT
+Email: ryan.walker@email.com
+Phone: (555) 400-5566
+Location: Nashville, TN
+
+SUMMARY
+Full stack developer with 4 years of experience specializing in Python backend
+and React frontend development.
+
+EXPERIENCE
+Full Stack Developer | PyWeb Solutions | 2022 - Present
+- Built RESTful APIs using Django and Django REST Framework
+- Developed frontend using React and TypeScript
+- Deployed applications on AWS using Docker and ECS
+
+Python Developer | CodeShop | 2020 - 2022
+- Created web scrapers and automation tools in Python
+- Built Flask APIs with SQLAlchemy ORM
+- Implemented Celery task queues with Redis
+
+SKILLS
+Languages: Python, JavaScript, TypeScript, SQL
+Backend: Django, Flask, FastAPI, Celery
+Frontend: React, Next.js, HTML, CSS, Tailwind
+Databases: PostgreSQL, Redis, SQLite
+Tools: Docker, AWS, Git, GitHub Actions
+
+EDUCATION
+B.S. Computer Science | Vanderbilt University | 2020

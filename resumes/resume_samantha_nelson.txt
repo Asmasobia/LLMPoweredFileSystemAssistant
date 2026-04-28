@@ -1,0 +1,31 @@
+SAMANTHA NELSON
+Cloud Data Engineer
+
+CONTACT
+Email: samantha.nelson@email.com
+Phone: (555) 220-3355
+Location: Raleigh, NC
+
+SUMMARY
+Cloud data engineer with 4 years of experience building data platforms on AWS and GCP.
+
+EXPERIENCE
+Senior Data Engineer | CloudData Inc. | 2022 - Present
+- Built real-time data pipelines using Kafka and Spark Streaming
+- Designed data lake architecture on AWS S3 and Glue
+- Implemented data governance and quality frameworks
+
+Data Engineer | DataStream | 2020 - 2022
+- Developed batch ETL jobs using Python and Airflow
+- Managed data warehouses on BigQuery and Redshift
+- Created dbt models for data transformation
+
+SKILLS
+Languages: Python, SQL, Scala
+Tools: Spark, Kafka, Airflow, dbt, Flink
+Cloud: AWS (S3, Glue, Redshift, Lambda), GCP (BigQuery, Dataflow)
+Databases: PostgreSQL, MongoDB, DynamoDB
+
+EDUCATION
+M.S. Data Engineering | NC State University | 2020
+B.S. Computer Science | UNC Chapel Hill | 2018

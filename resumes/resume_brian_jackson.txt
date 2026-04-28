@@ -1,0 +1,30 @@
+BRIAN JACKSON
+iOS Developer
+
+CONTACT
+Email: brian.jackson@email.com
+Phone: (555) 777-8899
+Location: Cupertino, CA
+
+SUMMARY
+iOS developer with 4 years of experience building native Apple applications.
+
+EXPERIENCE
+Senior iOS Developer | AppsForward | 2022 - Present
+- Built iOS apps using Swift and SwiftUI
+- Implemented Core Data and CloudKit integration
+- Published 3 apps with 100K+ downloads
+
+iOS Developer | MobileMinds | 2020 - 2022
+- Developed UIKit-based applications
+- Integrated RESTful APIs and Firebase
+- Implemented in-app purchases and subscriptions
+
+SKILLS
+Languages: Swift, Objective-C, Python
+Frameworks: SwiftUI, UIKit, Core Data, Combine
+Tools: Xcode, Instruments, Fastlane, CocoaPods
+Other: Git, CI/CD, Firebase, CloudKit
+
+EDUCATION
+B.S. Computer Science | San Jose State University | 2020
