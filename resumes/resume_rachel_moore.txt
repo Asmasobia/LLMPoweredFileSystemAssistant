@@ -1,0 +1,32 @@
+RACHEL MOORE
+NLP Engineer
+
+CONTACT
+Email: rachel.moore@email.com
+Phone: (555) 666-7788
+Location: Pittsburgh, PA
+
+SUMMARY
+NLP engineer with 3 years of experience in natural language processing and
+conversational AI systems.
+
+EXPERIENCE
+NLP Engineer | LangAI Inc. | 2022 - Present
+- Fine-tuned large language models using Hugging Face Transformers
+- Built chatbot systems with RAG architecture
+- Developed text classification pipelines with 95% accuracy
+
+Junior ML Engineer | TextMine | 2021 - 2022
+- Preprocessed text data using spaCy and NLTK
+- Trained sentiment analysis models using BERT
+- Created named entity recognition systems
+
+SKILLS
+Languages: Python, SQL
+Libraries: Hugging Face, spaCy, NLTK, PyTorch, TensorFlow
+Tools: Docker, MLflow, Weights & Biases
+Specialties: NLP, LLMs, RAG, Text Classification, Chatbots
+
+EDUCATION
+M.S. Computational Linguistics | Carnegie Mellon University | 2021
+B.A. Linguistics | Penn State University | 2019

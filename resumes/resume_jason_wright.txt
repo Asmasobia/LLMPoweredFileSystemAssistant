@@ -1,0 +1,31 @@
+JASON WRIGHT
+Embedded Systems Engineer
+
+CONTACT
+Email: jason.wright@email.com
+Phone: (555) 999-0011
+Location: Detroit, MI
+
+SUMMARY
+Embedded engineer with 5 years of experience in firmware and IoT systems.
+
+EXPERIENCE
+Senior Embedded Engineer | IoTech Solutions | 2021 - Present
+- Developed firmware for ARM Cortex microcontrollers in C/C++
+- Built IoT communication protocols using MQTT and BLE
+- Designed PCB layouts using KiCad
+
+Embedded Developer | AutoTech | 2019 - 2021
+- Wrote real-time embedded software for automotive systems
+- Implemented CAN bus communication protocols
+- Performed hardware-software integration testing
+
+SKILLS
+Languages: C, C++, Python, Assembly
+Platforms: ARM Cortex, ESP32, STM32, Raspberry Pi
+Protocols: MQTT, BLE, CAN, SPI, I2C, UART
+Tools: KiCad, Logic Analyzers, JTAG, GDB
+
+EDUCATION
+M.S. Electrical Engineering | University of Michigan | 2019
+B.S. Electrical Engineering | Michigan State University | 2017

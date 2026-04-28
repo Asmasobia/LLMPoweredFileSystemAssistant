@@ -1,0 +1,31 @@
+OLIVIA BAKER
+Business Intelligence Analyst
+
+CONTACT
+Email: olivia.baker@email.com
+Phone: (555) 900-0011
+Location: Columbus, OH
+
+SUMMARY
+BI analyst with 4 years of experience in data analysis, reporting, and visualization.
+
+EXPERIENCE
+Senior BI Analyst | InsightData | 2022 - Present
+- Built executive dashboards using Tableau and Power BI
+- Created ETL processes using Python and SQL
+- Analyzed customer data to drive business decisions
+
+BI Analyst | DataViz Corp | 2020 - 2022
+- Developed reports using SQL and Excel
+- Automated reporting workflows with Python
+- Collaborated with stakeholders on KPI definitions
+
+SKILLS
+Tools: Tableau, Power BI, Excel, Looker
+Languages: SQL, Python, R
+Databases: PostgreSQL, Snowflake, BigQuery
+Methods: Data Modeling, Statistical Analysis, ETL
+
+EDUCATION
+M.S. Business Analytics | Ohio State University | 2020
+B.S. Mathematics | Ohio University | 2018

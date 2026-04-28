@@ -1,0 +1,30 @@
+TYLER SCOTT
+Platform Engineer
+
+CONTACT
+Email: tyler.scott@email.com
+Phone: (555) 600-7788
+Location: Salt Lake City, UT
+
+SUMMARY
+Platform engineer with 3 years of experience building internal developer platforms.
+
+EXPERIENCE
+Platform Engineer | DevPlatform Co. | 2022 - Present
+- Built internal developer platform using Kubernetes and ArgoCD
+- Created self-service infrastructure provisioning with Terraform
+- Implemented service mesh using Istio
+
+Junior Platform Engineer | CloudBase | 2021 - 2022
+- Managed CI/CD pipelines with GitHub Actions and Jenkins
+- Containerized applications using Docker
+- Monitored systems with Prometheus and Grafana
+
+SKILLS
+Languages: Go, Python, Bash, YAML
+Tools: Kubernetes, Docker, Terraform, ArgoCD, Istio
+CI/CD: GitHub Actions, Jenkins, GitLab CI
+Monitoring: Prometheus, Grafana, Datadog
+
+EDUCATION
+B.S. Computer Science | University of Utah | 2021

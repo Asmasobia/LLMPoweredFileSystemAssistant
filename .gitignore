@@ -1,0 +1,36 @@
+# Environment
+.env
+venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# ChromaDB
+chroma_db/
+
+# Vector store
+vector_store.json
+
+# Output files
+match_results.json
+match_results.csv
+retrieval_metrics.csv
+latency_metrics.csv
+*.png
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini

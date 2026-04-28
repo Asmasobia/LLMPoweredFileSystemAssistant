@@ -1,0 +1,30 @@
+JAMES ADAMS
+React Native Developer
+
+CONTACT
+Email: james.adams@email.com
+Phone: (555) 800-9900
+Location: Orlando, FL
+
+SUMMARY
+Mobile developer with 3 years of experience building cross-platform apps with React Native.
+
+EXPERIENCE
+React Native Developer | MobileApps Co. | 2022 - Present
+- Built cross-platform mobile apps using React Native and Expo
+- Integrated native modules for iOS and Android
+- Implemented state management with Redux and MobX
+
+Junior Mobile Developer | AppStudio | 2021 - 2022
+- Developed UI components using React Native
+- Integrated REST APIs and Firebase
+- Published 4 apps on App Store and Google Play
+
+SKILLS
+Languages: JavaScript, TypeScript, Python
+Frameworks: React Native, Expo, React, Redux
+Tools: Android Studio, Xcode, Firebase, Fastlane
+Other: REST APIs, GraphQL, Git, CI/CD
+
+EDUCATION
+B.S. Software Engineering | University of Central Florida | 2021

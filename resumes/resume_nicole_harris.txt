@@ -1,0 +1,30 @@
+NICOLE HARRIS
+Game Developer
+
+CONTACT
+Email: nicole.harris@email.com
+Phone: (555) 100-2233
+Location: Bellevue, WA
+
+SUMMARY
+Game developer with 4 years of experience in game design and development.
+
+EXPERIENCE
+Game Developer | PixelForge Studios | 2022 - Present
+- Developed 3D games using Unity and C#
+- Implemented physics systems and AI behaviors
+- Optimized rendering performance for mobile platforms
+
+Junior Game Developer | IndieGames Co. | 2020 - 2022
+- Built 2D platformers using Unity
+- Created game UI systems and inventory management
+- Designed levels and gameplay mechanics
+
+SKILLS
+Languages: C#, C++, Python, Lua
+Engines: Unity, Unreal Engine
+Tools: Blender, Photoshop, Git, Plastic SCM
+Specialties: 3D Graphics, Physics, AI, Shader Programming
+
+EDUCATION
+B.S. Game Development | DigiPen Institute of Technology | 2020

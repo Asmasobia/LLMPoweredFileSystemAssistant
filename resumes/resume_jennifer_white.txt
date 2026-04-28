@@ -1,0 +1,31 @@
+JENNIFER WHITE
+Product Manager (Technical)
+
+CONTACT
+Email: jennifer.white@email.com
+Phone: (555) 222-3344
+Location: San Jose, CA
+
+SUMMARY
+Technical product manager with 6 years of experience leading cross-functional teams
+and delivering data-driven products. Background in software engineering.
+
+EXPERIENCE
+Senior Product Manager | ProductHub | 2021 - Present
+- Led roadmap for ML-powered recommendation engine
+- Managed team of 8 engineers and 2 designers
+- Increased user retention by 25% through feature optimization
+
+Product Manager | TechStartup | 2018 - 2021
+- Defined product requirements for SaaS platform
+- Conducted user research and A/B testing
+- Worked closely with Python and React engineering teams
+
+SKILLS
+Tools: Jira, Confluence, Figma, Amplitude, SQL
+Technical: Python, SQL, REST APIs, Machine Learning basics
+Methods: Agile, Scrum, User Research, A/B Testing
+
+EDUCATION
+M.B.A. | Stanford University | 2018
+B.S. Computer Science | UC San Diego | 2015

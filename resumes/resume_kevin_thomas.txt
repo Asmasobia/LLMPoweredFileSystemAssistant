@@ -1,0 +1,30 @@
+KEVIN THOMAS
+Site Reliability Engineer
+
+CONTACT
+Email: kevin.thomas@email.com
+Phone: (555) 555-6677
+Location: Minneapolis, MN
+
+SUMMARY
+SRE with 5 years of experience ensuring system reliability and scalability.
+
+EXPERIENCE
+Senior SRE | ReliableSys Corp | 2021 - Present
+- Maintained 99.99% uptime for distributed systems
+- Built monitoring with Prometheus, Grafana, and PagerDuty
+- Automated incident response with Python and Bash scripts
+
+SRE | CloudOps Inc. | 2019 - 2021
+- Managed Kubernetes clusters across multiple regions
+- Implemented chaos engineering practices
+- Optimized cloud costs saving $200K annually on AWS
+
+SKILLS
+Languages: Python, Go, Bash
+Tools: Kubernetes, Docker, Terraform, Ansible
+Monitoring: Prometheus, Grafana, Datadog, ELK Stack
+Cloud: AWS, GCP
+
+EDUCATION
+B.S. Computer Engineering | University of Minnesota | 2019

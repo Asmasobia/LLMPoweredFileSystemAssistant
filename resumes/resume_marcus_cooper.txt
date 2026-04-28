@@ -1,0 +1,32 @@
+MARCUS COOPER
+MLOps Engineer
+
+CONTACT
+Email: marcus.cooper@email.com
+Phone: (555) 880-9911
+Location: Denver, CO
+
+SUMMARY
+MLOps engineer with 3 years of experience building and maintaining
+production machine learning infrastructure.
+
+EXPERIENCE
+MLOps Engineer | MLScale Inc. | 2022 - Present
+- Built ML pipelines using Kubeflow and MLflow on Kubernetes
+- Automated model training, evaluation, and deployment workflows
+- Implemented feature stores using Feast and Redis
+
+Junior MLOps Engineer | DataOps Co. | 2021 - 2022
+- Containerized ML models using Docker
+- Set up model monitoring with Prometheus and Grafana
+- Managed GPU clusters on AWS SageMaker and GCP Vertex AI
+
+SKILLS
+Languages: Python, Bash, Go
+MLOps: MLflow, Kubeflow, Feast, DVC, Weights & Biases
+Infrastructure: Docker, Kubernetes, Terraform, ArgoCD
+Cloud: AWS SageMaker, GCP Vertex AI, Azure ML
+
+EDUCATION
+M.S. Machine Learning | University of Colorado Boulder | 2021
+B.S. Computer Science | Colorado School of Mines | 2019

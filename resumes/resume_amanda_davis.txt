@@ -1,0 +1,31 @@
+AMANDA DAVIS
+Blockchain Developer
+
+CONTACT
+Email: amanda.davis@email.com
+Phone: (555) 444-5566
+Location: Atlanta, GA
+
+SUMMARY
+Blockchain developer with 3 years of experience building decentralized applications
+and smart contracts on Ethereum and Solana.
+
+EXPERIENCE
+Blockchain Developer | ChainTech | 2022 - Present
+- Developed smart contracts using Solidity and Rust
+- Built DeFi protocols handling $10M+ in TVL
+- Audited smart contracts for security vulnerabilities
+
+Junior Developer | Web3Labs | 2021 - 2022
+- Built frontend for dApps using React and ethers.js
+- Integrated MetaMask and WalletConnect
+- Developed subgraphs using The Graph protocol
+
+SKILLS
+Languages: Solidity, Rust, JavaScript, Python
+Frameworks: Hardhat, Foundry, React, Next.js
+Blockchain: Ethereum, Solana, Polygon
+Tools: Git, Docker, IPFS, The Graph
+
+EDUCATION
+B.S. Computer Science | Georgia Tech | 2021

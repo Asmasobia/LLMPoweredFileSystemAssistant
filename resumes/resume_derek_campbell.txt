@@ -1,0 +1,31 @@
+DEREK CAMPBELL
+Salesforce Developer
+
+CONTACT
+Email: derek.campbell@email.com
+Phone: (555) 660-7799
+Location: Indianapolis, IN
+
+SUMMARY
+Salesforce developer with 5 years of experience building custom CRM solutions
+and integrations for enterprise clients.
+
+EXPERIENCE
+Senior Salesforce Developer | CRMPro Solutions | 2021 - Present
+- Developed custom Salesforce applications using Apex and Lightning Web Components
+- Built integrations with external systems using REST APIs and MuleSoft
+- Managed data migrations for 500K+ records using Python and Data Loader
+
+Salesforce Developer | CloudCRM Inc. | 2019 - 2021
+- Customized Salesforce workflows and process builders
+- Created Visualforce pages and Lightning components
+- Wrote unit tests achieving 90%+ code coverage
+
+SKILLS
+Salesforce: Apex, Lightning Web Components, Visualforce, SOQL
+Languages: Python, JavaScript, SQL
+Tools: MuleSoft, Data Loader, Git, Jira
+Certifications: Salesforce Platform Developer I & II, Admin
+
+EDUCATION
+B.S. Information Systems | Indiana University | 2019

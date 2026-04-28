@@ -1,0 +1,31 @@
+MEGAN GREEN
+AI Research Engineer
+
+CONTACT
+Email: megan.green@email.com
+Phone: (555) 700-8899
+Location: Palo Alto, CA
+
+SUMMARY
+AI research engineer with 4 years of experience in deep learning and computer vision.
+
+EXPERIENCE
+AI Research Engineer | VisionAI Labs | 2022 - Present
+- Developed computer vision models for autonomous systems using PyTorch
+- Published 3 papers on object detection and segmentation
+- Built data annotation pipelines processing 1M+ images
+
+ML Research Engineer | DeepTech | 2020 - 2022
+- Trained GANs for image synthesis and augmentation
+- Implemented transformer architectures for vision tasks
+- Optimized model inference using TensorRT and ONNX
+
+SKILLS
+Languages: Python, C++, CUDA
+Libraries: PyTorch, TensorFlow, OpenCV, Hugging Face
+Tools: Docker, Kubernetes, MLflow, Weights & Biases
+Specialties: Computer Vision, Deep Learning, Object Detection, GANs
+
+EDUCATION
+Ph.D. Computer Science (AI) | Stanford University | 2020
+B.S. Computer Science | UC Berkeley | 2016

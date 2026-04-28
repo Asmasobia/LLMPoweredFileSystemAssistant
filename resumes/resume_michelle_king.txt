@@ -1,0 +1,31 @@
+MICHELLE KING
+Technical Writer
+
+CONTACT
+Email: michelle.king@email.com
+Phone: (555) 300-4455
+Location: Remote
+
+SUMMARY
+Technical writer with 4 years of experience creating developer documentation and API guides.
+
+EXPERIENCE
+Senior Technical Writer | DocuTech | 2022 - Present
+- Wrote API documentation for REST and GraphQL endpoints
+- Created SDK tutorials for Python, JavaScript, and Java
+- Maintained docs-as-code using Markdown and GitHub
+
+Technical Writer | DevDocs Inc. | 2020 - 2022
+- Authored user guides and onboarding documentation
+- Collaborated with engineering teams on release notes
+- Built documentation sites using Docusaurus and MkDocs
+
+SKILLS
+Tools: Markdown, Git, Docusaurus, MkDocs, Swagger, Postman
+Languages: Python, JavaScript (reading proficiency)
+Platforms: GitHub, Confluence, Notion
+Other: API Documentation, SDK Guides, Style Guides
+
+EDUCATION
+B.A. English | University of Oregon | 2020
+Google Technical Writing Certificate

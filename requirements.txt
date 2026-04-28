@@ -1,4 +1,12 @@
 openai==0.28.1
+python-dotenv
 PyPDF2==3.0.1
 python-docx==0.8.11
-python-dotenv
+groq
+scikit-learn==1.0.2
+numpy==1.21.6
+pandas==1.3.5
+matplotlib==3.5.3
+jupyter
+sentence-transformers
+chromadb
