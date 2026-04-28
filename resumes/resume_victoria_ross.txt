@@ -1,0 +1,32 @@
+VICTORIA ROSS
+Computer Vision Engineer
+
+CONTACT
+Email: victoria.ross@email.com
+Phone: (555) 550-6688
+Location: Austin, TX
+
+SUMMARY
+Computer vision engineer with 3 years of experience building image recognition
+and video analysis systems for autonomous vehicles.
+
+EXPERIENCE
+Computer Vision Engineer | AutoVision Labs | 2022 - Present
+- Developed real-time object detection models using YOLOv8 and PyTorch
+- Built 3D point cloud processing pipelines using Open3D
+- Deployed models on edge devices using TensorRT and ONNX
+
+Junior CV Engineer | ImageTech | 2021 - 2022
+- Trained image classification models using TensorFlow and Keras
+- Created data augmentation pipelines for training datasets
+- Implemented image preprocessing with OpenCV and Pillow
+
+SKILLS
+Languages: Python, C++, CUDA
+Libraries: PyTorch, TensorFlow, OpenCV, Open3D, Hugging Face
+Tools: Docker, MLflow, TensorRT, ONNX, Label Studio
+Specialties: Object Detection, Segmentation, 3D Vision, Edge Deployment
+
+EDUCATION
+M.S. Computer Vision | UT Austin | 2021
+B.S. Electrical Engineering | Texas A&M University | 2019

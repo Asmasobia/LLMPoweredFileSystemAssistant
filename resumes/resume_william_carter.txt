@@ -1,0 +1,31 @@
+WILLIAM CARTER
+Rust Systems Programmer
+
+CONTACT
+Email: william.carter@email.com
+Phone: (555) 110-2244
+Location: Portland, OR
+
+SUMMARY
+Systems programmer with 3 years of experience in high-performance computing using Rust and C++.
+
+EXPERIENCE
+Systems Engineer | PerformanceTech | 2022 - Present
+- Developed high-throughput networking libraries in Rust
+- Built memory-safe concurrent systems
+- Optimized performance-critical code paths
+
+Junior Systems Developer | LowLevel Inc. | 2021 - 2022
+- Wrote systems software in C++ and Rust
+- Implemented custom allocators and data structures
+- Contributed to open-source Rust libraries
+
+SKILLS
+Languages: Rust, C++, C, Python, Assembly
+Tools: Cargo, CMake, GDB, Valgrind, Perf
+Concepts: Concurrency, Memory Safety, Networking, OS Internals
+Platforms: Linux, WASM
+
+EDUCATION
+M.S. Computer Science | Oregon State University | 2021
+B.S. Computer Science | Portland State University | 2019

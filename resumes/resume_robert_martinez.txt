@@ -1,0 +1,30 @@
+ROBERT MARTINEZ
+Data Engineer
+
+CONTACT
+Email: robert.martinez@email.com
+Phone: (555) 111-2233
+Location: Miami, FL
+
+SUMMARY
+Data engineer with 4 years of experience building ETL pipelines and data warehouses.
+
+EXPERIENCE
+Data Engineer | DataFlow Inc. | 2021 - Present
+- Built ETL pipelines using Apache Spark and Airflow
+- Managed data warehouses on Snowflake and Redshift
+- Optimized SQL queries reducing runtime by 50%
+
+Junior Data Engineer | InfoTech | 2020 - 2021
+- Developed Python scripts for data cleaning and transformation
+- Created dashboards using Tableau
+- Worked with PostgreSQL and MongoDB
+
+SKILLS
+Languages: Python, SQL, Scala
+Tools: Spark, Airflow, Snowflake, Redshift, Kafka
+Databases: PostgreSQL, MongoDB, BigQuery
+Cloud: AWS, GCP
+
+EDUCATION
+B.S. Computer Science | University of Miami | 2020

@@ -1,0 +1,31 @@
+NATHAN PATEL
+API Developer
+
+CONTACT
+Email: nathan.patel@email.com
+Phone: (555) 440-5577
+Location: San Diego, CA
+
+SUMMARY
+API developer with 4 years of experience designing and building RESTful and GraphQL APIs
+for high-traffic applications.
+
+EXPERIENCE
+Senior API Developer | APIFirst Inc. | 2022 - Present
+- Designed RESTful APIs serving 5M+ requests daily using Python and FastAPI
+- Built GraphQL APIs with Strawberry and Ariadne
+- Implemented rate limiting, caching, and API versioning strategies
+
+Backend Developer | WebServices Co. | 2020 - 2022
+- Developed REST APIs using Django REST Framework
+- Created API documentation using Swagger and Redoc
+- Integrated third-party APIs (Stripe, Twilio, SendGrid)
+
+SKILLS
+Languages: Python, JavaScript, TypeScript, SQL
+Frameworks: FastAPI, Django, Flask, Express.js
+APIs: REST, GraphQL, gRPC, WebSockets
+Tools: Docker, Redis, PostgreSQL, Swagger, Postman
+
+EDUCATION
+B.S. Computer Science | UC San Diego | 2020

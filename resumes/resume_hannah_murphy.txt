@@ -1,0 +1,32 @@
+HANNAH MURPHY
+Data Visualization Engineer
+
+CONTACT
+Email: hannah.murphy@email.com
+Phone: (555) 770-8800
+Location: Philadelphia, PA
+
+SUMMARY
+Data visualization engineer with 4 years of experience creating interactive
+dashboards and data storytelling solutions.
+
+EXPERIENCE
+Senior Data Viz Engineer | VizWorks | 2022 - Present
+- Built interactive dashboards using D3.js and React
+- Created real-time data visualizations using WebSockets
+- Designed Tableau dashboards for executive reporting
+
+Data Analyst | ChartSmart Inc. | 2020 - 2022
+- Developed Python data pipelines using Pandas and NumPy
+- Created automated reports using Matplotlib and Seaborn
+- Built Power BI dashboards tracking KPIs for 10+ teams
+
+SKILLS
+Languages: Python, JavaScript, SQL, R
+Visualization: D3.js, Tableau, Power BI, Matplotlib, Seaborn, Plotly
+Frameworks: React, Flask
+Databases: PostgreSQL, BigQuery, Snowflake
+
+EDUCATION
+M.S. Data Visualization | Drexel University | 2020
+B.S. Statistics | Penn State University | 2018

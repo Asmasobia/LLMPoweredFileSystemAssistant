@@ -1,0 +1,32 @@
+LAURA HALL
+Security Engineer
+
+CONTACT
+Email: laura.hall@email.com
+Phone: (555) 500-6677
+Location: Baltimore, MD
+
+SUMMARY
+Security engineer with 4 years of experience in application security and penetration testing.
+
+EXPERIENCE
+Security Engineer | AppSec Corp | 2022 - Present
+- Conducted application security assessments and code reviews
+- Implemented SAST/DAST tools in CI/CD pipelines
+- Developed security automation using Python
+
+Security Analyst | SecureApps | 2020 - 2022
+- Performed penetration testing on web applications
+- Managed vulnerability scanning with Nessus and Qualys
+- Created security training materials for developers
+
+SKILLS
+Languages: Python, Bash, JavaScript
+Tools: Burp Suite, Nessus, OWASP ZAP, Metasploit, Wireshark
+Security: OWASP Top 10, SAST, DAST, Penetration Testing
+Cloud: AWS Security, IAM, CloudTrail
+
+EDUCATION
+M.S. Cybersecurity | Johns Hopkins University | 2020
+B.S. Computer Science | University of Maryland | 2018
+CompTIA Security+, OSCP

@@ -1,0 +1,30 @@
+DANIEL JOHNSON
+QA Automation Engineer
+
+CONTACT
+Email: daniel.johnson@email.com
+Phone: (555) 333-4455
+Location: Phoenix, AZ
+
+SUMMARY
+QA engineer with 5 years of experience in test automation and quality assurance.
+
+EXPERIENCE
+Senior QA Engineer | QualityFirst | 2021 - Present
+- Built automated test suites using Selenium and Python
+- Implemented API testing with Postman and pytest
+- Set up CI/CD testing pipelines with Jenkins
+
+QA Engineer | TestPro Inc. | 2019 - 2021
+- Wrote manual and automated test cases
+- Performed load testing with JMeter
+- Tracked bugs using Jira and TestRail
+
+SKILLS
+Languages: Python, Java, JavaScript
+Tools: Selenium, pytest, Postman, JMeter, Jenkins
+Frameworks: Robot Framework, Cypress
+Other: CI/CD, Git, Docker, Agile
+
+EDUCATION
+B.S. Information Systems | Arizona State University | 2019

@@ -1,0 +1,32 @@
+ANDREW YOUNG
+Solutions Architect
+
+CONTACT
+Email: andrew.young@email.com
+Phone: (555) 200-3344
+Location: Charlotte, NC
+
+SUMMARY
+Solutions architect with 8 years of experience designing enterprise-scale systems.
+
+EXPERIENCE
+Principal Solutions Architect | EnterpriseCloud | 2020 - Present
+- Designed cloud-native architectures for Fortune 500 clients
+- Led migration of monolithic systems to microservices on AWS
+- Reduced infrastructure costs by 45% through optimization
+
+Senior Solutions Architect | TechBridge | 2016 - 2020
+- Architected event-driven systems using Kafka and AWS Lambda
+- Designed multi-tenant SaaS platforms
+- Mentored junior architects and engineers
+
+SKILLS
+Cloud: AWS, Azure, GCP
+Languages: Python, Java, TypeScript, Go
+Architecture: Microservices, Event-Driven, Serverless, CQRS
+Tools: Terraform, Docker, Kubernetes, Kafka, Redis
+
+EDUCATION
+M.S. Software Engineering | University of North Carolina | 2016
+B.S. Computer Science | NC State University | 2014
+AWS Solutions Architect Professional

@@ -1,0 +1,30 @@
+STEPHANIE CLARK
+Database Administrator
+
+CONTACT
+Email: stephanie.clark@email.com
+Phone: (555) 888-9900
+Location: Dallas, TX
+
+SUMMARY
+DBA with 6 years of experience managing enterprise database systems.
+
+EXPERIENCE
+Senior DBA | DataCore Systems | 2021 - Present
+- Managed PostgreSQL and MySQL clusters with 99.9% uptime
+- Implemented database replication and failover strategies
+- Optimized query performance for high-traffic applications
+
+DBA | InfoStore Inc. | 2018 - 2021
+- Administered Oracle and SQL Server databases
+- Created backup and disaster recovery procedures
+- Automated routine maintenance with Python scripts
+
+SKILLS
+Databases: PostgreSQL, MySQL, Oracle, SQL Server, MongoDB
+Languages: SQL, Python, Bash
+Tools: pgAdmin, DBeaver, AWS RDS, Azure SQL
+Other: Replication, Sharding, Performance Tuning, Backup/Recovery
+
+EDUCATION
+B.S. Information Technology | University of Texas at Dallas | 2018
