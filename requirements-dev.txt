@@ -1,0 +1,20 @@
+# Development / test dependencies.
+#
+# Kept separate from requirements.txt so that installing the app does not drag in
+# a test runner. That split matters in a container image — test tooling is dead
+# weight in production and widens the dependency surface a scanner has to care
+# about — and it documents which packages are needed merely to *check* the code
+# versus to *run* it.
+#
+#   pip install -r requirements-dev.txt      # includes the runtime set below
+#
+# The test suite deliberately depends on nothing but pytest and the standard
+# library: the parsers (PyPDF2, python-docx) are imported lazily inside
+# fs_tools.read_file, and nothing in tests/ touches Groq, ChromaDB or numpy. So
+# `pip install pytest && pytest` works on a bare interpreter. A suite that needs
+# a 300 MB ML stack before it will tell you whether the sandbox holds is a suite
+# people skip.
+
+-r requirements.txt
+
+pytest>=8.0
