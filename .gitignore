@@ -1,14 +1,35 @@
 # Environment
+#
+# `.env` holds GROQ_API_KEY. Note that this bare pattern is what does the work —
+# a pattern like `.env.*` would NOT match a file named exactly `.env`, because
+# the `.` there is a literal character with nothing after it to match. That
+# near-miss is a common way a real secrets file ends up committed while the
+# author believes it is ignored. Verify with `git add --dry-run .`, which lists
+# what would actually be staged.
 .env
+.env.local
 venv/
+.venv/
 
 # Python
+#
+# These rules were already here, yet `__pycache__/fs_tools.cpython-37.pyc` was
+# tracked anyway — because .gitignore only affects files git is NOT already
+# tracking. Adding a rule does nothing to a file that was committed before the
+# rule existed; it has to be removed from the index explicitly with
+# `git rm --cached`. Symptom that gave it away: `git status` reported the .pyc as
+# modified every time the code ran, so simply using the project dirtied the repo.
 __pycache__/
 *.pyc
 *.pyo
 *.egg-info/
 dist/
 build/
+
+# Test tooling
+.pytest_cache/
+.coverage
+htmlcov/
 
 # ChromaDB
 chroma_db/
@@ -22,6 +43,11 @@ match_results.csv
 retrieval_metrics.csv
 latency_metrics.csv
 *.png
+
+# Anything the assistant writes for itself. write_file is restricted to paths
+# inside the project, so its output lands here — generated artifacts, not source.
+output/
+reports/
 
 # Jupyter
 .ipynb_checkpoints/

@@ -1,12 +1,31 @@
-openai==0.28.1
+# Runtime dependencies.
+#
+# `openai==0.28.1` used to head this list and has been removed: nothing in the
+# project imports it. The LLM client here is Groq (`llm_file_assistant.py:4`).
+# A dependency nobody imports is not free — it gets installed, it gets scanned by
+# every vulnerability tool, and it misleads the next reader about which provider
+# this project actually talks to. That particular pin was also pre-1.0 `openai`,
+# whose API was reshaped entirely in 1.0, so anyone taking the hint would have
+# written code against an interface this project never used.
+
+# ── LLM client and configuration ─────────────────────────────────────────────
+groq
 python-dotenv
+
+# ── Document parsing (imported lazily inside fs_tools.read_file) ─────────────
+# Imported at call time rather than module level so a missing parser degrades to
+# "PDF support unavailable" for that one file instead of stopping the whole app
+# from starting. The tests therefore need neither of these installed.
 PyPDF2==3.0.1
 python-docx==0.8.11
-groq
+
+# ── Retrieval / RAG (resume_rag.py, job_matcher.py) ──────────────────────────
+chromadb
+sentence-transformers
 scikit-learn==1.0.2
+
+# ── Analysis notebook (rag_analysis.ipynb) ───────────────────────────────────
 numpy==1.21.6
 pandas==1.3.5
 matplotlib==3.5.3
 jupyter
-sentence-transformers
-chromadb
