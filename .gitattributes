@@ -1,0 +1,44 @@
+# ------------------------------------------------------------------------------
+# .gitattributes — how git should treat the bytes in these files.
+#
+# WHY: `core.autocrlf` is a per-machine git setting, commonly `true` on Windows,
+# meaning "store LF in the repository but write CRLF into my working directory".
+# It is not shared between clones, so every contributor and CI runner may have it
+# set differently. Two failures follow, neither of which looks like a line-ending
+# problem when you hit it:
+#
+#   1. Phantom diffs — change one line, and `git diff` shows the whole file as
+#      modified because every ending was rewritten. The real change becomes
+#      unreviewable, which matters most in exactly the files you want reviewed
+#      carefully, like a security guard.
+#
+#   2. Text the tools read. `fs_tools.read_file` returns content that is then split
+#      on "\n". With CRLF checkouts, every line carries a trailing "\r", so
+#      `search_in_file` context strings gain stray characters and any future exact
+#      match against a line becomes subtly wrong. Normalised endings mean the
+#      fixtures behave the same on every machine.
+#
+# `text=auto eol=lf` tells git: treat these as text, normalise to LF on commit,
+# and check them out as LF regardless of the local `core.autocrlf`.
+#
+# WHY HERE RATHER THAN A GIT SETTING: .gitattributes is committed, so it applies
+# to everyone who clones, including CI. `git config` fixes exactly one machine and
+# has to be remembered again on the next one. Configuration that must hold for the
+# project belongs in the project.
+# ------------------------------------------------------------------------------
+
+* text=auto eol=lf
+
+# Explicitly binary, so git never attempts line-ending conversion. Rewriting a
+# byte inside a PDF that happened to look like a CRLF corrupts the file.
+*.pdf binary
+*.docx binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.pyc binary
+
+# Jupyter notebooks are JSON with embedded output. Marking them as text is right,
+# but they are worth flagging: the diffs are enormous and largely noise, because
+# execution counts and cell output change on every run even when no code did.
+*.ipynb text eol=lf
