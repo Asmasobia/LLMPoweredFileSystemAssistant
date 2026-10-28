@@ -219,12 +219,18 @@ def test_refusal_message_does_not_leak_the_absolute_path(workspace, outside):
     host — each refusal confirming where a guess landed. The path as *submitted*
     is safe to repeat: the attacker already knows it.
     """
-    target = outside / "escaped.txt"
+    # Submitted as a relative traversal, so the absolute location exists only
+    # after resolution. Submitting an absolute path would make the test assert
+    # that the submitted path is not echoed, which is the opposite of the rule —
+    # and on Windows it passed anyway, because the error uses as_posix() and
+    # str(outside) has backslashes, so the substring check could never match.
+    submitted = f"../{outside.name}/escaped.txt"
 
-    error = fs_tools.write_file(str(target), "payload")["error"]
+    error = fs_tools.write_file(submitted, "payload")["error"]
 
     assert str(outside) not in error
     assert str(workspace) not in error
+    assert not (outside / "escaped.txt").exists()
 
 
 @pytest.mark.skipif(
