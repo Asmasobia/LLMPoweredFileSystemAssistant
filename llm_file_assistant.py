@@ -6,7 +6,7 @@ import fs_tools
 
 load_dotenv()
 
-MODEL = "llama-3.1-8b-instant"
+MODEL = "openai/gpt-oss-20b"
 MAX_ITERATIONS = 10
 
 _client = None

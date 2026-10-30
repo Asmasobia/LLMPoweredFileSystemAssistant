@@ -181,7 +181,7 @@ cp .env.example .env              # then add your key
 ```
 
 Get a free Groq key at [console.groq.com/keys](https://console.groq.com/keys).
-The model is `llama-3.1-8b-instant`.
+The model is `openai/gpt-oss-20b`. (`llama-3.1-8b-instant`, the original choice, is no longer served by Groq.)
 
 ```bash
 python llm_file_assistant.py
