@@ -6,7 +6,7 @@ File-system tools exposed to the LLM.
 ═══════════════════════════════════════════════════════════════════════════════
 
 These four functions are registered as LLM tools in `llm_file_assistant.py`, and
-the dispatch there is literally:
+the dispatch there (`execute_tool_call`) is, in essence:
 
     fn_args = json.loads(tool_call.function.arguments)
     result  = TOOL_MAP[fn_name](**fn_args)
@@ -145,13 +145,8 @@ def _resolve_inside_workspace(candidate: str) -> Path:
     resolved = (raw if raw.is_absolute() else root / raw).resolve()
 
     # Structural containment, on resolved Paths. `relative_to` raises ValueError
-    # when there is no containment relationship.
-    #
-    # Why this and not `is_relative_to`: that method only exists on Python 3.9+,
-    # and this project has a committed .pyc from 3.7. `relative_to` in a
-    # try/except behaves identically and works on every version — the boring
-    # portable choice, because a security check that silently AttributeErrors on
-    # an older interpreter is worse than no check at all.
+    # when there is no containment relationship. (`is_relative_to` would do the
+    # same on 3.9+; this form makes the refusal branch explicit.)
     try:
         resolved.relative_to(root)
     except ValueError:
