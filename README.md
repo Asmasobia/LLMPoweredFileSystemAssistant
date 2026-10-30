@@ -64,11 +64,18 @@ won't install. `job_matcher.py` scores résumés against job descriptions;
 
 The agent loop is ordinary: send the conversation plus tool schemas, and if the
 response contains `tool_calls`, execute each one, append the result with its
-matching `tool_call_id`, and send again. Two details that are easy to get wrong
-and that this implementation gets right: **every** tool call in a response must be
-answered before the next request (the API rejects a conversation with a dangling
-call), and the loop needs a hard iteration cap or a confused model will happily
-retry a failing tool until your rate limit runs out.
+matching `tool_call_id`, and send again, until the model answers in text or the
+loop hits its cap. That is what lets one request chain `list_files` →
+`read_file` → `write_file`. Three details that are easy to get wrong:
+
+- **Every** tool call in a response must be answered before the next request.
+  The API rejects a conversation with a dangling call, and keeps rejecting it on
+  every later turn, so one unanswered call breaks the whole session.
+- That includes **bad** calls. An unknown tool name, malformed JSON or a missing
+  argument comes back to the model as an error result it can read and correct
+  (`execute_tool_call`), never as an exception that skips the reply.
+- The loop needs a hard iteration cap, or a confused model will happily retry a
+  failing tool until your rate limit runs out.
 
 ---
 
@@ -202,16 +209,23 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**64 tests, 1 skipped.** The suite needs only `pytest` and the standard library —
+**78 tests: on Windows 77 pass and 1 is skipped; on macOS/Linux all 78 run.** The suite needs only `pytest` and the standard library —
 the document parsers are imported lazily inside `read_file`, and nothing in
-`tests/` touches Groq, ChromaDB or numpy. A suite that demands a 300 MB ML stack
+`tests/` touches the network, ChromaDB or numpy. A suite that demands a 300 MB ML stack
 before it will tell you whether the sandbox holds is a suite people stop running.
 
-Roughly a third of the tests are containment tests: six spellings of `..`
+`tests/test_fs_tools.py` (65 tests) covers the tools. Roughly a third of them are containment tests: six spellings of `..`
 traversal, absolute paths, the `workspace-evil` prefix case, symlink escape, blank
 paths, and a test that replays **the entire injection chain** — a poisoned résumé,
 then the four hostile tool calls dispatched exactly as the agent loop dispatches
 them, `**json.loads(...)` and all.
+
+`tests/test_agent_loop.py` (13 tests) drives `run_assistant` with a fake LLM
+client that replays scripted model responses, so no API key or network is needed.
+It covers multi-step chains, bad tool calls (unknown name, broken JSON,
+missing arguments) followed by a second turn on the same history, and the
+iteration cap. After each run it checks that the history is one the real API
+would accept: every tool call answered, in order.
 
 Two conventions in there that are worth stealing:
 
@@ -220,16 +234,19 @@ Two conventions in there that are worth stealing:
   return value alone would pass while the vulnerability stayed open. When you test
   a control, test the thing the control exists to prevent.
 - **The suite was mutation-tested.** Reverting the two controls to their pre-fix
-  state produces **19 failures, every one a security test**, while all 45
-  functional tests still pass. That's the evidence the security tests fail for the
+  state (no containment check, no write allow-list) produces **20 failures in
+  `test_fs_tools.py` on Windows, every one a security test**, while every
+  functional test still passes. (The symlink test is skipped on Windows, so it
+  isn't in that count.) That's the evidence the security tests fail for the
   right reason and the functional ones don't secretly depend on the guard — a
   security test that would pass either way is worse than none, because it buys
-  false confidence.
+  false confidence. The loop tests were checked the same way: putting back the
+  forced follow-up fails 6 of them, and putting back the raising dispatch fails 5.
 
 The skip is honest rather than cosmetic: symlink creation on Windows needs
 Developer Mode (`WinError 1314: a required privilege is not held`), so that one
 case is verified on Linux/macOS only. `pytest.ini` sets `-rs` precisely so skips
-print their reason — a silent skip reads exactly like a pass, and "63 passed"
+print their reason — a silent skip reads exactly like a pass, and "77 passed"
 would otherwise overstate what was checked.
 
 ---
