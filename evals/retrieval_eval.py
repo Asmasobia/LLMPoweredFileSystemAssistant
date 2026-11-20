@@ -225,7 +225,10 @@ def check(report, thresholds_path) -> list:
     Regression gate. thresholds.json maps config -> {metric: minimum}, for the
     "all" group. Returns a list of failures (empty = pass).
     """
-    thresholds = json.loads(Path(thresholds_path).read_text(encoding="utf-8"))
+    thresholds_path = Path(thresholds_path)
+    if not thresholds_path.exists():
+        return [f"{thresholds_path} does not exist yet. It is written from a run on reviewed labels."]
+    thresholds = json.loads(thresholds_path.read_text(encoding="utf-8"))
     failures = []
     for name, minimums in thresholds["minimums"].items():
         got = report["results"][name]["metrics"]["all"]
