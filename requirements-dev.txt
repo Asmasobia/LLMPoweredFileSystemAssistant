@@ -8,13 +8,13 @@
 #
 #   pip install -r requirements-dev.txt      # includes the runtime set below
 #
-# The test suite deliberately depends on nothing but pytest and the standard
-# library: the parsers (PyPDF2, python-docx) are imported lazily inside
-# fs_tools.read_file, and nothing in tests/ touches Groq, ChromaDB or numpy. So
-# `pip install pytest && pytest` works on a bare interpreter. A suite that needs
-# a 300 MB ML stack before it will tell you whether the sandbox holds is a suite
-# people skip.
+# Most of the suite needs nothing but pytest and the standard library: the
+# parsers are imported lazily inside fs_tools.read_file, and the agent-loop
+# tests use a fake LLM client. `pip install pytest && pytest` still works on a
+# bare interpreter. tests/test_pg_store.py is the exception: it needs psycopg,
+# pgvector and numpy plus a running Postgres, and skips itself (with the reason
+# printed) when any of them is missing.
 
 -r requirements.txt
 
-pytest>=8.0
+pytest==9.2.0

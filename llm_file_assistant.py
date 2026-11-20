@@ -1,10 +1,13 @@
 import json
 import os
-from dotenv import load_dotenv
-from groq import Groq
 import fs_tools
 
-load_dotenv()
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    # Only a bare test environment lacks it; the loop tests need no .env.
+    pass
 
 MODEL = "openai/gpt-oss-20b"
 MAX_ITERATIONS = 10
@@ -13,10 +16,12 @@ _client = None
 
 
 def get_client():
-    # Created on first use, not at import: Groq() raises without an API key, and
-    # importing this module (as the tests do) should not need one.
+    # Created (and groq imported) on first use, not at import: Groq() raises
+    # without an API key, and the tests import this module without one.
     global _client
     if _client is None:
+        from groq import Groq
+
         _client = Groq(api_key=os.getenv("GROQ_API_KEY"))
     return _client
 

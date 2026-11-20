@@ -19,13 +19,25 @@ python-dotenv
 PyPDF2==3.0.1
 python-docx==0.8.11
 
-# ── Retrieval / RAG (resume_rag.py, job_matcher.py) ──────────────────────────
-chromadb
-sentence-transformers
-scikit-learn==1.0.2
+# ── Retrieval / RAG ──────────────────────────────────────────────────────────
+# Pinned to versions that install on Python 3.12. The previous pins (numpy
+# 1.21.6, pandas 1.3.5, scikit-learn 1.0.2) predate 3.12 and do not install on it.
+#
+# chromadb is the baseline store, and its bundled all-MiniLM-L6-v2 (ONNX) is
+# also the embedding model for the Postgres store, so the two are compared on
+# identical vectors. sentence-transformers was listed but never imported.
+chromadb==1.5.9
+numpy==2.5.5
+scikit-learn==1.9.1          # TF-IDF fallback in resume_rag.py
+
+# Postgres + pgvector store (pg_store.py)
+psycopg[binary]==3.3.9
+pgvector==0.5.1              # numpy <-> vector adapter for psycopg
+# Embedded Postgres 16 + pgvector 0.6.2, used only when DATABASE_URL is unset:
+# lets the store run on a machine without Docker or admin rights.
+pgserver==0.1.4
 
 # ── Analysis notebook (rag_analysis.ipynb) ───────────────────────────────────
-numpy==1.21.6
-pandas==1.3.5
-matplotlib==3.5.3
+pandas==3.1.1
+matplotlib==3.11.2
 jupyter
