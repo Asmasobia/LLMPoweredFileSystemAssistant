@@ -1,0 +1,29 @@
+{
+  "about": "Questions for the answer-grounding eval. Each is answered by rag_answer.py from the top retrieved chunks, then judged. 'answerable' is the drafter's expectation of whether the corpus contains the answer; it is a description of the set, not a label the judge is scored against (the human grades are). Model-drafted; review like the retrieval labels.",
+  "questions": [
+    {"id": "g01", "question": "Which candidates have worked with Kafka, and in what role?", "answerable": true},
+    {"id": "g02", "question": "How many years of experience does Maria Garcia have, and which cloud certifications does she hold?", "answerable": true},
+    {"id": "g03", "question": "Who has built iOS apps with SwiftUI?", "answerable": true},
+    {"id": "g04", "question": "What security certifications does Laura Hall hold?", "answerable": true},
+    {"id": "g05", "question": "Which candidate has published research papers, and on what topics?", "answerable": true},
+    {"id": "g06", "question": "What is Andrew Young's highest degree?", "answerable": true},
+    {"id": "g07", "question": "Who could lead a migration from on-premise servers to AWS?", "answerable": true},
+    {"id": "g08", "question": "Which candidates know both Python and Go?", "answerable": true},
+    {"id": "g09", "question": "What salary does Kevin Thomas expect?", "answerable": false},
+    {"id": "g10", "question": "Is Jennifer White willing to relocate?", "answerable": false},
+    {"id": "g11", "question": "Which candidates speak Spanish?", "answerable": false},
+    {"id": "g12", "question": "What was Derek Campbell's GPA?", "answerable": false},
+    {"id": "g13", "question": "Who has experience with real-time data pipelines?", "answerable": true},
+    {"id": "g14", "question": "Which candidate has built a chatbot using RAG?", "answerable": true},
+    {"id": "g15", "question": "Which database systems has Stephanie Clark administered?", "answerable": true},
+    {"id": "g16", "question": "Which candidates have a PhD?", "answerable": true},
+    {"id": "g17", "question": "Who has worked on autonomous vehicles?", "answerable": true},
+    {"id": "g18", "question": "Summarise Nicole Harris's game development experience.", "answerable": true},
+    {"id": "g19", "question": "Which candidates have more than 5 years of experience?", "answerable": true},
+    {"id": "g20", "question": "Who is the strongest candidate for a senior DevOps role, and why?", "answerable": true},
+    {"id": "g21", "question": "Did Rachel Moore ever work at Google?", "answerable": false},
+    {"id": "g22", "question": "Which open-source projects has William Carter contributed to?", "answerable": false},
+    {"id": "g23", "question": "Which candidates have led or managed engineering teams?", "answerable": true},
+    {"id": "g24", "question": "What is Victoria Ross's experience with deploying models to edge devices?", "answerable": true}
+  ]
+}
