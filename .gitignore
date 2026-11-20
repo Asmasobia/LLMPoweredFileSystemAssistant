@@ -60,3 +60,5 @@ reports/
 Thumbs.db
 .DS_Store
 desktop.ini
+# Embedded Postgres data directory (pgserver)
+.pgdata/
