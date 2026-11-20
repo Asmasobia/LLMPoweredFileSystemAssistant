@@ -198,7 +198,24 @@ You: quit
 
 The 32 files in `resumes/` are **synthetic** — generated names, `@email.com`
 addresses and reserved `555-` phone numbers. No real personal data is in this
-repository.
+repository. 31 are résumés; `summary.txt` is an assistant-written summary and is
+not indexed.
+
+### Retrieval store (Postgres + pgvector)
+
+```bash
+docker compose up -d                                   # Postgres 16 + pgvector 0.6.2
+export DATABASE_URL=postgresql://rag:rag@localhost:5432/rag
+python pg_store.py index                               # 186 section chunks, 82 fixed-size
+python pg_store.py search "event-driven systems with Kafka" --min-years 5 --skill Kafka
+```
+
+Without Docker, leave `DATABASE_URL` unset: `pg_store.py` then starts an embedded
+Postgres (`pgserver`, same versions) in `.pgdata/`, with no admin rights needed.
+The search is one SQL statement: metadata filters first, then vector similarity
+and full-text search ranked separately and merged with reciprocal rank fusion.
+`pg_store.py`'s docstring explains each part. The ChromaDB store in
+`resume_rag.py` is kept as the baseline and indexes the same chunks.
 
 ---
 
