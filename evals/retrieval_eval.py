@@ -238,10 +238,32 @@ def check(report, thresholds_path) -> list:
     return failures
 
 
+THRESHOLD_MARGIN = 0.02
+
+
+def thresholds_from(report, margin=THRESHOLD_MARGIN) -> dict:
+    """
+    Minimums for the CI gate: each configuration's current recall@K and MRR,
+    less a small margin. The retrieval is deterministic, so the margin is not
+    for noise between runs; it lets an unrelated change that shuffles a tied
+    rank or two pass, while a real regression still fails.
+    """
+    return {
+        "about": f"Written by retrieval_eval.py --write-thresholds from labels {report['labels_sha256']}: "
+                 f"each metric from that run minus {margin}. Regenerate when the labels change.",
+        "minimums": {
+            name: {m: round(max(0.0, r["metrics"]["all"][m] - margin), 3) for m in (f"recall@{K}", "mrr")}
+            for name, r in report["results"].items()
+        },
+    }
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description="Retrieval eval: recall@5 and MRR.")
     p.add_argument("--check", metavar="THRESHOLDS", help="fail (exit 1) if any metric drops below its minimum")
     p.add_argument("--out", default=str(RESULTS_PATH))
+    p.add_argument("--write-thresholds", metavar="PATH",
+                   help="write CI minimums from this run (refused while labels are drafts)")
     args = p.parse_args(argv)
     sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to cp1252
 
@@ -255,6 +277,15 @@ def main(argv=None):
         print(f"\n*** {report['draft_labels']} of {d['queries']} labels are unreviewed drafts. "
               f"These numbers do not count. ***\n")
     print(table(report))
+    Path(args.out).with_suffix(".md").write_text(table(report) + "\n", encoding="utf-8")
+
+    if args.write_thresholds:
+        if report["draft_labels"]:
+            print("Not writing thresholds: labels are still drafts.")
+            return 1
+        Path(args.write_thresholds).write_text(
+            json.dumps(thresholds_from(report), indent=2) + "\n", encoding="utf-8")
+        print(f"wrote {args.write_thresholds}")
 
     if args.check:
         failures = check(report, args.check)

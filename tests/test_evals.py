@@ -209,3 +209,10 @@ def test_bad_marks_are_rejected_without_writing_anything(sheet, fix):
 def test_bad_grade_is_rejected(sheet):
     _edit(lambda t: t.replace("**Grade:** \n\n---\n\n### g02", "**Grade:** maybe\n\n---\n\n### g02", 1))
     assert rs.apply() == 1
+
+
+def test_thresholds_sit_just_below_the_run_they_came_from():
+    report = {"labels_sha256": "abc", "results": {
+        "pg/section/hybrid": {"metrics": {"all": {"recall@5": 0.9, "mrr": 0.01}}}}}
+    t = retrieval_eval.thresholds_from(report, margin=0.02)
+    assert t["minimums"]["pg/section/hybrid"] == {"recall@5": 0.88, "mrr": 0.0}
