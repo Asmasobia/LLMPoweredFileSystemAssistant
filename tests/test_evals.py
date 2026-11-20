@@ -135,3 +135,77 @@ def test_agreement_skips_ungraded_answers_and_lists_disagreements():
     assert r["graded"] == 2
     assert r["disagreements"] == ["g2"]
     assert r["confusion"]["human_ungrounded/judge_grounded"] == 1
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Review sheet: marks in REVIEW.md land in the JSON files, and nothing else does
+# ─────────────────────────────────────────────────────────────────────────────
+import shutil  # noqa: E402
+
+from evals import review_sheet as rs  # noqa: E402
+
+
+@pytest.fixture
+def sheet(tmp_path, monkeypatch):
+    for name in ("LABELS", "GRADES"):
+        src = getattr(rs, name)
+        shutil.copy(src, tmp_path / src.name)
+        monkeypatch.setattr(rs, name, tmp_path / src.name)
+    monkeypatch.setattr(rs, "SHEET", tmp_path / "REVIEW.md")
+    rs.make()
+    return tmp_path
+
+
+def _labels(): return {q["id"]: q for q in json.loads(rs.LABELS.read_text(encoding="utf-8"))["queries"]}
+def _grades(): return {g["id"]: g for g in json.loads(rs.GRADES.read_text(encoding="utf-8"))["grades"]}
+
+
+def _edit(fn):
+    rs.SHEET.write_text(fn(rs.SHEET.read_text(encoding="utf-8")), encoding="utf-8")
+
+
+def _fix_row(text, qid, fix):
+    return "\n".join(l[:-3] + f" {fix} |" if l.startswith(f"| {qid} |") else l for l in text.split("\n"))
+
+
+def test_untouched_sheet_changes_nothing(sheet):
+    before_l, before_g = rs.LABELS.read_text(encoding="utf-8"), rs.GRADES.read_text(encoding="utf-8")
+    assert rs.apply() == 0
+    assert all(q["status"] == "draft" for q in _labels().values())
+    assert all(g["human"] is None for g in _grades().values())
+    assert json.loads(rs.LABELS.read_text(encoding="utf-8")) == json.loads(before_l)
+    assert json.loads(rs.GRADES.read_text(encoding="utf-8")) == json.loads(before_g)
+
+
+def test_fixes_and_grades_are_applied_and_labels_count_only_once_confirmed(sheet):
+    _edit(lambda t: _fix_row(t, "k09", "+nathan_patel"))
+    _edit(lambda t: _fix_row(t, "s20", "-olivia_baker"))
+    _edit(lambda t: t.replace("**Grade:** \n\n---\n\n### g02", "**Grade:** u - says 9 years\n\n---\n\n### g02", 1))
+    _edit(lambda t: t.replace("**Grade:** \n\n---\n\n### g03", "**Grade:** G\n\n---\n\n### g03", 1))
+    assert rs.apply() == 0
+    labels, grades = _labels(), _grades()
+    assert labels["k09"]["relevant"] == ["resume_christopher_lee2.txt", "resume_nathan_patel.txt"]
+    assert "resume_olivia_baker.txt" not in labels["s20"]["relevant"]
+    assert labels["k09"]["status"] == "draft"  # not confirmed yet
+    assert (grades["g01"]["human"], grades["g01"]["note"]) == ("ungrounded", "says 9 years")
+    assert grades["g02"]["human"] == "grounded"
+    assert sum(bool(g["human"]) for g in grades.values()) == 2
+
+    rs.make()  # regenerating keeps the grades already applied
+    _edit(lambda t: t.replace("Part 1:** no", "Part 1:** yes", 1))
+    assert rs.apply() == 0
+    assert all(q["status"] == "reviewed" for q in _labels().values())
+    assert _grades()["g01"]["human"] == "ungrounded"
+
+
+@pytest.mark.parametrize("fix", ["+nobody", "nathan_patel", "-christopher_lee2"])
+def test_bad_marks_are_rejected_without_writing_anything(sheet, fix):
+    before = rs.LABELS.read_text(encoding="utf-8")
+    _edit(lambda t: _fix_row(t, "k09", fix))  # the last case would leave k09 with no answer
+    assert rs.apply() == 1
+    assert rs.LABELS.read_text(encoding="utf-8") == before
+
+
+def test_bad_grade_is_rejected(sheet):
+    _edit(lambda t: t.replace("**Grade:** \n\n---\n\n### g02", "**Grade:** maybe\n\n---\n\n### g02", 1))
+    assert rs.apply() == 1
