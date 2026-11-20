@@ -2,9 +2,11 @@
 
 A command-line agent that reads, searches, summarises and writes résumé files by
 **LLM tool calling** — the model decides which function to call and with what
-arguments, in a loop, until it can answer. On top of that sits a small **RAG**
-layer (ChromaDB, with a TF-IDF fallback) for matching résumés against job
-descriptions.
+arguments, in a loop, until it can answer. Next to it sits a **measured RAG**
+layer: résumé chunks in Postgres + pgvector, hybrid search (vector similarity +
+full-text, merged with reciprocal rank fusion) with metadata filters in the same
+SQL, and an eval harness that scores retrieval and answer grounding against
+human-reviewed labels. The original ChromaDB setup is kept as the baseline.
 
 > **The interesting part of this repo is not the agent loop — it's the sandbox.**
 > When a model chooses the arguments to a function that opens files, and the text
@@ -23,16 +25,16 @@ descriptions.
 | `write_file` | Writes a text report, creating parent directories as needed. Restricted to `.txt`, `.md`, `.json`, `.csv`. |
 | `search_in_file` | Case-insensitive keyword search returning 1-indexed line numbers with ±1 line of context. |
 
-Beyond the tools, `resume_rag.py` chunks résumés on their **section headers**
+Beyond the tools, `resume_parsing.py` chunks résumés on their **section headers**
 (`EXPERIENCE`, `SKILLS`, …) rather than at blind character offsets, so a section
 doesn't get split across two chunks and each chunk carries the section it came
 from as metadata. If a document has no recognisable headers it falls back to
 fixed-size chunks with overlap — a fallback worth having, because header detection
-is a regex over other people's formatting and will sometimes find nothing.
-Embeddings go into ChromaDB with cosine distance (`hnsw:space: cosine`), with a
-TF-IDF path behind a `USE_CHROMA` flag so the project still runs where ChromaDB
-won't install. `job_matcher.py` scores résumés against job descriptions;
-`rag_analysis.ipynb` explores the retrieval behaviour.
+is a regex over other people's formatting and will sometimes find nothing. Both
+strategies are available, because the eval compares them. The same module
+extracts the metadata the filters use (`experience_years`, `skills`), and both
+stores index its output. `job_matcher.py` scores résumés against job
+descriptions; `rag_analysis.ipynb` explores the retrieval behaviour.
 
 ---
 
@@ -76,6 +78,44 @@ loop hits its cap. That is what lets one request chain `list_files` →
   (`execute_tool_call`), never as an exception that skips the reply.
 - The loop needs a hard iteration cap, or a confused model will happily retry a
   failing tool until your rate limit runs out.
+
+### Retrieval and answering
+
+```
+  "Which candidates have worked with Kafka?"                 python rag_answer.py "..."
+                │
+                ▼
+  ┌─────────────────────────────────────────────────────┐
+  │ pg_store.search()  — ONE SQL statement               │
+  │                                                      │
+  │   filtered ── WHERE experience_years >= n            │
+  │      │        AND skills @> {...}  (before ranking)  │
+  │      ├──► vec: ORDER BY embedding <=> query  (rank)  │   pgvector, cosine
+  │      └──► kw:  ts_rank_cd(tsv, query)        (rank)  │   Postgres full-text
+  │                     │                                │
+  │      fused: Σ 1 / (60 + rank)  over both lists       │   reciprocal rank fusion
+  └──────────────────────┬──────────────────────────────┘
+                         │ top 5 chunks, numbered, with file names
+                         ▼
+        gpt-oss-20b: "use ONLY these excerpts, cite files"
+                         │
+                         ▼
+          answer  ──►  evals/grounding_eval.py: gpt-oss-120b checks
+                       every claim against those same excerpts
+```
+
+- **pgvector** adds a `vector(384)` column and a distance operator to Postgres,
+  so "closest in meaning" is an `ORDER BY` that can sit in the same query as
+  ordinary `WHERE` filters.
+- **Full-text search** reduces text to word stems and matches query terms. It
+  catches exact skill names ("Kafka", "KiCad") that an embedding can blur.
+- **Reciprocal rank fusion** merges the two lists by rank, not score: a cosine
+  distance and a text-match score are on unrelated scales, so adding them would
+  be meaningless. Each chunk gets `1/(60 + rank)` from each list it appears in.
+- **Filters run before ranking**, so asking for 5+ years never returns a
+  shorter list just because the nearest chunks belonged to juniors. There is
+  deliberately no approximate (HNSW) index: at a few hundred chunks exact search
+  is instant, and an approximate index filters *after* finding neighbours.
 
 ---
 
@@ -171,11 +211,11 @@ trustworthy kind:
 git clone https://github.com/Asmasobia/LLMPoweredFileSystemAssistant.git
 cd LLMPoweredFileSystemAssistant
 
-python -m venv venv
-source venv/Scripts/activate      # Git Bash on Windows
-# source venv/bin/activate        # macOS/Linux
+python -m venv .venv                # Python 3.12
+source .venv/Scripts/activate       # Git Bash on Windows
+# source .venv/bin/activate         # macOS/Linux
 
-pip install -r requirements.txt
+pip install -r requirements-dev.txt # runtime deps + pytest
 
 cp .env.example .env              # then add your key
 ```
@@ -226,18 +266,28 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**78 tests: on Windows 77 pass and 1 is skipped; on macOS/Linux all 78 run.** The suite needs only `pytest` and the standard library —
-the document parsers are imported lazily inside `read_file`, and nothing in
-`tests/` touches the network, ChromaDB or numpy. A suite that demands a 300 MB ML stack
-before it will tell you whether the sandbox holds is a suite people stop running.
+**132 tests: on Windows 131 pass and 1 is skipped; on macOS/Linux all 132 run.**
+Most of the suite needs only `pytest` and the standard library — the document
+parsers are imported lazily inside `read_file`, and the agent-loop tests use a
+fake LLM client. With nothing but `pytest` installed, the Postgres tests skip
+themselves and print why. A suite that demands a 300 MB ML stack before it will
+tell you whether the sandbox holds is a suite people stop running.
 
-`tests/test_fs_tools.py` (65 tests) covers the tools. Roughly a third of them are containment tests: six spellings of `..`
+| file | tests | what it covers |
+| --- | --- | --- |
+| `test_fs_tools.py` | 65 | the tools and the sandbox |
+| `test_agent_loop.py` | 13 | the agent loop, with a fake LLM client |
+| `test_resume_parsing.py` | 14 | chunking, `experience_years`, skill matching |
+| `test_pg_store.py` | 16 | schema, filters, and that hybrid really is RRF (real Postgres, throwaway schema per test) |
+| `test_evals.py` | 24 | metrics, Cohen's kappa, label sanity, the review-sheet round trip |
+
+`tests/test_fs_tools.py`: roughly a third are containment tests: six spellings of `..`
 traversal, absolute paths, the `workspace-evil` prefix case, symlink escape, blank
 paths, and a test that replays **the entire injection chain** — a poisoned résumé,
 then the four hostile tool calls dispatched exactly as the agent loop dispatches
 them, `**json.loads(...)` and all.
 
-`tests/test_agent_loop.py` (13 tests) drives `run_assistant` with a fake LLM
+`tests/test_agent_loop.py` drives `run_assistant` with a fake LLM
 client that replays scripted model responses, so no API key or network is needed.
 It covers multi-step chains, bad tool calls (unknown name, broken JSON,
 missing arguments) followed by a second turn on the same history, and the
@@ -259,32 +309,96 @@ Two conventions in there that are worth stealing:
   security test that would pass either way is worse than none, because it buys
   false confidence. The loop tests were checked the same way: putting back the
   forced follow-up fails 6 of them, and putting back the raising dispatch fails 5.
+  So were the Postgres tests: AND-ing the keyword terms, dropping the 60 from
+  RRF, or filtering only one of the two rankings each fails the test aimed at it.
 
 The skip is honest rather than cosmetic: symlink creation on Windows needs
 Developer Mode (`WinError 1314: a required privilege is not held`), so that one
 case is verified on Linux/macOS only. `pytest.ini` sets `-rs` precisely so skips
-print their reason — a silent skip reads exactly like a pass, and "77 passed"
+print their reason — a silent skip reads exactly like a pass, and "131 passed"
 would otherwise overstate what was checked.
+
+CI (`.github/workflows/ci.yml`) runs the suite against a
+`pgvector/pgvector:0.6.2-pg16` service container, then the retrieval eval as a
+regression gate (below).
+
+---
+
+## Evaluation
+
+Everything here is reproducible from the repo. The dataset is small and
+synthetic: **31 résumés, 53 retrieval queries, 24 grounding questions.** Read the
+numbers as a comparison between configurations on this corpus, not as a claim
+about résumé search in general.
+
+### Retrieval: recall@5 and MRR
+
+```bash
+python evals/retrieval_eval.py            # table + evals/results/retrieval.json
+```
+
+- **recall@5**: of the résumés that should come back for a query, the fraction
+  in the top 5. **MRR**: 1 / (rank of the first right answer), averaged over
+  queries — 1.0 if it came first, 0.5 if second, 0 if not in the top 10.
+- Scored per résumé file: a file ranks by its best chunk.
+- Every configuration uses identical chunks and identical vectors
+  (all-MiniLM-L6-v2, Chroma's default), so each row differs from another only in
+  the axis named.
+- Labels (`evals/labels.json`): drafted by a model, then checked and corrected
+  by hand (`evals/REVIEW.md`) before any number counts. 22 name a specific term,
+  25 describe the need in other words, 6 add a minimum-experience filter. While
+  any label is unreviewed the run says its numbers do not count, and the CI gate
+  fails.
+- Sanity check: Chroma and Postgres vector-only search return identical top-10
+  lists on all 53 queries, as they should with identical vectors at this size.
+
+RESULTS_TABLE_PENDING_REVIEW
+
+### Answer grounding: an LLM judge, checked against a human
+
+```bash
+python evals/grounding_eval.py generate    # answer 24 questions, freeze answers + their excerpts
+python evals/grounding_eval.py judge       # gpt-oss-120b judges each frozen answer
+python evals/grounding_eval.py agreement   # compare with evals/human_grades.json
+```
+
+An answer is *grounded* if every claim it makes about a candidate is in the
+excerpts it was given. The judge is a larger model than the one answering, and
+it is only trusted as far as it agrees with hand grades on the same frozen
+answers. Agreement is reported as raw agreement and **Cohen's kappa**, which
+corrects for chance: if most answers are grounded, a judge that always says
+"grounded" agrees often and is still useless, and kappa scores it 0.
+
+GROUNDING_RESULTS_PENDING_REVIEW
 
 ---
 
 ## Known gaps
 
-- **No retrieval evaluation.** This is the biggest one. There is no labelled set
-  of (query → relevant résumé) pairs, so there is no precision@k, no recall, no
-  MRR — which means the claim "section-aware chunking retrieves better than fixed
-  chunking" is currently untested belief, not a measurement. The chunking strategy
-  and the embedding model are exactly the kind of decisions that need numbers,
-  because both sound plausible either way.
-- **No CI.** The tests pass because I run them; nothing enforces that.
+- **The eval set is small and synthetic.** 31 résumés, all with the same five
+  section headers, so section-aware chunking has an easy time; real résumés are
+  messier. With 31 documents, recall@5 is coarse: one query moving changes a
+  group's average noticeably. Relevance is binary, and the labels reflect one
+  reviewer's judgement.
+- **The grounding judge is not in CI.** It costs API calls and its output is not
+  deterministic, so CI gates on retrieval only; grounding is a manual run.
+- **`write_file` needs no human approval.** The sandbox limits *where* the agent
+  can write, but nothing asks before it writes. A LangGraph version with an
+  approval pause before `write_file` is the planned next step.
+- **No memory across restarts, and no summarisation.** History lives in a Python
+  list for one session; a long session eventually exceeds the context window,
+  and quitting loses it. The LangGraph version is planned to persist it in
+  Postgres with a checkpointer.
 - **No structured logging of tool calls.** For an agent, the sequence of calls
   *is* the execution trace, and reconstructing a bad run from stdout is guesswork.
-- **The vector store is written outside the sandbox check.** `resume_rag.py`
-  reads résumés *through* `fs_tools` (so containment covers indexing too), but it
-  opens `vector_store.json` and the ChromaDB directory with a plain `open()`
-  against module-level constants. Those paths are developer-set rather than
-  model-set, so it isn't the same class of risk — but it does mean the "every
-  filesystem access goes through one chokepoint" property isn't literally true,
-  and I'd rather say so than let the security section imply otherwise.
-- **Single-turn memory only.** Conversation history is passed in, but there's no
-  summarisation, so a long session eventually exceeds the context window.
+- **Docker Compose was written on a machine without Docker.** Development used
+  the embedded `pgserver` (same Postgres and pgvector versions). The compose file
+  and the CI service container use the same image, and CI is the first place it
+  runs.
+- **The vector stores are written outside the sandbox check.** Résumés are read
+  *through* `fs_tools` (so containment covers indexing too), but `resume_rag.py`
+  opens `vector_store.json` and the ChromaDB directory, and `pg_store.py` its
+  `.pgdata/` directory, at developer-set paths. That isn't the same class of risk
+  as a model-chosen path, but it does mean the "every filesystem access goes
+  through one chokepoint" property isn't literally true, and I'd rather say so
+  than let the security section imply otherwise.
