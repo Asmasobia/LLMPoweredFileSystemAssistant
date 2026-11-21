@@ -1265,7 +1265,7 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1308,7 +1308,7 @@ AWS Solutions Architect Professional Certification
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1366,7 +1366,7 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1432,7 +1432,7 @@ Specialties: NLP, LLMs, RAG, Text Classification, Chatbots
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1468,7 +1468,7 @@ B.S. Computer Science | UC San Diego | 2020
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1524,7 +1524,7 @@ AI research engineer with 4 years of experience in deep learning and computer vi
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1572,7 +1572,7 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** U
 
 ---
 
@@ -1632,5 +1632,5 @@ Software Engineer | StartupXYZ | 2019 - 2021
 
 </details>
 
-**Grade:** 
+**Grade:** U
 

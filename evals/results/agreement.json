@@ -1,0 +1,15 @@
+{
+  "graded": 32,
+  "agreement": 0.9375,
+  "kappa": 0.8461538461538461,
+  "confusion": {
+    "human_grounded/judge_grounded": 22,
+    "human_grounded/judge_ungrounded": 2,
+    "human_ungrounded/judge_grounded": 0,
+    "human_ungrounded/judge_ungrounded": 8
+  },
+  "disagreements": [
+    "g07",
+    "g09"
+  ]
+}

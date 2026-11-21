@@ -1,0 +1,598 @@
+{
+  "judge_model": "openai/gpt-oss-120b",
+  "answer_model": "openai/gpt-oss-20b",
+  "judged": [
+    {
+      "id": "g01",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Andrew Young worked with Kafka as Senior Solutions Architect at TechBridge",
+          "supported": true
+        },
+        {
+          "claim": "Christopher Lee worked with Kafka as Backend Developer at ServerTech",
+          "supported": true
+        },
+        {
+          "claim": "Samantha Nelson worked with Kafka as Senior Data Engineer at CloudData Inc.",
+          "supported": true
+        },
+        {
+          "claim": "Robert Martinez's résumé excerpts do not mention any role in which Kafka was used",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g02",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Maria Garcia has 6 years of experience",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia holds AWS certifications",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia holds Azure certifications",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g03",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Brian Jackson has built iOS apps with SwiftUI",
+          "supported": true
+        },
+        {
+          "claim": "Chris Lee has built iOS apps with SwiftUI",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g04",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Laura Hall holds the security certification CompTIA Security+",
+          "supported": true
+        },
+        {
+          "claim": "Laura Hall holds the security certification OSCP (Offensive Security Certified Professional)",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g05",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Megan Green has published research papers.",
+          "supported": true
+        },
+        {
+          "claim": "She has published 3 papers on object detection and segmentation (resume_megan_green.txt, EXPERIENCE section).",
+          "supported": true
+        },
+        {
+          "claim": "No other candidate’s résumé excerpts mention any published research papers.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g06",
+      "verdict": "grounded",
+      "claims": []
+    },
+    {
+      "id": "g07",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Maria Garcia has experience leading a migration from on-premise servers to AWS",
+          "supported": false
+        },
+        {
+          "claim": "She worked as a DevOps Engineer at InfraTech",
+          "supported": true
+        },
+        {
+          "claim": "At InfraTech, she migrated on-premise applications to AWS",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g08",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Christopher Lee lists both Python and Go in his résumé",
+          "supported": true
+        },
+        {
+          "claim": "Marcus Cooper lists both Python and Go in his résumé",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g09",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "The résumés provided do not say.",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "g10",
+      "verdict": "grounded",
+      "claims": []
+    },
+    {
+      "id": "g11",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "The résumés do not say that any of the candidates speak Spanish",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g12",
+      "verdict": "grounded",
+      "claims": []
+    },
+    {
+      "id": "g13",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "The résumé that explicitly mentions building real‑time data pipelines is Samantha Nelson",
+          "supported": true
+        },
+        {
+          "claim": "The résumé is resume_samantha_nelson.txt",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g14",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "A candidate built a chatbot using RAG",
+          "supported": true
+        },
+        {
+          "claim": "The candidate is Rachel Moore",
+          "supported": true
+        },
+        {
+          "claim": "The resume file is resume_rachel_moore.txt",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g15",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Stephanie Clark has administered PostgreSQL",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark administered PostgreSQL as Senior DBA at DataCore Systems",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark has administered MySQL",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark administered MySQL as Senior DBA at DataCore Systems",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark has administered Oracle",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark administered Oracle as DBA at InfoStore Inc.",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark has administered SQL Server",
+          "supported": true
+        },
+        {
+          "claim": "Stephanie Clark administered SQL Server as DBA at InfoStore Inc.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g16",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "There is only one candidate listed with a Ph.D.",
+          "supported": true
+        },
+        {
+          "claim": "The candidate with a Ph.D. is Megan Green.",
+          "supported": true
+        },
+        {
+          "claim": "Megan Green has a Ph.D. in Computer Science (AI).",
+          "supported": true
+        },
+        {
+          "claim": "Megan Green's Ph.D. is from Stanford University.",
+          "supported": true
+        },
+        {
+          "claim": "Megan Green earned the Ph.D. in 2020.",
+          "supported": true
+        },
+        {
+          "claim": "The Ph.D. information appears in resume_megan_green.txt.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g17",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Victoria Ross has worked on autonomous vehicles",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g18",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Nicole Harris has four years of experience as a game developer.",
+          "supported": true
+        },
+        {
+          "claim": "From 2020 to 2022 she worked as a Junior Game Developer at IndieGames Co.",
+          "supported": true
+        },
+        {
+          "claim": "She built 2D platformers in Unity, created UI systems and inventory management, and designed levels and gameplay mechanics.",
+          "supported": true
+        },
+        {
+          "claim": "Since 2022 she has been a Game Developer at PixelForge Studios.",
+          "supported": true
+        },
+        {
+          "claim": "Developing 3D games with Unity and C#.",
+          "supported": true
+        },
+        {
+          "claim": "Implementing physics systems and AI behaviors.",
+          "supported": true
+        },
+        {
+          "claim": "Optimizing rendering performance for mobile platforms.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g19",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Andrew Young has 8 years of experience",
+          "supported": true
+        },
+        {
+          "claim": "Andrew Young has more than 5 years of experience",
+          "supported": true
+        },
+        {
+          "claim": "John Doe has 5+ years of experience",
+          "supported": true
+        },
+        {
+          "claim": "John Doe has more than 5 years of experience",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g20",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Maria Garcia is the only candidate in the excerpts who has a senior-level DevOps background",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia's summary states she is a DevOps engineer with 6 years of experience in cloud infrastructure, CI/CD pipelines, and container orchestration",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia is AWS and Azure certified",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia held the title Senior DevOps Engineer at CloudScale Inc. from 2021 to Present",
+          "supported": true
+        },
+        {
+          "claim": "At CloudScale Inc., Maria Garcia managed Kubernetes clusters serving 10M+ requests daily",
+          "supported": true
+        },
+        {
+          "claim": "At CloudScale Inc., Maria Garcia automated infrastructure using Terraform and Ansible",
+          "supported": true
+        },
+        {
+          "claim": "At CloudScale Inc., Maria Garcia reduced deployment time by 70% with optimized CI/CD pipelines",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia was a DevOps Engineer at InfraTech from 2018 to 2021",
+          "supported": true
+        },
+        {
+          "claim": "At InfraTech, Maria Garcia set up monitoring with Prometheus, Grafana, and ELK stack",
+          "supported": true
+        },
+        {
+          "claim": "At InfraTech, Maria Garcia migrated on-premise applications to AWS",
+          "supported": true
+        },
+        {
+          "claim": "At InfraTech, Maria Garcia implemented Docker containerization for 20+ services",
+          "supported": true
+        },
+        {
+          "claim": "Derek Campbell is a Senior Salesforce Developer",
+          "supported": true
+        },
+        {
+          "claim": "Derek Campbell is not a DevOps engineer",
+          "supported": true
+        },
+        {
+          "claim": "Andrew Young is a Principal Solutions Architect",
+          "supported": true
+        },
+        {
+          "claim": "Andrew Young is a Senior Solutions Architect",
+          "supported": true
+        },
+        {
+          "claim": "Andrew Young is focused on cloud architecture rather than day-to-day DevOps operations",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia has explicit senior DevOps experience",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia has proven impact on deployment efficiency (reduced deployment time by 70%)",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia has a comprehensive skill set",
+          "supported": true
+        },
+        {
+          "claim": "Maria Garcia is the strongest candidate for a senior DevOps role",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g21",
+      "verdict": "grounded",
+      "claims": []
+    },
+    {
+      "id": "g22",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "The résumé excerpts for William Carter state that he contributed to open‑source Rust libraries",
+          "supported": true
+        },
+        {
+          "claim": "No specific project names are listed",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g23",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Jennifer White has led or managed engineering teams.",
+          "supported": true
+        },
+        {
+          "claim": "In her role as Senior Product Manager at ProductHub, she managed team of 8 engineers and 2 designers.",
+          "supported": true
+        },
+        {
+          "claim": "No other candidate’s excerpts mention leading or managing engineering teams.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "g24",
+      "verdict": "grounded",
+      "claims": [
+        {
+          "claim": "Victoria Ross has deployed models on edge devices using TensorRT and ONNX",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "p01",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Maria Garcia has 8 years of experience",
+          "supported": false
+        },
+        {
+          "claim": "Maria Garcia holds AWS and Azure certifications",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "p02",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Laura Hall holds CompTIA Security+ certification",
+          "supported": true
+        },
+        {
+          "claim": "Laura Hall holds CISSP certification",
+          "supported": false
+        },
+        {
+          "claim": "Laura Hall holds OSCP (Offensive Security Certified Professional) certification",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "p03",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Brian Jackson has built iOS apps with SwiftUI",
+          "supported": true
+        },
+        {
+          "claim": "Chris Lee has built iOS apps with SwiftUI",
+          "supported": true
+        },
+        {
+          "claim": "Brian Jackson also built Android apps in Kotlin",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "p04",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "The candidate who has built a chatbot using RAG is Rachel Moore",
+          "supported": true
+        },
+        {
+          "claim": "Rachel Moore built it while working at OpenAI",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "p05",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Megan Green is the only candidate listed with a Ph.D.",
+          "supported": true
+        },
+        {
+          "claim": "Megan Green has a Ph.D. in Computer Science (AI).",
+          "supported": true
+        },
+        {
+          "claim": "The Ph.D. is from MIT.",
+          "supported": false
+        },
+        {
+          "claim": "The Ph.D. year is 2020.",
+          "supported": true
+        },
+        {
+          "claim": "The resume file is resume_megan_green.txt.",
+          "supported": true
+        }
+      ]
+    },
+    {
+      "id": "p06",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Victoria Ross has worked on autonomous vehicles",
+          "supported": true
+        },
+        {
+          "claim": "Victoria Ross worked two years on Tesla's Autopilot team",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "p07",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Victoria Ross has deployed models on edge devices using TensorRT and ONNX",
+          "supported": true
+        },
+        {
+          "claim": "This deployment cut inference latency by 60%",
+          "supported": false
+        }
+      ]
+    },
+    {
+      "id": "p08",
+      "verdict": "ungrounded",
+      "claims": [
+        {
+          "claim": "Maria Garcia has experience leading a migration from on-premise servers to AWS",
+          "supported": false
+        },
+        {
+          "claim": "She worked as a DevOps Engineer at InfraTech",
+          "supported": true
+        },
+        {
+          "claim": "She migrated on-premise applications to AWS",
+          "supported": true
+        },
+        {
+          "claim": "She moved 200 servers in under three months",
+          "supported": false
+        }
+      ]
+    }
+  ]
+}

@@ -134,7 +134,7 @@ def apply():
             q["status"] = "reviewed"
 
     grades = {g["id"]: g for g in grades_doc["grades"]}
-    for gid, mark in re.findall(r"^### (g\d+):.*?^\*\*Grade:\*\*[ \t]*([^\n]*)$", text, re.M | re.S):
+    for gid, mark in re.findall(r"^### ([gp]\d+):.*?^\*\*Grade:\*\*[ \t]*([^\n]*)$", text, re.M | re.S):
         mark = mark.strip()
         if not mark:
             continue

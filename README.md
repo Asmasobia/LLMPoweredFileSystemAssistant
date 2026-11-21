@@ -357,7 +357,7 @@ regression gate (below).
 ## Evaluation
 
 Everything here is reproducible from the repo. The dataset is small and
-synthetic: **31 résumés, 53 retrieval queries, 24 grounding questions.** Read the
+synthetic: **31 résumés, 53 retrieval queries, 24 grounding questions (+8 planted errors).** Read the
 numbers as a comparison between configurations on this corpus, not as a claim
 about résumé search in general.
 
@@ -382,14 +382,48 @@ python evals/retrieval_eval.py            # table + evals/results/retrieval.json
 - Sanity check: Chroma and Postgres vector-only search return identical top-10
   lists on all 53 queries, as they should with identical vectors at this size.
 
-RESULTS_TABLE_PENDING_REVIEW
+Results (labels sha `8e9134f6dc78`, all 53 reviewed; table also in
+`evals/results/retrieval.md`, per-query rankings in `retrieval.json`):
+
+| config (store / chunking / retrieval) | all R@5 | all MRR | keyword R@5 | keyword MRR | semantic R@5 | semantic MRR | filtered R@5 | filtered MRR |
+|---|---|---|---|---|---|---|---|---|
+| chroma / section / vector (**baseline**) | 0.958 | 0.928 | 0.989 | 0.955 | 0.920 | 0.887 | 1.000 | 1.000 |
+| chroma / fixed / vector | 0.947 | 0.928 | 0.985 | 1.000 | 0.920 | 0.848 | 0.917 | 1.000 |
+| pg / section / vector | 0.958 | 0.928 | 0.989 | 0.955 | 0.920 | 0.887 | 1.000 | 1.000 |
+| pg / section / keyword | 0.925 | 0.894 | 0.977 | 0.977 | 0.900 | 0.826 | 0.833 | 0.875 |
+| pg / section / hybrid | **0.972** | 0.928 | 1.000 | 0.977 | 0.960 | 0.866 | 0.917 | 1.000 |
+| pg / fixed / vector | 0.947 | 0.928 | 0.985 | 1.000 | 0.920 | 0.848 | 0.917 | 1.000 |
+| pg / fixed / keyword | 0.925 | 0.873 | 0.977 | 0.977 | 0.900 | 0.778 | 0.833 | 0.889 |
+| pg / fixed / hybrid | **0.972** | **0.944** | 1.000 | 1.000 | 0.960 | 0.881 | 0.917 | 1.000 |
+
+What this does and doesn't show:
+
+- **Hybrid has the best recall** (0.972 vs 0.958 for the baseline) and finds
+  every relevant résumé on the 22 exact-term queries. But on 53 queries the gap
+  is about one query's worth, so read it as "hybrid did not hurt and helped a
+  little", not as a proven improvement.
+- **Hybrid is worse on one filtered query** (f04, "React developer", 4+ years):
+  it finds 1 of the 2 relevant résumés where section/vector finds both.
+- **Section-aware chunking does not beat fixed-size chunking here.** That was
+  the belief this README used to state as a fact; on this corpus they are within
+  a query of each other, and fixed/hybrid has the best MRR. With only ~30 lines
+  per résumé, 500-character windows already line up closely with sections.
+- **Chroma and Postgres vector search are identical**, query for query, as they
+  should be with the same vectors.
+- **A query no vector or hybrid setup gets:** s16, "checks that our APIs work
+  and holds up under load", should find the QA engineer. Only keyword search
+  does (rank 3), because the résumé says "API testing" and "load testing".
+
+The CI gate (`evals/thresholds.json`) is each configuration's numbers above
+minus 0.02, so a change that costs about one query of recall fails the build.
 
 ### Answer grounding: an LLM judge, checked against a human
 
 ```bash
 python evals/grounding_eval.py generate    # answer 24 questions, freeze answers + their excerpts
-python evals/grounding_eval.py judge       # gpt-oss-120b judges each frozen answer
-python evals/grounding_eval.py agreement   # compare with evals/human_grades.json
+python evals/plant_errors.py               # add 8 copies with one false claim each
+python evals/grounding_eval.py judge       # gpt-oss-120b judges all 32 frozen answers
+python evals/grounding_eval.py agreement   # compare with evals/human_grades.json (saved: results/agreement.json)
 ```
 
 An answer is *grounded* if every claim it makes about a candidate is in the
@@ -399,7 +433,34 @@ answers. Agreement is reported as raw agreement and **Cohen's kappa**, which
 corrects for chance: if most answers are grounded, a judge that always says
 "grounded" agrees often and is still useless, and kappa scores it 0.
 
-GROUNDING_RESULTS_PENDING_REVIEW
+Results:
+
+- **All 24 real answers were graded grounded by hand.** On those alone a judge
+  that always said "grounded" would look perfect, so 8 copies of real answers
+  each got one planted false claim (`evals/plant_errors.py` lists them: a wrong
+  number of years, a certification, an employer, a university the excerpts
+  don't mention). Those were graded by hand too: all 8 ungrounded.
+- **Judge vs human on all 32: 30 agree (93.8%), Cohen's kappa 0.85.** The judge
+  caught all 8 planted errors.
+
+| | judge: grounded | judge: ungrounded |
+|---|---|---|
+| **human: grounded** | 22 | 2 |
+| **human: ungrounded** | 0 | 8 |
+
+- **The two disagreements, both judge stricter than human:**
+  - g07: the answer says Maria Garcia has experience *leading* a migration to
+    AWS; the excerpt says she *migrated* applications. The judge flagged
+    "leading". That is a defensible call.
+  - g09: "The résumés provided do not say" (about a salary the résumés don't
+    mention). The judge marked it unsupported, although its prompt says such
+    a statement is always supported. That is a judge error.
+- The prompt was not changed after seeing these: tuning it on the same 32
+  answers would only fit the judge to this test.
+
+So on this set the judge never passed an answer a human would fail, and it is
+occasionally too strict. 32 answers, 8 of them constructed, is enough to show
+that it catches invented facts, not to give a grounding rate for the system.
 
 ---
 
