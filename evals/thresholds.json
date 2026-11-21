@@ -1,0 +1,37 @@
+{
+  "about": "Written by retrieval_eval.py --write-thresholds from labels 8e9134f6dc78: each metric from that run minus 0.02. Regenerate when the labels change.",
+  "minimums": {
+    "chroma/section/vector": {
+      "recall@5": 0.938,
+      "mrr": 0.908
+    },
+    "chroma/fixed/vector": {
+      "recall@5": 0.927,
+      "mrr": 0.908
+    },
+    "pg/section/vector": {
+      "recall@5": 0.938,
+      "mrr": 0.908
+    },
+    "pg/section/keyword": {
+      "recall@5": 0.905,
+      "mrr": 0.874
+    },
+    "pg/section/hybrid": {
+      "recall@5": 0.952,
+      "mrr": 0.908
+    },
+    "pg/fixed/vector": {
+      "recall@5": 0.927,
+      "mrr": 0.908
+    },
+    "pg/fixed/keyword": {
+      "recall@5": 0.905,
+      "mrr": 0.853
+    },
+    "pg/fixed/hybrid": {
+      "recall@5": 0.952,
+      "mrr": 0.924
+    }
+  }
+}
