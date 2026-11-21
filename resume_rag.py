@@ -2,11 +2,10 @@ import os
 import re
 import json
 import time
-import datetime
 from pathlib import Path
 from dotenv import load_dotenv
-import numpy as np
 import fs_tools
+import resume_parsing
 
 load_dotenv()
 
@@ -77,7 +76,7 @@ class ResumeRAG:
         files = fs_tools.list_files(directory)
         resumes = []
         for f in files:
-            if isinstance(f, dict) and "path" in f:
+            if isinstance(f, dict) and "path" in f and resume_parsing.is_resume(f["name"]):
                 result = fs_tools.read_file(f["path"])
                 if result.get("success"):
                     resumes.append({
@@ -89,124 +88,13 @@ class ResumeRAG:
         print("Loaded {} resumes.".format(len(resumes)))
         return resumes
 
-    def chunk_resume(self, content, filename):
-        """Chunk resume by sections (Education, Experience, Skills, etc.)."""
-        sections = [
-            "CONTACT", "SUMMARY", "OBJECTIVE", "EXPERIENCE", "WORK EXPERIENCE",
-            "EDUCATION", "SKILLS", "TECHNICAL SKILLS", "PROJECTS", "CERTIFICATIONS",
-            "ACHIEVEMENTS", "AWARDS", "PUBLICATIONS", "LANGUAGES", "INTERESTS",
-            "REFERENCES", "PROFESSIONAL EXPERIENCE",
-        ]
-
-        pattern = r"(?i)^(" + "|".join(re.escape(s) for s in sections) + r")\s*$"
-        lines = content.split("\n")
-        chunks = []
-        current_section = "HEADER"
-        current_lines = []
-
-        for line in lines:
-            match = re.match(pattern, line.strip())
-            if match:
-                if current_lines:
-                    chunk_text = "\n".join(current_lines).strip()
-                    if chunk_text:
-                        chunks.append({
-                            "section": current_section,
-                            "text": chunk_text,
-                            "source": filename,
-                        })
-                current_section = match.group(1).upper()
-                current_lines = []
-            else:
-                current_lines.append(line)
-
-        if current_lines:
-            chunk_text = "\n".join(current_lines).strip()
-            if chunk_text:
-                chunks.append({
-                    "section": current_section,
-                    "text": chunk_text,
-                    "source": filename,
-                })
-
-        if len(chunks) <= 1:
-            chunks = self._fixed_size_chunk(content, filename)
-
-        return chunks
-
-    def _fixed_size_chunk(self, content, filename, chunk_size=500, overlap=100):
-        """Fallback: chunk by character count with overlap."""
-        chunks = []
-        for i in range(0, len(content), chunk_size - overlap):
-            text = content[i:i + chunk_size].strip()
-            if text:
-                chunks.append({
-                    "section": "CHUNK",
-                    "text": text,
-                    "source": filename,
-                })
-        return chunks
+    def chunk_resume(self, content, filename, strategy="section"):
+        """Chunk a résumé; see resume_parsing.chunk. Shared with pg_store."""
+        return [dict(c, source=filename) for c in resume_parsing.chunk(content, strategy)]
 
     def extract_metadata(self, content, filename):
-        """Extract key fields from resume content."""
-        lines = [l.strip() for l in content.split("\n") if l.strip()]
-
-        name = lines[0] if lines else "Unknown"
-
-        skills_section = ""
-        in_skills = False
-        for line in lines:
-            if re.match(r"(?i)^(SKILLS|TECHNICAL SKILLS)", line):
-                in_skills = True
-                continue
-            elif re.match(r"(?i)^(EDUCATION|EXPERIENCE|PROJECTS|CERTIFICATIONS|SUMMARY)", line):
-                in_skills = False
-            elif in_skills:
-                skills_section += line + " "
-
-        skills = []
-        common_skills = [
-            "Python", "Java", "JavaScript", "TypeScript", "C\\+\\+", "Go", "Rust", "R", "SQL",
-            "React", "Node.js", "Django", "Flask", "FastAPI", "Spring Boot", "Angular", "Vue.js",
-            "Docker", "Kubernetes", "AWS", "Azure", "GCP", "Terraform", "Ansible",
-            "TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "NumPy",
-            "Machine Learning", "Deep Learning", "NLP", "Computer Vision",
-            "PostgreSQL", "MongoDB", "Redis", "MySQL", "Elasticsearch",
-            "Git", "CI/CD", "Jenkins", "Kafka", "GraphQL", "REST",
-            "Swift", "Kotlin", "Flutter", "React Native",
-            "Figma", "Tableau", "Power BI", "Spark", "Airflow",
-        ]
-        full_text = content.lower()
-        for skill in common_skills:
-            if re.search(r"\b{}\b".format(skill.lower()), full_text):
-                skills.append(skill.replace("\\+\\+", "++"))
-
-        year_pattern = r"(\d{4})\s*[-\u2013]\s*(Present|\d{4})"
-        matches = re.findall(year_pattern, content)
-        total_years = 0
-        current_year = datetime.datetime.now().year
-        for start, end in matches:
-            end_year = current_year if end == "Present" else int(end)
-            total_years += end_year - int(start)
-
-        education = ""
-        in_edu = False
-        for line in lines:
-            if re.match(r"(?i)^EDUCATION", line):
-                in_edu = True
-                continue
-            elif re.match(r"(?i)^(SKILLS|EXPERIENCE|PROJECTS|CERTIFICATIONS)", line):
-                in_edu = False
-            elif in_edu and line:
-                education += line + "; "
-
-        return {
-            "candidate_name": name,
-            "skills": skills,
-            "experience_years": total_years,
-            "education": education.strip("; "),
-            "source_file": filename,
-        }
+        """Key fields from a résumé; see resume_parsing.extract_metadata."""
+        return resume_parsing.extract_metadata(content, filename)
 
     # ---- Store in Vector DB ----
 
