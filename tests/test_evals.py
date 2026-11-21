@@ -147,10 +147,20 @@ from evals import review_sheet as rs  # noqa: E402
 
 @pytest.fixture
 def sheet(tmp_path, monkeypatch):
+    # Copies of the real files, reset to the unreviewed state, so these tests
+    # do not depend on how far the real review has got.
     for name in ("LABELS", "GRADES"):
         src = getattr(rs, name)
         shutil.copy(src, tmp_path / src.name)
         monkeypatch.setattr(rs, name, tmp_path / src.name)
+    labels = json.loads(rs.LABELS.read_text(encoding="utf-8"))
+    for q in labels["queries"]:
+        q["status"] = "draft"
+    rs.LABELS.write_text(json.dumps(labels), encoding="utf-8")
+    grades = json.loads(rs.GRADES.read_text(encoding="utf-8"))
+    for g in grades["grades"]:
+        g["human"], g["note"] = None, ""
+    rs.GRADES.write_text(json.dumps(grades), encoding="utf-8")
     monkeypatch.setattr(rs, "SHEET", tmp_path / "REVIEW.md")
     rs.make()
     return tmp_path

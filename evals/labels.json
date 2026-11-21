@@ -6,60 +6,562 @@
     "filtered": "a query plus a min_years filter; relevant = matching résumés that pass the filter"
   },
   "queries": [
-    {"id": "k01", "kind": "keyword", "query": "Solidity smart contracts", "relevant": ["resume_amanda_davis.txt"], "status": "draft", "note": "only Solidity mention"},
-    {"id": "k02", "kind": "keyword", "query": "KiCad PCB design", "relevant": ["resume_jason_wright.txt"], "status": "draft", "note": "only KiCad mention"},
-    {"id": "k03", "kind": "keyword", "query": "Istio service mesh", "relevant": ["resume_tyler_scott.txt"], "status": "draft", "note": "only Istio mention"},
-    {"id": "k04", "kind": "keyword", "query": "Apex and Lightning Web Components", "relevant": ["resume_derek_campbell.txt"], "status": "draft", "note": "only Salesforce résumé"},
-    {"id": "k05", "kind": "keyword", "query": "Selenium test automation", "relevant": ["resume_daniel_johnson.txt"], "status": "draft", "note": "only Selenium mention"},
-    {"id": "k06", "kind": "keyword", "query": "Unity game development in C#", "relevant": ["resume_nicole_harris.txt"], "status": "draft", "note": "only Unity / C# résumé"},
-    {"id": "k07", "kind": "keyword", "query": "Burp Suite penetration testing", "relevant": ["resume_laura_hall.txt"], "status": "draft", "note": "only security résumé"},
-    {"id": "k08", "kind": "keyword", "query": "dbt models for data transformation", "relevant": ["resume_samantha_nelson.txt"], "status": "draft", "note": "only dbt mention"},
-    {"id": "k09", "kind": "keyword", "query": "gRPC microservices in Go", "relevant": ["resume_christopher_lee2.txt"], "status": "draft", "note": "CHECK: nathan_patel also lists gRPC, but works in Python; left out because the query asks for Go"},
-    {"id": "k10", "kind": "keyword", "query": "MQTT and BLE IoT firmware", "relevant": ["resume_jason_wright.txt"], "status": "draft", "note": "only MQTT/BLE mention"},
-    {"id": "k11", "kind": "keyword", "query": "Kubeflow ML pipelines", "relevant": ["resume_marcus_cooper.txt"], "status": "draft", "note": "only Kubeflow mention"},
-    {"id": "k12", "kind": "keyword", "query": "SwiftUI iOS apps", "relevant": ["resume_brian_jackson.txt", "resume_chris_lee.txt"], "status": "draft", "note": "both build SwiftUI apps"},
-    {"id": "k13", "kind": "keyword", "query": "Jetpack Compose Android", "relevant": ["resume_chris_lee.txt"], "status": "draft", "note": "only Jetpack mention"},
-    {"id": "k14", "kind": "keyword", "query": "React Native developer", "relevant": ["resume_james_adams.txt", "resume_chris_lee.txt"], "status": "draft", "note": "james_adams is a React Native developer; chris_lee lists React Native among frameworks"},
-    {"id": "k15", "kind": "keyword", "query": "Docusaurus documentation sites", "relevant": ["resume_michelle_king.txt"], "status": "draft", "note": "only Docusaurus mention"},
-    {"id": "k16", "kind": "keyword", "query": "Snowflake", "relevant": ["resume_robert_martinez.txt", "resume_hannah_murphy.txt", "resume_olivia_baker.txt"], "status": "draft", "note": "all three list Snowflake; robert_martinez managed warehouses on it"},
-    {"id": "k17", "kind": "keyword", "query": "Prometheus and Grafana monitoring", "relevant": ["resume_kevin_thomas.txt", "resume_maria_garcia.txt", "resume_tyler_scott.txt", "resume_marcus_cooper.txt"], "status": "draft", "note": "all four set up Prometheus + Grafana"},
-    {"id": "k18", "kind": "keyword", "query": "Terraform and Ansible automation", "relevant": ["resume_maria_garcia.txt", "resume_kevin_thomas.txt"], "status": "draft", "note": "only two with both"},
-    {"id": "k19", "kind": "keyword", "query": "Kafka event streaming", "relevant": ["resume_andrew_young.txt", "resume_christopher_lee2.txt", "resume_robert_martinez.txt", "resume_samantha_nelson.txt"], "status": "draft", "note": "every Kafka mention"},
-    {"id": "k20", "kind": "keyword", "query": "OSCP certified", "relevant": ["resume_laura_hall.txt"], "status": "draft", "note": "only OSCP mention"},
-    {"id": "k21", "kind": "keyword", "query": "AWS Solutions Architect Professional certification", "relevant": ["resume_andrew_young.txt", "resume_maria_garcia.txt"], "status": "draft", "note": "both hold it"},
-    {"id": "k22", "kind": "keyword", "query": "OAuth 2.0 and JWT authentication", "relevant": ["resume_alex_kumar.txt"], "status": "draft", "note": "only OAuth/JWT mention"},
-
-    {"id": "s01", "kind": "semantic", "query": "someone who keeps production systems up and handles on-call incidents", "relevant": ["resume_kevin_thomas.txt"], "status": "draft", "note": "SRE: uptime, incident response, PagerDuty"},
-    {"id": "s02", "kind": "semantic", "query": "builds dashboards for executives", "relevant": ["resume_hannah_murphy.txt", "resume_olivia_baker.txt"], "status": "draft", "note": "CHECK: both build executive dashboards; jane_smith and robert_martinez also made Tableau dashboards, left out as not their focus"},
-    {"id": "s03", "kind": "semantic", "query": "writer for developer docs and API references", "relevant": ["resume_michelle_king.txt"], "status": "draft", "note": "technical writer"},
-    {"id": "s04", "kind": "semantic", "query": "decentralized finance on the blockchain", "relevant": ["resume_amanda_davis.txt"], "status": "draft", "note": "DeFi protocols"},
-    {"id": "s05", "kind": "semantic", "query": "person who finds vulnerabilities by attacking our web application", "relevant": ["resume_laura_hall.txt"], "status": "draft", "note": "penetration testing"},
-    {"id": "s06", "kind": "semantic", "query": "low-level programmer for microcontrollers", "relevant": ["resume_jason_wright.txt"], "status": "draft", "note": "firmware for ARM Cortex; william_carter is low-level but not microcontrollers"},
-    {"id": "s07", "kind": "semantic", "query": "memory-safe high-performance networking code", "relevant": ["resume_william_carter.txt"], "status": "draft", "note": "Rust networking libraries"},
-    {"id": "s08", "kind": "semantic", "query": "perception models for self-driving cars", "relevant": ["resume_victoria_ross.txt", "resume_megan_green.txt"], "status": "draft", "note": "victoria: autonomous vehicles; megan: CV for autonomous systems"},
-    {"id": "s09", "kind": "semantic", "query": "teaching computers to understand text and build chatbots", "relevant": ["resume_rachel_moore.txt"], "status": "draft", "note": "NLP engineer"},
-    {"id": "s10", "kind": "semantic", "query": "keeps databases replicated and backed up", "relevant": ["resume_stephanie_clark.txt"], "status": "draft", "note": "DBA: replication, failover, backup"},
-    {"id": "s11", "kind": "semantic", "query": "customizes CRM software for enterprise sales teams", "relevant": ["resume_derek_campbell.txt"], "status": "draft", "note": "Salesforce developer"},
-    {"id": "s12", "kind": "semantic", "query": "deploying and monitoring machine learning models in production", "relevant": ["resume_marcus_cooper.txt"], "status": "draft", "note": "CHECK: MLOps engineer; victoria_ross deployed models to edge devices, left out"},
-    {"id": "s13", "kind": "semantic", "query": "owns the product roadmap and works with engineers", "relevant": ["resume_jennifer_white.txt"], "status": "draft", "note": "technical product manager"},
-    {"id": "s14", "kind": "semantic", "query": "builds games with physics and shaders", "relevant": ["resume_nicole_harris.txt"], "status": "draft", "note": "game developer"},
-    {"id": "s15", "kind": "semantic", "query": "one codebase for both iPhone and Android apps", "relevant": ["resume_chris_lee.txt", "resume_james_adams.txt"], "status": "draft", "note": "Flutter / React Native cross-platform"},
-    {"id": "s16", "kind": "semantic", "query": "checks that our APIs work and holds up under load", "relevant": ["resume_daniel_johnson.txt"], "status": "draft", "note": "QA: API testing, JMeter load testing"},
-    {"id": "s17", "kind": "semantic", "query": "break a monolith into services in the cloud", "relevant": ["resume_andrew_young.txt"], "status": "draft", "note": "led monolith-to-microservices migration on AWS"},
-    {"id": "s18", "kind": "semantic", "query": "designs public APIs with rate limiting and versioning", "relevant": ["resume_nathan_patel.txt"], "status": "draft", "note": "API developer"},
-    {"id": "s19", "kind": "semantic", "query": "real-time streaming data pipelines", "relevant": ["resume_samantha_nelson.txt"], "status": "draft", "note": "Kafka + Spark Streaming + Flink; robert_martinez is batch ETL"},
-    {"id": "s20", "kind": "semantic", "query": "batch ETL jobs and data warehousing", "relevant": ["resume_robert_martinez.txt", "resume_samantha_nelson.txt", "resume_olivia_baker.txt"], "status": "draft", "note": "CHECK: robert and samantha are data engineers; olivia_baker 'created ETL processes' as a BI analyst"},
-    {"id": "s21", "kind": "semantic", "query": "predicting which customers will leave", "relevant": ["resume_jane_smith.txt"], "status": "draft", "note": "churn prediction"},
-    {"id": "s22", "kind": "semantic", "query": "generating synthetic images with neural networks", "relevant": ["resume_megan_green.txt"], "status": "draft", "note": "GANs for image synthesis"},
-    {"id": "s23", "kind": "semantic", "query": "builds tooling so other engineering teams can ship on their own", "relevant": ["resume_tyler_scott.txt"], "status": "draft", "note": "internal developer platform, self-service"},
-    {"id": "s24", "kind": "semantic", "query": "full stack developer with a Python backend and React frontend", "relevant": ["resume_ryan_walker.txt", "resume_john_doe.txt"], "status": "draft", "note": "alex_kumar is full stack but JavaScript, not Python"},
-    {"id": "s25", "kind": "semantic", "query": "adapting large language models to our domain", "relevant": ["resume_rachel_moore.txt"], "status": "draft", "note": "fine-tuned LLMs"},
-
-    {"id": "f01", "kind": "filtered", "query": "Kafka", "min_years": 5, "relevant": ["resume_andrew_young.txt"], "status": "draft", "note": "Kafka: andrew 8, christopher_lee2 4, robert 4, samantha 4"},
-    {"id": "f02", "kind": "filtered", "query": "Kubernetes", "min_years": 6, "relevant": ["resume_andrew_young.txt", "resume_maria_garcia.txt"], "status": "draft", "note": "Kubernetes with 6+ years: andrew 8, maria 6"},
-    {"id": "f03", "kind": "filtered", "query": "machine learning engineer", "min_years": 4, "relevant": ["resume_megan_green.txt", "resume_jane_smith.txt"], "status": "draft", "note": "CHECK: excludes rachel/marcus/victoria (3 yrs) and jennifer_white (PM)"},
-    {"id": "f04", "kind": "filtered", "query": "React developer", "min_years": 4, "relevant": ["resume_ryan_walker.txt", "resume_john_doe.txt"], "status": "draft", "note": "CHECK: hannah_murphy (4) built React dashboards, chris_lee (4) lists React Native; both left out"},
-    {"id": "f05", "kind": "filtered", "query": "cloud infrastructure on AWS", "min_years": 6, "relevant": ["resume_andrew_young.txt", "resume_maria_garcia.txt"], "status": "draft", "note": "stephanie_clark (6) uses AWS RDS but is a DBA"},
-    {"id": "f06", "kind": "filtered", "query": "test automation in CI/CD", "min_years": 5, "relevant": ["resume_daniel_johnson.txt"], "status": "draft", "note": "QA, 5 yrs"}
+    {
+      "id": "k01",
+      "kind": "keyword",
+      "query": "Solidity smart contracts",
+      "relevant": [
+        "resume_amanda_davis.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Solidity mention"
+    },
+    {
+      "id": "k02",
+      "kind": "keyword",
+      "query": "KiCad PCB design",
+      "relevant": [
+        "resume_jason_wright.txt"
+      ],
+      "status": "reviewed",
+      "note": "only KiCad mention"
+    },
+    {
+      "id": "k03",
+      "kind": "keyword",
+      "query": "Istio service mesh",
+      "relevant": [
+        "resume_tyler_scott.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Istio mention"
+    },
+    {
+      "id": "k04",
+      "kind": "keyword",
+      "query": "Apex and Lightning Web Components",
+      "relevant": [
+        "resume_derek_campbell.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Salesforce résumé"
+    },
+    {
+      "id": "k05",
+      "kind": "keyword",
+      "query": "Selenium test automation",
+      "relevant": [
+        "resume_daniel_johnson.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Selenium mention"
+    },
+    {
+      "id": "k06",
+      "kind": "keyword",
+      "query": "Unity game development in C#",
+      "relevant": [
+        "resume_nicole_harris.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Unity / C# résumé"
+    },
+    {
+      "id": "k07",
+      "kind": "keyword",
+      "query": "Burp Suite penetration testing",
+      "relevant": [
+        "resume_laura_hall.txt"
+      ],
+      "status": "reviewed",
+      "note": "only security résumé"
+    },
+    {
+      "id": "k08",
+      "kind": "keyword",
+      "query": "dbt models for data transformation",
+      "relevant": [
+        "resume_samantha_nelson.txt"
+      ],
+      "status": "reviewed",
+      "note": "only dbt mention"
+    },
+    {
+      "id": "k09",
+      "kind": "keyword",
+      "query": "gRPC microservices in Go",
+      "relevant": [
+        "resume_christopher_lee2.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: nathan_patel also lists gRPC, but works in Python; left out because the query asks for Go"
+    },
+    {
+      "id": "k10",
+      "kind": "keyword",
+      "query": "MQTT and BLE IoT firmware",
+      "relevant": [
+        "resume_jason_wright.txt"
+      ],
+      "status": "reviewed",
+      "note": "only MQTT/BLE mention"
+    },
+    {
+      "id": "k11",
+      "kind": "keyword",
+      "query": "Kubeflow ML pipelines",
+      "relevant": [
+        "resume_marcus_cooper.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Kubeflow mention"
+    },
+    {
+      "id": "k12",
+      "kind": "keyword",
+      "query": "SwiftUI iOS apps",
+      "relevant": [
+        "resume_brian_jackson.txt",
+        "resume_chris_lee.txt"
+      ],
+      "status": "reviewed",
+      "note": "both build SwiftUI apps"
+    },
+    {
+      "id": "k13",
+      "kind": "keyword",
+      "query": "Jetpack Compose Android",
+      "relevant": [
+        "resume_chris_lee.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Jetpack mention"
+    },
+    {
+      "id": "k14",
+      "kind": "keyword",
+      "query": "React Native developer",
+      "relevant": [
+        "resume_james_adams.txt",
+        "resume_chris_lee.txt"
+      ],
+      "status": "reviewed",
+      "note": "james_adams is a React Native developer; chris_lee lists React Native among frameworks"
+    },
+    {
+      "id": "k15",
+      "kind": "keyword",
+      "query": "Docusaurus documentation sites",
+      "relevant": [
+        "resume_michelle_king.txt"
+      ],
+      "status": "reviewed",
+      "note": "only Docusaurus mention"
+    },
+    {
+      "id": "k16",
+      "kind": "keyword",
+      "query": "Snowflake",
+      "relevant": [
+        "resume_robert_martinez.txt",
+        "resume_hannah_murphy.txt",
+        "resume_olivia_baker.txt"
+      ],
+      "status": "reviewed",
+      "note": "all three list Snowflake; robert_martinez managed warehouses on it"
+    },
+    {
+      "id": "k17",
+      "kind": "keyword",
+      "query": "Prometheus and Grafana monitoring",
+      "relevant": [
+        "resume_kevin_thomas.txt",
+        "resume_maria_garcia.txt",
+        "resume_tyler_scott.txt",
+        "resume_marcus_cooper.txt"
+      ],
+      "status": "reviewed",
+      "note": "all four set up Prometheus + Grafana"
+    },
+    {
+      "id": "k18",
+      "kind": "keyword",
+      "query": "Terraform and Ansible automation",
+      "relevant": [
+        "resume_maria_garcia.txt",
+        "resume_kevin_thomas.txt"
+      ],
+      "status": "reviewed",
+      "note": "only two with both"
+    },
+    {
+      "id": "k19",
+      "kind": "keyword",
+      "query": "Kafka event streaming",
+      "relevant": [
+        "resume_andrew_young.txt",
+        "resume_christopher_lee2.txt",
+        "resume_robert_martinez.txt",
+        "resume_samantha_nelson.txt"
+      ],
+      "status": "reviewed",
+      "note": "every Kafka mention"
+    },
+    {
+      "id": "k20",
+      "kind": "keyword",
+      "query": "OSCP certified",
+      "relevant": [
+        "resume_laura_hall.txt"
+      ],
+      "status": "reviewed",
+      "note": "only OSCP mention"
+    },
+    {
+      "id": "k21",
+      "kind": "keyword",
+      "query": "AWS Solutions Architect Professional certification",
+      "relevant": [
+        "resume_andrew_young.txt",
+        "resume_maria_garcia.txt"
+      ],
+      "status": "reviewed",
+      "note": "both hold it"
+    },
+    {
+      "id": "k22",
+      "kind": "keyword",
+      "query": "OAuth 2.0 and JWT authentication",
+      "relevant": [
+        "resume_alex_kumar.txt"
+      ],
+      "status": "reviewed",
+      "note": "only OAuth/JWT mention"
+    },
+    {
+      "id": "s01",
+      "kind": "semantic",
+      "query": "someone who keeps production systems up and handles on-call incidents",
+      "relevant": [
+        "resume_kevin_thomas.txt"
+      ],
+      "status": "reviewed",
+      "note": "SRE: uptime, incident response, PagerDuty"
+    },
+    {
+      "id": "s02",
+      "kind": "semantic",
+      "query": "builds dashboards for executives",
+      "relevant": [
+        "resume_hannah_murphy.txt",
+        "resume_olivia_baker.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: both build executive dashboards; jane_smith and robert_martinez also made Tableau dashboards, left out as not their focus"
+    },
+    {
+      "id": "s03",
+      "kind": "semantic",
+      "query": "writer for developer docs and API references",
+      "relevant": [
+        "resume_michelle_king.txt"
+      ],
+      "status": "reviewed",
+      "note": "technical writer"
+    },
+    {
+      "id": "s04",
+      "kind": "semantic",
+      "query": "decentralized finance on the blockchain",
+      "relevant": [
+        "resume_amanda_davis.txt"
+      ],
+      "status": "reviewed",
+      "note": "DeFi protocols"
+    },
+    {
+      "id": "s05",
+      "kind": "semantic",
+      "query": "person who finds vulnerabilities by attacking our web application",
+      "relevant": [
+        "resume_laura_hall.txt"
+      ],
+      "status": "reviewed",
+      "note": "penetration testing"
+    },
+    {
+      "id": "s06",
+      "kind": "semantic",
+      "query": "low-level programmer for microcontrollers",
+      "relevant": [
+        "resume_jason_wright.txt"
+      ],
+      "status": "reviewed",
+      "note": "firmware for ARM Cortex; william_carter is low-level but not microcontrollers"
+    },
+    {
+      "id": "s07",
+      "kind": "semantic",
+      "query": "memory-safe high-performance networking code",
+      "relevant": [
+        "resume_william_carter.txt"
+      ],
+      "status": "reviewed",
+      "note": "Rust networking libraries"
+    },
+    {
+      "id": "s08",
+      "kind": "semantic",
+      "query": "perception models for self-driving cars",
+      "relevant": [
+        "resume_victoria_ross.txt",
+        "resume_megan_green.txt"
+      ],
+      "status": "reviewed",
+      "note": "victoria: autonomous vehicles; megan: CV for autonomous systems"
+    },
+    {
+      "id": "s09",
+      "kind": "semantic",
+      "query": "teaching computers to understand text and build chatbots",
+      "relevant": [
+        "resume_rachel_moore.txt"
+      ],
+      "status": "reviewed",
+      "note": "NLP engineer"
+    },
+    {
+      "id": "s10",
+      "kind": "semantic",
+      "query": "keeps databases replicated and backed up",
+      "relevant": [
+        "resume_stephanie_clark.txt"
+      ],
+      "status": "reviewed",
+      "note": "DBA: replication, failover, backup"
+    },
+    {
+      "id": "s11",
+      "kind": "semantic",
+      "query": "customizes CRM software for enterprise sales teams",
+      "relevant": [
+        "resume_derek_campbell.txt"
+      ],
+      "status": "reviewed",
+      "note": "Salesforce developer"
+    },
+    {
+      "id": "s12",
+      "kind": "semantic",
+      "query": "deploying and monitoring machine learning models in production",
+      "relevant": [
+        "resume_marcus_cooper.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: MLOps engineer; victoria_ross deployed models to edge devices, left out"
+    },
+    {
+      "id": "s13",
+      "kind": "semantic",
+      "query": "owns the product roadmap and works with engineers",
+      "relevant": [
+        "resume_jennifer_white.txt"
+      ],
+      "status": "reviewed",
+      "note": "technical product manager"
+    },
+    {
+      "id": "s14",
+      "kind": "semantic",
+      "query": "builds games with physics and shaders",
+      "relevant": [
+        "resume_nicole_harris.txt"
+      ],
+      "status": "reviewed",
+      "note": "game developer"
+    },
+    {
+      "id": "s15",
+      "kind": "semantic",
+      "query": "one codebase for both iPhone and Android apps",
+      "relevant": [
+        "resume_chris_lee.txt",
+        "resume_james_adams.txt"
+      ],
+      "status": "reviewed",
+      "note": "Flutter / React Native cross-platform"
+    },
+    {
+      "id": "s16",
+      "kind": "semantic",
+      "query": "checks that our APIs work and holds up under load",
+      "relevant": [
+        "resume_daniel_johnson.txt"
+      ],
+      "status": "reviewed",
+      "note": "QA: API testing, JMeter load testing"
+    },
+    {
+      "id": "s17",
+      "kind": "semantic",
+      "query": "break a monolith into services in the cloud",
+      "relevant": [
+        "resume_andrew_young.txt"
+      ],
+      "status": "reviewed",
+      "note": "led monolith-to-microservices migration on AWS"
+    },
+    {
+      "id": "s18",
+      "kind": "semantic",
+      "query": "designs public APIs with rate limiting and versioning",
+      "relevant": [
+        "resume_nathan_patel.txt"
+      ],
+      "status": "reviewed",
+      "note": "API developer"
+    },
+    {
+      "id": "s19",
+      "kind": "semantic",
+      "query": "real-time streaming data pipelines",
+      "relevant": [
+        "resume_samantha_nelson.txt"
+      ],
+      "status": "reviewed",
+      "note": "Kafka + Spark Streaming + Flink; robert_martinez is batch ETL"
+    },
+    {
+      "id": "s20",
+      "kind": "semantic",
+      "query": "batch ETL jobs and data warehousing",
+      "relevant": [
+        "resume_robert_martinez.txt",
+        "resume_samantha_nelson.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: robert and samantha are data engineers; olivia_baker 'created ETL processes' as a BI analyst"
+    },
+    {
+      "id": "s21",
+      "kind": "semantic",
+      "query": "predicting which customers will leave",
+      "relevant": [
+        "resume_jane_smith.txt"
+      ],
+      "status": "reviewed",
+      "note": "churn prediction"
+    },
+    {
+      "id": "s22",
+      "kind": "semantic",
+      "query": "generating synthetic images with neural networks",
+      "relevant": [
+        "resume_megan_green.txt"
+      ],
+      "status": "reviewed",
+      "note": "GANs for image synthesis"
+    },
+    {
+      "id": "s23",
+      "kind": "semantic",
+      "query": "builds tooling so other engineering teams can ship on their own",
+      "relevant": [
+        "resume_tyler_scott.txt"
+      ],
+      "status": "reviewed",
+      "note": "internal developer platform, self-service"
+    },
+    {
+      "id": "s24",
+      "kind": "semantic",
+      "query": "full stack developer with a Python backend and React frontend",
+      "relevant": [
+        "resume_ryan_walker.txt",
+        "resume_john_doe.txt"
+      ],
+      "status": "reviewed",
+      "note": "alex_kumar is full stack but JavaScript, not Python"
+    },
+    {
+      "id": "s25",
+      "kind": "semantic",
+      "query": "adapting large language models to our domain",
+      "relevant": [
+        "resume_rachel_moore.txt"
+      ],
+      "status": "reviewed",
+      "note": "fine-tuned LLMs"
+    },
+    {
+      "id": "f01",
+      "kind": "filtered",
+      "query": "Kafka",
+      "min_years": 5,
+      "relevant": [
+        "resume_andrew_young.txt"
+      ],
+      "status": "reviewed",
+      "note": "Kafka: andrew 8, christopher_lee2 4, robert 4, samantha 4"
+    },
+    {
+      "id": "f02",
+      "kind": "filtered",
+      "query": "Kubernetes",
+      "min_years": 6,
+      "relevant": [
+        "resume_andrew_young.txt",
+        "resume_maria_garcia.txt"
+      ],
+      "status": "reviewed",
+      "note": "Kubernetes with 6+ years: andrew 8, maria 6"
+    },
+    {
+      "id": "f03",
+      "kind": "filtered",
+      "query": "machine learning engineer",
+      "min_years": 4,
+      "relevant": [
+        "resume_megan_green.txt",
+        "resume_jane_smith.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: excludes rachel/marcus/victoria (3 yrs) and jennifer_white (PM)"
+    },
+    {
+      "id": "f04",
+      "kind": "filtered",
+      "query": "React developer",
+      "min_years": 4,
+      "relevant": [
+        "resume_ryan_walker.txt",
+        "resume_john_doe.txt"
+      ],
+      "status": "reviewed",
+      "note": "CHECK: hannah_murphy (4) built React dashboards, chris_lee (4) lists React Native; both left out"
+    },
+    {
+      "id": "f05",
+      "kind": "filtered",
+      "query": "cloud infrastructure on AWS",
+      "min_years": 6,
+      "relevant": [
+        "resume_andrew_young.txt",
+        "resume_maria_garcia.txt"
+      ],
+      "status": "reviewed",
+      "note": "stephanie_clark (6) uses AWS RDS but is a DBA"
+    },
+    {
+      "id": "f06",
+      "kind": "filtered",
+      "query": "test automation in CI/CD",
+      "min_years": 5,
+      "relevant": [
+        "resume_daniel_johnson.txt"
+      ],
+      "status": "reviewed",
+      "note": "QA, 5 yrs"
+    }
   ]
 }

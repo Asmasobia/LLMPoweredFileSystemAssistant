@@ -10,14 +10,14 @@ Leave **your fix** blank if the list is right. Otherwise `+name` to add, `-name`
 (names as in `resumes/`, without `resume_` and `.txt`). The ones marked CHECK are judgement calls.
 Résumé names: alex_kumar, amanda_davis, andrew_young, brian_jackson, chris_lee, christopher_lee2, daniel_johnson, derek_campbell, hannah_murphy, james_adams, jane_smith, jason_wright, jennifer_white, john_doe, kevin_thomas, laura_hall, marcus_cooper, maria_garcia, megan_green, michelle_king, nathan_patel, nicole_harris, olivia_baker, rachel_moore, robert_martinez, ryan_walker, samantha_nelson, stephanie_clark, tyler_scott, victoria_ross, william_carter
 
-**I have checked every row in Part 1:** no   ← change to `yes` when done (until then no label counts as reviewed)
+**I have checked every row in Part 1:** yes   ← change to `yes` when done (until then no label counts as reviewed)
 
 | id | query | filter | relevant | note | your fix |
 |---|---|---|---|---|---|
 | k09 | gRPC microservices in Go |  | christopher_lee2 | CHECK: nathan_patel also lists gRPC, but works in Python; left out because the query asks for Go |  |
 | s02 | builds dashboards for executives |  | hannah_murphy, olivia_baker | CHECK: both build executive dashboards; jane_smith and robert_martinez also made Tableau dashboards, left out as not their focus |  |
 | s12 | deploying and monitoring machine learning models in production |  | marcus_cooper | CHECK: MLOps engineer; victoria_ross deployed models to edge devices, left out |  |
-| s20 | batch ETL jobs and data warehousing |  | robert_martinez, samantha_nelson, olivia_baker | CHECK: robert and samantha are data engineers; olivia_baker 'created ETL processes' as a BI analyst |  |
+| s20 | batch ETL jobs and data warehousing |  | robert_martinez, samantha_nelson, olivia_baker | CHECK: robert and samantha are data engineers; olivia_baker 'created ETL processes' as a BI analyst | -olivia_baker |
 | f03 | machine learning engineer | ≥4 yrs | megan_green, jane_smith | CHECK: excludes rachel/marcus/victoria (3 yrs) and jennifer_white (PM) |  |
 | f04 | React developer | ≥4 yrs | ryan_walker, john_doe | CHECK: hannah_murphy (4) built React dashboards, chris_lee (4) lists React Native; both left out |  |
 | k01 | Solidity smart contracts |  | amanda_davis | only Solidity mention |  |
@@ -141,7 +141,7 @@ Tools: Terraform, Docker, Kubernetes, Kafka, Redis
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -175,7 +175,7 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -233,7 +233,7 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -276,7 +276,7 @@ AWS Solutions Architect Professional Certification
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -327,7 +327,7 @@ B.S. Computer Science | Vanderbilt University | 2020
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -363,7 +363,7 @@ B.S. Computer Science | UC San Diego | 2015
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -423,7 +423,7 @@ Software Engineer | StartupXYZ | 2019 - 2021
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -472,7 +472,7 @@ and data visualization. Skilled in Python and R.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -509,7 +509,7 @@ Go Backend Developer
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -548,7 +548,7 @@ Location: Pittsburgh, PA
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -590,7 +590,7 @@ Junior ML Engineer | TextMine | 2021 - 2022
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -625,7 +625,7 @@ B.S. Computer Science | UC San Diego | 2015
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -688,7 +688,7 @@ Data Analyst | Analytics Pro | 2020 - 2022
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -754,7 +754,7 @@ Specialties: NLP, LLMs, RAG, Text Classification, Chatbots
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -799,7 +799,7 @@ B.S. Information Systems | Indiana University | 2019
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -835,7 +835,7 @@ B.S. Computer Science | UC San Diego | 2020
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -891,7 +891,7 @@ AI research engineer with 4 years of experience in deep learning and computer vi
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -935,7 +935,7 @@ Proficient in Swift, Kotlin, and cross-platform development with Flutter.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -971,7 +971,7 @@ and cloud technologies. Passionate about building scalable applications.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -1043,7 +1043,7 @@ DevOps Engineer | InfraTech | 2018 - 2021
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -1093,7 +1093,7 @@ Junior Mobile Developer | AppStudio | 2021 - 2022
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -1136,7 +1136,7 @@ Go Backend Developer
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -1183,7 +1183,7 @@ Software Engineer
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
 ---
 
@@ -1231,5 +1231,5 @@ iOS developer with 4 years of experience building native Apple applications.
 
 </details>
 
-**Grade:** 
+**Grade:** G
 
