@@ -9,8 +9,8 @@
 # written code against an interface this project never used.
 
 # ── LLM client and configuration ─────────────────────────────────────────────
-groq
-python-dotenv
+groq==1.7.0
+python-dotenv==1.2.4
 
 # ── Document parsing (imported lazily inside fs_tools.read_file) ─────────────
 # Imported at call time rather than module level so a missing parser degrades to
@@ -36,6 +36,14 @@ pgvector==0.5.1              # numpy <-> vector adapter for psycopg
 # Embedded Postgres 16 + pgvector 0.6.2, used only when DATABASE_URL is unset:
 # lets the store run on a machine without Docker or admin rights.
 pgserver==0.1.4
+
+# ── Agent graph (graph_agent.py) ─────────────────────────────────────────────
+# LangGraph for two things only: interrupt (approval before write_file) and the
+# Postgres checkpointer (memory across restarts). langchain-core comes with it
+# for message types; langchain-groq is the chat-model wrapper LangGraph calls.
+langgraph==1.2.24
+langgraph-checkpoint-postgres==3.2.1
+langchain-groq==1.2.1
 
 # ── Analysis notebook (rag_analysis.ipynb) ───────────────────────────────────
 pandas==3.1.1
