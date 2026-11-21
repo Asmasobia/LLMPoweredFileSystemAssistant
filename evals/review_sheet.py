@@ -51,7 +51,8 @@ def make():
         "(names as in `resumes/`, without `resume_` and `.txt`). The ones marked CHECK are judgement calls.",
         "Résumé names: " + ", ".join(sorted(short(p.name) for p in (EVALS.parent / "resumes").glob("resume_*.txt"))),
         "",
-        "**I have checked every row in Part 1:** no   ← change to `yes` when done (until then no label counts as reviewed)",
+        f"**I have checked every row in Part 1:** {'yes' if all(q['status'] == 'reviewed' for q in labels) else 'no'}"
+        "   ← change to `yes` when done (until then no label counts as reviewed)",
         "",
         "| id | query | filter | relevant | note | your fix |",
         "|---|---|---|---|---|---|",

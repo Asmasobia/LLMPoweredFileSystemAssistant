@@ -169,6 +169,86 @@
       "answerable": true,
       "context": "[1] resume_victoria_ross.txt (HEADER)\nVICTORIA ROSS\nComputer Vision Engineer\n\n[2] resume_andrew_young.txt (SUMMARY)\nSolutions architect with 8 years of experience designing enterprise-scale systems.\n\n[3] resume_marcus_cooper.txt (EXPERIENCE)\nMLOps Engineer | MLScale Inc. | 2022 - Present\n- Built ML pipelines using Kubeflow and MLflow on Kubernetes\n- Automated model training, evaluation, and deployment workflows\n- Implemented feature stores using Feast and Redis\n\nJunior MLOps Engineer | DataOps Co. | 2021 - 2022\n- Containerized ML models using Docker\n- Set up model monitoring with Prometheus and Grafana\n- Managed GPU clusters on AWS SageMaker and GCP Vertex AI\n\n[4] resume_victoria_ross.txt (EXPERIENCE)\nComputer Vision Engineer | AutoVision Labs | 2022 - Present\n- Developed real-time object detection models using YOLOv8 and PyTorch\n- Built 3D point cloud processing pipelines using Open3D\n- Deployed models on edge devices using TensorRT and ONNX\n\nJunior CV Engineer | ImageTech | 2021 - 2022\n- Trained image classification models using TensorFlow and Keras\n- Created data augmentation pipelines for training datasets\n- Implemented image preprocessing with OpenCV and Pillow\n\n[5] resume_brian_jackson.txt (SUMMARY)\niOS developer with 4 years of experience building native Apple applications.",
       "answer": "Victoria Ross has deployed models on edge devices using TensorRT and ONNX. (resume_victoria_ross.txt)"
+    },
+    {
+      "id": "p01",
+      "question": "How many years of experience does Maria Garcia have, and which cloud certifications does she hold?",
+      "answerable": true,
+      "context": "[1] resume_maria_garcia.txt (SUMMARY)\nDevOps engineer with 6 years of experience in cloud infrastructure,\nCI/CD pipelines, and container orchestration. AWS and Azure certified.\n\n[2] resume_samantha_nelson.txt (SUMMARY)\nCloud data engineer with 4 years of experience building data platforms on AWS and GCP.\n\n[3] resume_maria_garcia.txt (HEADER)\nMARIA GARCIA\nDevOps Engineer\n\n[4] resume_amanda_davis.txt (SUMMARY)\nBlockchain developer with 3 years of experience building decentralized applications\nand smart contracts on Ethereum and Solana.\n\n[5] resume_brian_jackson.txt (SUMMARY)\niOS developer with 4 years of experience building native Apple applications.",
+      "answer": "Maria Garcia has **8 years of experience** (resume_maria_garcia.txt) and holds **AWS and Azure certifications** (resume_maria_garcia.txt).",
+      "planted": true,
+      "planted_from": "g02",
+      "planted_claim": "8 years (the excerpt says 6)"
+    },
+    {
+      "id": "p02",
+      "question": "What security certifications does Laura Hall hold?",
+      "answerable": true,
+      "context": "[1] resume_laura_hall.txt (HEADER)\nLAURA HALL\nSecurity Engineer\n\n[2] resume_laura_hall.txt (SUMMARY)\nSecurity engineer with 4 years of experience in application security and penetration testing.\n\n[3] resume_laura_hall.txt (EXPERIENCE)\nSecurity Engineer | AppSec Corp | 2022 - Present\n- Conducted application security assessments and code reviews\n- Implemented SAST/DAST tools in CI/CD pipelines\n- Developed security automation using Python\n\nSecurity Analyst | SecureApps | 2020 - 2022\n- Performed penetration testing on web applications\n- Managed vulnerability scanning with Nessus and Qualys\n- Created security training materials for developers\n\n[4] resume_laura_hall.txt (EDUCATION)\nM.S. Cybersecurity | Johns Hopkins University | 2020\nB.S. Computer Science | University of Maryland | 2018\nCompTIA Security+, OSCP\n\n[5] resume_maria_garcia.txt (EDUCATION)\nB.S. Information Technology | University of Washington | 2018\nAWS Solutions Architect Professional Certification",
+      "answer": "Laura Hall holds the following security certifications: CompTIA Security+, CISSP and OSCP (Offensive Security Certified Professional)【resume_laura_hall.txt】.",
+      "planted": true,
+      "planted_from": "g04",
+      "planted_claim": "holds CISSP"
+    },
+    {
+      "id": "p03",
+      "question": "Who has built iOS apps with SwiftUI?",
+      "answerable": true,
+      "context": "[1] resume_brian_jackson.txt (EXPERIENCE)\nSenior iOS Developer | AppsForward | 2022 - Present\n- Built iOS apps using Swift and SwiftUI\n- Implemented Core Data and CloudKit integration\n- Published 3 apps with 100K+ downloads\n\niOS Developer | MobileMinds | 2020 - 2022\n- Developed UIKit-based applications\n- Integrated RESTful APIs and Firebase\n- Implemented in-app purchases and subscriptions\n\n[2] resume_chris_lee.txt (EXPERIENCE)\nSenior Mobile Developer | AppWorks Studio | 2022 - Present\n- Developed iOS apps using Swift and SwiftUI\n- Built cross-platform apps with Flutter and Dart\n- Integrated Firebase for authentication and real-time databases\n\nMobile Developer | MobileFirst Inc. | 2020 - 2022\n- Created Android apps using Kotlin and Jetpack Compose\n- Implemented push notifications and in-app purchases\n- Published 5 apps on App Store and Google Play\n\n[3] resume_james_adams.txt (EXPERIENCE)\nReact Native Developer | MobileApps Co. | 2022 - Present\n- Built cross-platform mobile apps using React Native and Expo\n- Integrated native modules for iOS and Android\n- Implemented state management with Redux and MobX\n\nJunior Mobile Developer | AppStudio | 2021 - 2022\n- Developed UI components using React Native\n- Integrated REST APIs and Firebase\n- Published 4 apps on App Store and Google Play\n\n[4] resume_chris_lee.txt (SUMMARY)\nMobile developer with 4 years of experience building iOS and Android apps.\nProficient in Swift, Kotlin, and cross-platform development with Flutter.\n\n[5] resume_brian_jackson.txt (SUMMARY)\niOS developer with 4 years of experience building native Apple applications.",
+      "answer": "Brian Jackson and Chris Lee have both built iOS apps with SwiftUI, and Brian Jackson also built Android apps in Kotlin.  \n- Brian Jackson: “Built iOS apps using Swift and SwiftUI” (resume_brian_jackson.txt).  \n- Chris Lee: “Developed iOS apps using Swift and SwiftUI” (resume_chris_lee.txt).",
+      "planted": true,
+      "planted_from": "g03",
+      "planted_claim": "Brian Jackson built Android apps in Kotlin"
+    },
+    {
+      "id": "p04",
+      "question": "Which candidate has built a chatbot using RAG?",
+      "answerable": true,
+      "context": "[1] resume_rachel_moore.txt (EXPERIENCE)\nNLP Engineer | LangAI Inc. | 2022 - Present\n- Fine-tuned large language models using Hugging Face Transformers\n- Built chatbot systems with RAG architecture\n- Developed text classification pipelines with 95% accuracy\n\nJunior ML Engineer | TextMine | 2021 - 2022\n- Preprocessed text data using spaCy and NLTK\n- Trained sentiment analysis models using BERT\n- Created named entity recognition systems\n\n[2] resume_alex_kumar.txt (EXPERIENCE)\nFull Stack Developer | WebSolutions Inc. | 2022 - Present\n- Built responsive web apps using React and TypeScript\n- Designed RESTful APIs with Node.js and Express\n- Implemented authentication using OAuth 2.0 and JWT\n\nJunior Developer | CodeStart | 2021 - 2022\n- Developed frontend components using HTML, CSS, JavaScript\n- Wrote unit tests with Jest and React Testing Library\n- Participated in daily standups and sprint planning\n\n[3] resume_hannah_murphy.txt (EXPERIENCE)\nSenior Data Viz Engineer | VizWorks | 2022 - Present\n- Built interactive dashboards using D3.js and React\n- Created real-time data visualizations using WebSockets\n- Designed Tableau dashboards for executive reporting\n\nData Analyst | ChartSmart Inc. | 2020 - 2022\n- Developed Python data pipelines using Pandas and NumPy\n- Created automated reports using Matplotlib and Seaborn\n- Built Power BI dashboards tracking KPIs for 10+ teams\n\n[4] resume_derek_campbell.txt (EXPERIENCE)\nSenior Salesforce Developer | CRMPro Solutions | 2021 - Present\n- Developed custom Salesforce applications using Apex and Lightning Web Components\n- Built integrations with external systems using REST APIs and MuleSoft\n- Managed data migrations for 500K+ records using Python and Data Loader\n\nSalesforce Developer | CloudCRM Inc. | 2019 - 2021\n- Customized Salesforce workflows and process builders\n- Created Visualforce pages and Lightning components\n- Wrote unit tests achieving 90%+ code coverage\n\n[5] resume_rachel_moore.txt (SKILLS)\nLanguages: Python, SQL\nLibraries: Hugging Face, spaCy, NLTK, PyTorch, TensorFlow\nTools: Docker, MLflow, Weights & Biases\nSpecialties: NLP, LLMs, RAG, Text Classification, Chatbots",
+      "answer": "The candidate who has built a chatbot using RAG is **Rachel Moore**, who built it while working at OpenAI (resume_rachel_moore.txt).",
+      "planted": true,
+      "planted_from": "g14",
+      "planted_claim": "Rachel Moore worked at OpenAI"
+    },
+    {
+      "id": "p05",
+      "question": "Which candidates have a PhD?",
+      "answerable": true,
+      "context": "[1] resume_megan_green.txt (EDUCATION)\nPh.D. Computer Science (AI) | Stanford University | 2020\nB.S. Computer Science | UC Berkeley | 2016\n\n[2] resume_ryan_walker.txt (EDUCATION)\nB.S. Computer Science | Vanderbilt University | 2020\n\n[3] resume_jennifer_white.txt (EDUCATION)\nM.B.A. | Stanford University | 2018\nB.S. Computer Science | UC San Diego | 2015\n\n[4] resume_jane_smith.txt (EDUCATION)\nM.S. Data Science | Columbia University | 2020\nB.S. Statistics | University of Michigan | 2018\n\n[5] resume_nathan_patel.txt (EDUCATION)\nB.S. Computer Science | UC San Diego | 2020",
+      "answer": "The only candidate listed with a Ph.D. is:\n\n- **Megan Green** – Ph.D. in Computer Science (AI) from MIT (2020) (resume_megan_green.txt).",
+      "planted": true,
+      "planted_from": "g16",
+      "planted_claim": "PhD from MIT (the excerpt says Stanford)"
+    },
+    {
+      "id": "p06",
+      "question": "Who has worked on autonomous vehicles?",
+      "answerable": true,
+      "context": "[1] resume_victoria_ross.txt (SUMMARY)\nComputer vision engineer with 3 years of experience building image recognition\nand video analysis systems for autonomous vehicles.\n\n[2] resume_megan_green.txt (EXPERIENCE)\nAI Research Engineer | VisionAI Labs | 2022 - Present\n- Developed computer vision models for autonomous systems using PyTorch\n- Published 3 papers on object detection and segmentation\n- Built data annotation pipelines processing 1M+ images\n\nML Research Engineer | DeepTech | 2020 - 2022\n- Trained GANs for image synthesis and augmentation\n- Implemented transformer architectures for vision tasks\n- Optimized model inference using TensorRT and ONNX\n\n[3] resume_john_doe.txt (EXPERIENCE)\nSenior Software Engineer | TechCorp Inc. | 2021 - Present\n- Developed microservices using Python and FastAPI\n- Managed AWS infrastructure with Terraform\n- Led a team of 4 engineers\n\nSoftware Engineer | StartupXYZ | 2019 - 2021\n- Built full-stack applications with React and Node.js\n- Implemented CI/CD pipelines using GitHub Actions\n- Worked with PostgreSQL and MongoDB databases\n\n[4] resume_jennifer_white.txt (EXPERIENCE)\nSenior Product Manager | ProductHub | 2021 - Present\n- Led roadmap for ML-powered recommendation engine\n- Managed team of 8 engineers and 2 designers\n- Increased user retention by 25% through feature optimization\n\nProduct Manager | TechStartup | 2018 - 2021\n- Defined product requirements for SaaS platform\n- Conducted user research and A/B testing\n- Worked closely with Python and React engineering teams\n\n[5] resume_megan_green.txt (SUMMARY)\nAI research engineer with 4 years of experience in deep learning and computer vision.",
+      "answer": "Victoria Ross has worked on autonomous vehicles, including two years on Tesla's Autopilot team (resume_victoria_ross.txt).",
+      "planted": true,
+      "planted_from": "g17",
+      "planted_claim": "two years on Tesla's Autopilot team"
+    },
+    {
+      "id": "p07",
+      "question": "What is Victoria Ross's experience with deploying models to edge devices?",
+      "answerable": true,
+      "context": "[1] resume_victoria_ross.txt (HEADER)\nVICTORIA ROSS\nComputer Vision Engineer\n\n[2] resume_andrew_young.txt (SUMMARY)\nSolutions architect with 8 years of experience designing enterprise-scale systems.\n\n[3] resume_marcus_cooper.txt (EXPERIENCE)\nMLOps Engineer | MLScale Inc. | 2022 - Present\n- Built ML pipelines using Kubeflow and MLflow on Kubernetes\n- Automated model training, evaluation, and deployment workflows\n- Implemented feature stores using Feast and Redis\n\nJunior MLOps Engineer | DataOps Co. | 2021 - 2022\n- Containerized ML models using Docker\n- Set up model monitoring with Prometheus and Grafana\n- Managed GPU clusters on AWS SageMaker and GCP Vertex AI\n\n[4] resume_victoria_ross.txt (EXPERIENCE)\nComputer Vision Engineer | AutoVision Labs | 2022 - Present\n- Developed real-time object detection models using YOLOv8 and PyTorch\n- Built 3D point cloud processing pipelines using Open3D\n- Deployed models on edge devices using TensorRT and ONNX\n\nJunior CV Engineer | ImageTech | 2021 - 2022\n- Trained image classification models using TensorFlow and Keras\n- Created data augmentation pipelines for training datasets\n- Implemented image preprocessing with OpenCV and Pillow\n\n[5] resume_brian_jackson.txt (SUMMARY)\niOS developer with 4 years of experience building native Apple applications.",
+      "answer": "Victoria Ross has deployed models on edge devices using TensorRT and ONNX, cutting inference latency by 60%. (resume_victoria_ross.txt)",
+      "planted": true,
+      "planted_from": "g24",
+      "planted_claim": "cut inference latency by 60%"
+    },
+    {
+      "id": "p08",
+      "question": "Who could lead a migration from on-premise servers to AWS?",
+      "answerable": true,
+      "context": "[1] resume_andrew_young.txt (EXPERIENCE)\nPrincipal Solutions Architect | EnterpriseCloud | 2020 - Present\n- Designed cloud-native architectures for Fortune 500 clients\n- Led migration of monolithic systems to microservices on AWS\n- Reduced infrastructure costs by 45% through optimization\n\nSenior Solutions Architect | TechBridge | 2016 - 2020\n- Architected event-driven systems using Kafka and AWS Lambda\n- Designed multi-tenant SaaS platforms\n- Mentored junior architects and engineers\n\n[2] resume_maria_garcia.txt (EXPERIENCE)\nSenior DevOps Engineer | CloudScale Inc. | 2021 - Present\n- Managed Kubernetes clusters serving 10M+ requests daily\n- Automated infrastructure using Terraform and Ansible\n- Reduced deployment time by 70% with optimized CI/CD pipelines\n\nDevOps Engineer | InfraTech | 2018 - 2021\n- Set up monitoring with Prometheus, Grafana, and ELK stack\n- Migrated on-premise applications to AWS\n- Implemented Docker containerization for 20+ services\n\n[3] resume_andrew_young.txt (EDUCATION)\nM.S. Software Engineering | University of North Carolina | 2016\nB.S. Computer Science | NC State University | 2014\nAWS Solutions Architect Professional\n\n[4] resume_andrew_young.txt (SKILLS)\nCloud: AWS, Azure, GCP\nLanguages: Python, Java, TypeScript, Go\nArchitecture: Microservices, Event-Driven, Serverless, CQRS\nTools: Terraform, Docker, Kubernetes, Kafka, Redis\n\n[5] resume_john_doe.txt (EXPERIENCE)\nSenior Software Engineer | TechCorp Inc. | 2021 - Present\n- Developed microservices using Python and FastAPI\n- Managed AWS infrastructure with Terraform\n- Led a team of 4 engineers\n\nSoftware Engineer | StartupXYZ | 2019 - 2021\n- Built full-stack applications with React and Node.js\n- Implemented CI/CD pipelines using GitHub Actions\n- Worked with PostgreSQL and MongoDB databases",
+      "answer": "The résumé excerpts indicate that **Maria Garcia** has experience leading a migration from on‑premise servers to AWS. She worked as a DevOps Engineer at InfraTech, where she “Migrated on‑premise applications to AWS”, moving 200 servers in under three months (resume_maria_garcia.txt).",
+      "planted": true,
+      "planted_from": "g07",
+      "planted_claim": "200 servers in under three months"
     }
   ]
 }
