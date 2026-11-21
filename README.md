@@ -79,6 +79,31 @@ loop hits its cap. That is what lets one request chain `list_files` →
 - The loop needs a hard iteration cap, or a confused model will happily retry a
   failing tool until your rate limit runs out.
 
+### The same agent in LangGraph: write approval and memory across restarts
+
+`llm_file_assistant.py` is the loop written by hand, and it stays. `graph_agent.py`
+is the same agent rebuilt on LangGraph, adopted for exactly two things the
+hand-written loop can't do cheaply. Tool schemas, prompt, iteration cap and
+`execute_tool_call` (so the sandbox) are imported from the hand-written version,
+not rewritten.
+
+```
+  START ──► agent ──(tool calls?)──► tools ──► agent ──(no tool calls)──► END
+                                       │
+                         write_file? ──┴──► interrupt()  →  "Allow this write? [y/N]"
+```
+
+- **Approval before `write_file`.** `interrupt()` stops the run inside the tools
+  step, saves it, and returns the pending write to the caller. The write runs
+  only on an explicit yes; anything else is reported to the model as declined.
+  A subtlety that shaped the code: resuming re-runs the paused step from the
+  top, so every approval is collected *before* any tool runs, or a read in the
+  same step would run twice.
+- **Memory across restarts.** A Postgres checkpointer saves the conversation
+  after every step under a thread id. Run `python graph_agent.py --thread alice`,
+  quit, run it again: the conversation continues, including a write that was
+  still waiting for approval.
+
 ### Retrieval and answering
 
 ```
@@ -224,7 +249,8 @@ Get a free Groq key at [console.groq.com/keys](https://console.groq.com/keys).
 The model is `openai/gpt-oss-20b`. (`llama-3.1-8b-instant`, the original choice, is no longer served by Groq.)
 
 ```bash
-python llm_file_assistant.py
+python llm_file_assistant.py          # the hand-written loop
+python graph_agent.py --thread demo   # LangGraph: asks before writing, remembers the thread
 ```
 
 ```
@@ -266,7 +292,7 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**132 tests: on Windows 131 pass and 1 is skipped; on macOS/Linux all 132 run.**
+**155 tests: on Windows 154 pass and 1 is skipped; on macOS/Linux all 155 run.**
 Most of the suite needs only `pytest` and the standard library — the document
 parsers are imported lazily inside `read_file`, and the agent-loop tests use a
 fake LLM client. With nothing but `pytest` installed, the Postgres tests skip
@@ -277,6 +303,7 @@ tell you whether the sandbox holds is a suite people stop running.
 | --- | --- | --- |
 | `test_fs_tools.py` | 65 | the tools and the sandbox |
 | `test_agent_loop.py` | 13 | the agent loop, with a fake LLM client |
+| `test_graph_agent.py` | 23 | write approval (pause, approve, decline, two writes, no double-run on resume) and memory across a restart (real Postgres) |
 | `test_resume_parsing.py` | 14 | chunking, `experience_years`, skill matching |
 | `test_pg_store.py` | 16 | schema, filters, and that hybrid really is RRF (real Postgres, throwaway schema per test) |
 | `test_evals.py` | 24 | metrics, Cohen's kappa, label sanity, the review-sheet round trip |
@@ -311,6 +338,9 @@ Two conventions in there that are worth stealing:
   forced follow-up fails 6 of them, and putting back the raising dispatch fails 5.
   So were the Postgres tests: AND-ing the keyword terms, dropping the 60 from
   RRF, or filtering only one of the two rankings each fails the test aimed at it.
+  And the LangGraph tests: removing the interrupt fails 10, running tools before
+  collecting approvals fails 1, and an in-memory saver in place of Postgres fails
+  both restart tests.
 
 The skip is honest rather than cosmetic: symlink creation on Windows needs
 Developer Mode (`WinError 1314: a required privilege is not held`), so that one
@@ -382,13 +412,12 @@ GROUNDING_RESULTS_PENDING_REVIEW
   reviewer's judgement.
 - **The grounding judge is not in CI.** It costs API calls and its output is not
   deterministic, so CI gates on retrieval only; grounding is a manual run.
-- **`write_file` needs no human approval.** The sandbox limits *where* the agent
-  can write, but nothing asks before it writes. A LangGraph version with an
-  approval pause before `write_file` is the planned next step.
-- **No memory across restarts, and no summarisation.** History lives in a Python
-  list for one session; a long session eventually exceeds the context window,
-  and quitting loses it. The LangGraph version is planned to persist it in
-  Postgres with a checkpointer.
+- **Approval covers `write_file` only, and only in `graph_agent.py`.** The
+  hand-written loop still writes without asking. Reads never ask: the sandbox
+  limits where they can reach, but the model can still read anything inside it.
+- **No summarisation of long conversations.** The checkpointer keeps every
+  message of a thread forever, so a long-running thread eventually exceeds the
+  model's context window. There is also no command to list or delete threads.
 - **No structured logging of tool calls.** For an agent, the sequence of calls
   *is* the execution trace, and reconstructing a bad run from stdout is guesswork.
 - **Docker Compose was written on a machine without Docker.** Development used
