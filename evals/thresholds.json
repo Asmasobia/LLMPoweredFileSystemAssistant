@@ -1,5 +1,5 @@
 {
-  "about": "Written by retrieval_eval.py --write-thresholds from labels 8e9134f6dc78: each metric from that run minus 0.02. Regenerate when the labels change.",
+  "about": "Written by retrieval_eval.py --write-thresholds from labels f2cfd66c6e6c: each metric from that run minus 0.02. Regenerate when the labels change.",
   "minimums": {
     "chroma/section/vector": {
       "recall@5": 0.938,
