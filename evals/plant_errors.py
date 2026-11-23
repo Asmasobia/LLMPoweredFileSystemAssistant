@@ -52,6 +52,9 @@ def plant():
     grades_doc = json.loads(GRADES.read_text(encoding="utf-8"))
     by_id = {a["id"]: a for a in answers_doc["answers"]}
     answers_doc["answers"] = [a for a in answers_doc["answers"] if not a.get("planted")]
+    # A grade stays valid only for the exact text it was given for, so a rerun
+    # keeps it when the planted answer and its excerpts come out unchanged.
+    old_grades = {g["id"]: g for g in grades_doc["grades"] if g["id"].startswith("p")}
     grades_doc["grades"] = [g for g in grades_doc["grades"] if not g["id"].startswith("p")]
 
     for new_id, src_id, find, replace, claim in PLANTS:
@@ -64,9 +67,12 @@ def plant():
             "context": src["context"], "answer": answer,
             "planted": True, "planted_from": src_id, "planted_claim": claim,
         })
+        old = old_grades.get(new_id, {})
+        same = old.get("answer") == answer and old.get("context") == src["context"]
         grades_doc["grades"].append({
             "id": new_id, "question": src["question"], "context": src["context"],
-            "answer": answer, "human": None, "note": "",
+            "answer": answer, "human": old["human"] if same else None,
+            "note": old.get("note", "") if same else "",
         })
 
     for path, doc in ((ANSWERS, answers_doc), (GRADES, grades_doc)):

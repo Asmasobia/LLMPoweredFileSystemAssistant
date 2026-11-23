@@ -138,7 +138,8 @@ class PgIndex:
 #  Running and scoring
 # ─────────────────────────────────────────────────────────────────────────────
 def load_labels(path=LABELS_PATH):
-    raw = path.read_bytes()
+    # Normalised so the hash is the same for CRLF and LF checkouts.
+    raw = path.read_bytes().replace(b"\r\n", b"\n")
     queries = json.loads(raw)["queries"]
     return queries, hashlib.sha256(raw).hexdigest()[:12]
 

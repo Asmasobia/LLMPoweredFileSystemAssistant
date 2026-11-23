@@ -278,6 +278,7 @@ python pg_store.py search "event-driven systems with Kafka" --min-years 5 --skil
 
 Without Docker, leave `DATABASE_URL` unset: `pg_store.py` then starts an embedded
 Postgres (`pgserver`, same versions) in `.pgdata/`, with no admin rights needed.
+(`pgserver` has no ARM Linux build; there, use Docker and set `DATABASE_URL`.)
 The search is one SQL statement: metadata filters first, then vector similarity
 and full-text search ranked separately and merged with reciprocal rank fusion.
 `pg_store.py`'s docstring explains each part. The ChromaDB store in
@@ -292,11 +293,11 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**155 tests: on Windows 154 pass and 1 is skipped; on macOS/Linux all 155 run.**
+**158 tests: on Windows 157 pass and 1 is skipped; on macOS/Linux all 158 run.**
 Most of the suite needs only `pytest` and the standard library — the document
 parsers are imported lazily inside `read_file`, and the agent-loop tests use a
-fake LLM client. With nothing but `pytest` installed, the Postgres tests skip
-themselves and print why. A suite that demands a 300 MB ML stack before it will
+fake LLM client. With nothing but `pytest` installed, the Postgres tests, the
+LangGraph tests and most of the eval tests skip themselves and print why. A suite that demands a 300 MB ML stack before it will
 tell you whether the sandbox holds is a suite people stop running.
 
 | file | tests | what it covers |
@@ -306,7 +307,7 @@ tell you whether the sandbox holds is a suite people stop running.
 | `test_graph_agent.py` | 23 | write approval (pause, approve, decline, two writes, no double-run on resume) and memory across a restart (real Postgres) |
 | `test_resume_parsing.py` | 14 | chunking, `experience_years`, skill matching |
 | `test_pg_store.py` | 16 | schema, filters, and that hybrid really is RRF (real Postgres, throwaway schema per test) |
-| `test_evals.py` | 24 | metrics, Cohen's kappa, label sanity, the review-sheet round trip |
+| `test_evals.py` | 27 | metrics, Cohen's kappa, label sanity, stale-grade checks, the review-sheet round trip |
 
 `tests/test_fs_tools.py`: roughly a third are containment tests: six spellings of `..`
 traversal, absolute paths, the `workspace-evil` prefix case, symlink escape, blank
@@ -345,7 +346,7 @@ Two conventions in there that are worth stealing:
 The skip is honest rather than cosmetic: symlink creation on Windows needs
 Developer Mode (`WinError 1314: a required privilege is not held`), so that one
 case is verified on Linux/macOS only. `pytest.ini` sets `-rs` precisely so skips
-print their reason — a silent skip reads exactly like a pass, and "131 passed"
+print their reason — a silent skip reads exactly like a pass, and "157 passed"
 would otherwise overstate what was checked.
 
 CI (`.github/workflows/ci.yml`) runs the suite against a
@@ -382,7 +383,7 @@ python evals/retrieval_eval.py            # table + evals/results/retrieval.json
 - Sanity check: Chroma and Postgres vector-only search return identical top-10
   lists on all 53 queries, as they should with identical vectors at this size.
 
-Results (labels sha `8e9134f6dc78`, all 53 reviewed; table also in
+Results (labels sha `f2cfd66c6e6c`, all 53 reviewed; table also in
 `evals/results/retrieval.md`, per-query rankings in `retrieval.json`):
 
 | config (store / chunking / retrieval) | all R@5 | all MRR | keyword R@5 | keyword MRR | semantic R@5 | semantic MRR | filtered R@5 | filtered MRR |
@@ -412,7 +413,8 @@ What this does and doesn't show:
   should be with the same vectors.
 - **A query no vector or hybrid setup gets:** s16, "checks that our APIs work
   and holds up under load", should find the QA engineer. Only keyword search
-  does (rank 3), because the résumé says "API testing" and "load testing".
+  over section chunks does (rank 3; 9th over fixed-size chunks), because the
+  résumé says "API testing" and "load testing".
 
 The CI gate (`evals/thresholds.json`) is each configuration's numbers above
 minus 0.02, so a change that costs about one query of recall fails the build.
@@ -425,6 +427,11 @@ python evals/plant_errors.py               # add 8 copies with one false claim e
 python evals/grounding_eval.py judge       # gpt-oss-120b judges all 32 frozen answers
 python evals/grounding_eval.py agreement   # compare with evals/human_grades.json (saved: results/agreement.json)
 ```
+
+To reproduce the numbers below, run only `agreement`: the answers, verdicts and
+hand grades behind them are committed, and it needs no API key. `generate` makes
+new answers, which need new hand grades and planted errors; `agreement` refuses
+to run while any grade was given for different text.
 
 An answer is *grounded* if every claim it makes about a candidate is in the
 excerpts it was given. The judge is a larger model than the one answering, and
@@ -481,10 +488,6 @@ that it catches invented facts, not to give a grounding rate for the system.
   model's context window. There is also no command to list or delete threads.
 - **No structured logging of tool calls.** For an agent, the sequence of calls
   *is* the execution trace, and reconstructing a bad run from stdout is guesswork.
-- **Docker Compose was written on a machine without Docker.** Development used
-  the embedded `pgserver` (same Postgres and pgvector versions). The compose file
-  and the CI service container use the same image, and CI is the first place it
-  runs.
 - **The vector stores are written outside the sandbox check.** Résumés are read
   *through* `fs_tools` (so containment covers indexing too), but `resume_rag.py`
   opens `vector_store.json` and the ChromaDB directory, and `pg_store.py` its

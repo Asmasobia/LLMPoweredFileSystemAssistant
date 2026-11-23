@@ -35,7 +35,8 @@ psycopg[binary]==3.3.9
 pgvector==0.5.1              # numpy <-> vector adapter for psycopg
 # Embedded Postgres 16 + pgvector 0.6.2, used only when DATABASE_URL is unset:
 # lets the store run on a machine without Docker or admin rights.
-pgserver==0.1.4
+# No wheel for ARM Linux: set DATABASE_URL there (e.g. docker compose up -d).
+pgserver==0.1.4; sys_platform != "linux" or platform_machine == "x86_64"
 
 # ── Agent graph (graph_agent.py) ─────────────────────────────────────────────
 # LangGraph for two things only: interrupt (approval before write_file) and the

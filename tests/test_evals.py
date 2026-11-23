@@ -140,6 +140,39 @@ def test_agreement_skips_ungraded_answers_and_lists_disagreements():
 # ─────────────────────────────────────────────────────────────────────────────
 #  Review sheet: marks in REVIEW.md land in the JSON files, and nothing else does
 # ─────────────────────────────────────────────────────────────────────────────
+def test_a_grade_given_for_different_text_is_stale():
+    frozen = [{"id": "g01", "answer": "a", "context": "c"}, {"id": "g02", "answer": "new", "context": "c"}]
+    human = [{"id": i, "answer": "a", "context": "c", "human": "grounded"} for i in ("g01", "g02", "g03")]
+    assert ge.stale_grades(human, frozen) == ["g02", "g03"]
+
+
+def test_replanting_keeps_grades_for_unchanged_text_only(tmp_path, monkeypatch):
+    from evals import plant_errors as pe
+
+    for name in ("ANSWERS", "GRADES"):
+        copy = tmp_path / getattr(pe, name).name
+        copy.write_text(getattr(pe, name).read_text(encoding="utf-8"), encoding="utf-8")
+        monkeypatch.setattr(pe, name, copy)
+    doc = json.loads(pe.GRADES.read_text(encoding="utf-8"))
+    for g in doc["grades"]:
+        if g["id"] == "p02":
+            g["answer"] += " (graded on an older text)"
+    pe.GRADES.write_text(json.dumps(doc), encoding="utf-8")
+
+    pe.plant()
+
+    grades = {g["id"]: g["human"] for g in json.loads(pe.GRADES.read_text(encoding="utf-8"))["grades"]}
+    assert grades["p01"] == "ungrounded"
+    assert grades["p02"] is None
+
+
+def test_labels_hash_ignores_line_endings(tmp_path):
+    lf, crlf = tmp_path / "lf.json", tmp_path / "crlf.json"
+    lf.write_bytes(b'{"queries":\n []}\n')
+    crlf.write_bytes(b'{"queries":\r\n []}\r\n')
+    assert retrieval_eval.load_labels(lf) == retrieval_eval.load_labels(crlf)
+
+
 import shutil  # noqa: E402
 
 from evals import review_sheet as rs  # noqa: E402

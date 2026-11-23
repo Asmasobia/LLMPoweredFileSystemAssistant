@@ -38,6 +38,7 @@ QUESTIONS_PATH = EVALS / "grounding_questions.json"
 ANSWERS_PATH = EVALS / "results" / "answers.json"
 JUDGED_PATH = EVALS / "results" / "judged.json"
 HUMAN_PATH = EVALS / "human_grades.json"
+AGREEMENT_PATH = EVALS / "results" / "agreement.json"
 
 JUDGE_MODEL = "openai/gpt-oss-120b"
 VERDICTS = ("grounded", "ungrounded")
@@ -150,11 +151,24 @@ def agreement_report(human: dict, judged: dict) -> dict:
     }
 
 
+def stale_grades(human, answers) -> list:
+    """Ids graded by hand on text that is no longer the frozen answer and excerpts."""
+    frozen = {a["id"]: (a["answer"], a["context"]) for a in answers}
+    return [g["id"] for g in human if g["human"] in VERDICTS
+            and frozen.get(g["id"]) != (g["answer"], g["context"])]
+
+
 def agreement():
     human = json.loads(HUMAN_PATH.read_text(encoding="utf-8"))["grades"]
+    answers = json.loads(ANSWERS_PATH.read_text(encoding="utf-8"))["answers"]
+    stale = stale_grades(human, answers)
+    if stale:
+        raise SystemExit(f"These were graded on different text than answers.json now holds; "
+                         f"regrade them first: {', '.join(stale)}")
     judged = {j["id"]: j["verdict"] for j in json.loads(JUDGED_PATH.read_text(encoding="utf-8"))["judged"]}
     report = agreement_report({g["id"]: g["human"] for g in human}, judged)
     print(json.dumps(report, indent=2))
+    write_json(AGREEMENT_PATH, report)
     return report
 
 
