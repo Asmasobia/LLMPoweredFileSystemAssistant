@@ -101,6 +101,15 @@ def workspace_root() -> Path:
 # extension, and it only takes one omission.
 WRITABLE_SUFFIXES = frozenset({".txt", ".md", ".json", ".csv"})
 
+# ...and to these top-level directories, both git-ignored.
+#
+# The suffix list alone left a hole: `requirements.txt` and `evals/thresholds.json`
+# have permitted suffixes, so an injected instruction could add a package to the
+# next `pip install` or loosen the CI gate, and could plant a fake résumé in
+# `resumes/` for later runs to read. Generated reports never need to land among
+# the project's own files.
+WRITABLE_DIRS = ("output", "reports")
+
 # Reads are restricted to what the parsers below actually support. This is NOT a
 # security boundary — containment is the boundary, and it has already been
 # enforced by the time this list is consulted. It is a capability list, hoisted
@@ -313,11 +322,21 @@ def list_files(directory: str, extension: str = None, **kwargs) -> list:
 
 
 def write_file(filepath: str, content: str, **kwargs) -> dict:
-    """Write text content to a file inside the workspace."""
+    """Write text content to a file under one of WRITABLE_DIRS in the workspace."""
     try:
         path = _resolve_inside_workspace(filepath)
     except PathNotAllowed as exc:
         return _denied(exc)
+
+    # Checked on the resolved path, so `output/../requirements.txt` and a symlink
+    # inside `output/` are judged by where they really land.
+    parts = path.relative_to(workspace_root()).parts
+    if len(parts) < 2 or parts[0] not in WRITABLE_DIRS:
+        allowed = ", ".join(f"{d}/" for d in WRITABLE_DIRS)
+        return {
+            "success": False,
+            "error": f"Writing there is not permitted. Save files under: {allowed}.",
+        }
 
     suffix = path.suffix.lower()
     if suffix not in WRITABLE_SUFFIXES:

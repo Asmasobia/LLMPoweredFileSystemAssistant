@@ -59,11 +59,11 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "write_file",
-            "description": "Write text content to a file. Creates directories if needed.",
+            "description": "Write text content to a .txt, .md, .json or .csv file under output/ or reports/. Creates directories if needed.",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "filepath": {"type": "string", "description": "Path to write the file"},
+                    "filepath": {"type": "string", "description": "Path to write, e.g. output/summary.md"},
                     "content": {"type": "string", "description": "Content to write"},
                 },
                 "required": ["filepath", "content"],

@@ -22,7 +22,7 @@ human-reviewed labels. The original ChromaDB setup is kept as the baseline.
 | --- | --- |
 | `read_file` | Extracts text from `.txt`, `.md`, `.json`, `.csv` (plain), `.pdf` (PyPDF2) and `.docx` (python-docx), plus size/modified metadata. |
 | `list_files` | Lists a directory, optionally filtered by extension — tolerant of `txt`, `.txt`, `.TXT` and `.txt,.md`, because a language model will spell it all four ways. |
-| `write_file` | Writes a text report, creating parent directories as needed. Restricted to `.txt`, `.md`, `.json`, `.csv`. |
+| `write_file` | Writes a text report, creating parent directories as needed. Restricted to `.txt`, `.md`, `.json`, `.csv` files under `output/` or `reports/`. |
 | `search_in_file` | Case-insensitive keyword search returning 1-indexed line numbers with ±1 line of context. |
 
 Beyond the tools, `resume_parsing.py` chunks résumés on their **section headers**
@@ -103,6 +103,11 @@ not rewritten.
   after every step under a thread id. Run `python graph_agent.py --thread alice`,
   quit, run it again: the conversation continues, including a write that was
   still waiting for approval.
+- **The cap counts model calls in the saved messages**, not LangGraph steps.
+  LangGraph's `recursion_limit` starts again on every resume, so an earlier
+  version allowed extra calls after an approval and could stop between a tool
+  call and its reply, which breaks the thread. The count is checked only after
+  tools have replied.
 
 ### Retrieval and answering
 
@@ -186,7 +191,7 @@ except ValueError:
     raise PathNotAllowed(...)
 ```
 
-Three specific decisions in there, each one a bug avoided:
+Four specific decisions in there, each one a bug avoided:
 
 1. **`resolve()` before comparing, not after.** It collapses `..` *and follows
    symlinks*. Without it, `docs/../../escaped.txt` passes a prefix check while
@@ -205,6 +210,12 @@ Three specific decisions in there, each one a bug avoided:
    guard. An allow-list rather than a deny-list, since a deny-list has to
    anticipate every dangerous extension and it only takes one omission.
 
+4. **Writes only under `output/` and `reports/`.** The suffix list alone left a
+   hole: `requirements.txt` and `evals/thresholds.json` have allowed suffixes, so
+   an injected instruction could add a package to the next `pip install` or loosen
+   the CI gate. Checked on the resolved path, so `output/../requirements.txt` and
+   a symlink inside `output/` are judged by where they land.
+
 Two smaller choices worth naming: **refusals never echo the resolved absolute
 path** (that message goes back to the model and into logs — confirming where a
 guess landed turns rejected calls into filesystem reconnaissance), and **relative
@@ -220,6 +231,9 @@ trustworthy kind:
   contents in its reply. Containment limits *reach*, not what happens to data
   already in scope. Point `ASSISTANT_ROOT` at a dedicated directory if the
   documents come from somewhere you don't trust.
+- **Hard links are not detected.** `resolve()` follows symlinks, but a hard link
+  inside the sandbox to a file outside it looks like an ordinary file. The tools
+  cannot create one, so this needs local access.
 - **No size limits.** A multi-gigabyte file is read into memory in one go.
 - **No rate or quota control** on tool calls beyond the 10-iteration cap.
 - **`**kwargs` swallows unknown arguments,** so a `mode="append"` the model
@@ -293,7 +307,8 @@ pip install -r requirements-dev.txt
 pytest
 ```
 
-**158 tests: on Windows 157 pass and 1 is skipped; on macOS/Linux all 158 run.**
+**169 tests: all run on macOS/Linux; the 2 symlink tests skip on Windows without
+Developer Mode.**
 Most of the suite needs only `pytest` and the standard library — the document
 parsers are imported lazily inside `read_file`, and the agent-loop tests use a
 fake LLM client. With nothing but `pytest` installed, the Postgres tests, the
@@ -302,12 +317,12 @@ tell you whether the sandbox holds is a suite people stop running.
 
 | file | tests | what it covers |
 | --- | --- | --- |
-| `test_fs_tools.py` | 65 | the tools and the sandbox |
+| `test_fs_tools.py` | 72 | the tools and the sandbox |
 | `test_agent_loop.py` | 13 | the agent loop, with a fake LLM client |
-| `test_graph_agent.py` | 23 | write approval (pause, approve, decline, two writes, no double-run on resume) and memory across a restart (real Postgres) |
+| `test_graph_agent.py` | 26 | write approval (pause, approve, decline, two writes, no double-run on resume), the cap across approvals, and memory across a restart (real Postgres) |
 | `test_resume_parsing.py` | 14 | chunking, `experience_years`, skill matching |
 | `test_pg_store.py` | 16 | schema, filters, and that hybrid really is RRF (real Postgres, throwaway schema per test) |
-| `test_evals.py` | 27 | metrics, Cohen's kappa, label sanity, stale-grade checks, the review-sheet round trip |
+| `test_evals.py` | 28 | metrics, Cohen's kappa, label sanity, stale-grade checks, the CI gate, the review-sheet round trip |
 
 `tests/test_fs_tools.py`: roughly a third are containment tests: six spellings of `..`
 traversal, absolute paths, the `workspace-evil` prefix case, symlink escape, blank
@@ -328,25 +343,26 @@ Two conventions in there that are worth stealing:
   can return `{"success": False}` *after* having already written. Checking the
   return value alone would pass while the vulnerability stayed open. When you test
   a control, test the thing the control exists to prevent.
-- **The suite was mutation-tested.** Reverting the two controls to their pre-fix
-  state (no containment check, no write allow-list) produces **20 failures in
-  `test_fs_tools.py` on Windows, every one a security test**, while every
-  functional test still passes. (The symlink test is skipped on Windows, so it
-  isn't in that count.) That's the evidence the security tests fail for the
+- **The suite was mutation-tested.** Removing all three controls (containment,
+  write directories, suffix list) produces **28 failures in `test_fs_tools.py` on
+  Linux, every one a security test**, while every functional test still passes.
+  Removing only the write directories fails 7, and only the suffix list 6.
+  That's the evidence the security tests fail for the
   right reason and the functional ones don't secretly depend on the guard — a
   security test that would pass either way is worse than none, because it buys
   false confidence. The loop tests were checked the same way: putting back the
   forced follow-up fails 6 of them, and putting back the raising dispatch fails 5.
   So were the Postgres tests: AND-ing the keyword terms, dropping the 60 from
   RRF, or filtering only one of the two rankings each fails the test aimed at it.
-  And the LangGraph tests: removing the interrupt fails 10, running tools before
+  And the LangGraph tests: removing the interrupt fails 13, removing the cap
+  fails 4, running tools before
   collecting approvals fails 1, and an in-memory saver in place of Postgres fails
   both restart tests.
 
-The skip is honest rather than cosmetic: symlink creation on Windows needs
-Developer Mode (`WinError 1314: a required privilege is not held`), so that one
-case is verified on Linux/macOS only. `pytest.ini` sets `-rs` precisely so skips
-print their reason — a silent skip reads exactly like a pass, and "157 passed"
+The skips are honest rather than cosmetic: symlink creation on Windows needs
+Developer Mode (`WinError 1314: a required privilege is not held`), so those two
+cases are verified on Linux/macOS only. `pytest.ini` sets `-rs` precisely so skips
+print their reason — a silent skip reads exactly like a pass, and "167 passed"
 would otherwise overstate what was checked.
 
 CI (`.github/workflows/ci.yml`) runs the suite against a
@@ -417,7 +433,8 @@ What this does and doesn't show:
   résumé says "API testing" and "load testing".
 
 The CI gate (`evals/thresholds.json`) is each configuration's numbers above
-minus 0.02, so a change that costs about one query of recall fails the build.
+minus 0.01. One query of 53 is worth 0.019, so losing a whole query fails the
+build; a smaller slip, such as one of two relevant résumés, can still pass.
 
 ### Answer grounding: an LLM judge, checked against a human
 

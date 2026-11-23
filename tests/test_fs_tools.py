@@ -267,14 +267,47 @@ def test_write_refuses_executable_and_unknown_types(workspace, name):
     the sandbox. Overwriting `fs_tools.py` would delete the sandbox itself, and the
     replacement executes on the next run — no traversal required.
     """
-    result = fs_tools.write_file(name, "print('owned')")
+    result = fs_tools.write_file(f"output/{name}", "print('owned')")
 
     assert result["success"] is False
     assert "not permitted" in result["error"]
-    assert not (workspace / name).exists()
+    assert not (workspace / "output" / name).exists()
 
 
-@pytest.mark.parametrize("name", ["report.txt", "report.md", "data.json", "rows.csv"])
+@pytest.mark.parametrize("path", [
+    "requirements.txt",                  # the next pip install runs whatever it names
+    "evals/thresholds.json",             # loosens the CI gate
+    "resumes/resume_planted.txt",        # poisons the corpus
+    "output/../requirements.txt",        # judged by where it lands
+    "output-evil/report.md",             # shares a prefix with a writable directory
+    "output.md",
+])
+def test_write_refuses_permitted_suffixes_outside_the_output_directories(workspace, path):
+    """A harmless-looking suffix does not make a project file safe to overwrite."""
+    (workspace / "requirements.txt").write_text("original", encoding="utf-8")
+
+    result = fs_tools.write_file(path, "evil-package")
+
+    assert result["success"] is False
+    assert (workspace / "requirements.txt").read_text(encoding="utf-8") == "original"
+    if path != "requirements.txt" and ".." not in path:
+        assert not (workspace / path).exists()
+
+
+def test_write_refuses_a_symlink_from_output_to_a_project_file(workspace):
+    target = workspace / "requirements.txt"
+    target.write_text("original", encoding="utf-8")
+    (workspace / "output").mkdir()
+    try:
+        (workspace / "output" / "report.txt").symlink_to(target)
+    except OSError as e:
+        pytest.skip(f"cannot create symlinks here: {e}")
+
+    assert fs_tools.write_file("output/report.txt", "evil-package")["success"] is False
+    assert target.read_text(encoding="utf-8") == "original"
+
+
+@pytest.mark.parametrize("name", ["output/report.txt", "output/report.md", "reports/data.json", "reports/rows.csv"])
 def test_write_allows_text_report_formats(workspace, name):
     """The allow-list must still permit the tool to do its actual job."""
     result = fs_tools.write_file(name, "content")
@@ -289,9 +322,9 @@ def test_write_extension_check_is_case_insensitive(workspace):
     suffixes. A case-sensitive allow-list would be trivially bypassed by `.PY`
     — and worse, would behave differently on Linux than on Windows.
     """
-    assert fs_tools.write_file("Report.MD", "x")["success"] is True
-    assert fs_tools.write_file("evil.PY", "x")["success"] is False
-    assert not (workspace / "evil.PY").exists()
+    assert fs_tools.write_file("output/Report.MD", "x")["success"] is True
+    assert fs_tools.write_file("output/evil.PY", "x")["success"] is False
+    assert not (workspace / "output" / "evil.PY").exists()
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -389,9 +422,9 @@ def test_read_accepts_the_formats_write_can_produce(workspace):
     test catches that class of bug in a way testing each function alone never
     will.
     """
-    fs_tools.write_file("out/summary.md", "# Summary\nlooks good\n")
+    fs_tools.write_file("output/summary.md", "# Summary\nlooks good\n")
 
-    result = fs_tools.read_file("out/summary.md")
+    result = fs_tools.read_file("output/summary.md")
 
     assert result["success"] is True
     assert "looks good" in result["content"]
@@ -556,18 +589,18 @@ def test_write_creates_parent_directories(workspace):
 
 
 def test_write_overwrites_and_reports_size(workspace):
-    fs_tools.write_file("report.md", "first version")
-    result = fs_tools.write_file("report.md", "second")
+    fs_tools.write_file("output/report.md", "first version")
+    result = fs_tools.write_file("output/report.md", "second")
 
     assert result["success"] is True
     assert result["size_bytes"] == len("second")
-    assert (workspace / "report.md").read_text(encoding="utf-8") == "second"
+    assert (workspace / "output" / "report.md").read_text(encoding="utf-8") == "second"
 
 
 def test_write_message_is_workspace_relative(workspace):
-    result = fs_tools.write_file("report.md", "x")
+    result = fs_tools.write_file("output/report.md", "x")
 
-    assert result["message"] == "File written: report.md"
+    assert result["message"] == "File written: output/report.md"
     assert str(workspace) not in result["message"]
 
 
@@ -577,10 +610,10 @@ def test_write_handles_none_content(workspace):
     TypeError. Tools called with model-generated JSON have to tolerate every
     shape that JSON permits.
     """
-    result = fs_tools.write_file("empty.txt", None)
+    result = fs_tools.write_file("output/empty.txt", None)
 
     assert result["success"] is True
-    assert (workspace / "empty.txt").read_text(encoding="utf-8") == ""
+    assert (workspace / "output" / "empty.txt").read_text(encoding="utf-8") == ""
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -638,7 +671,7 @@ def test_search_requires_a_keyword(workspace):
     "call",
     [
         lambda: fs_tools.read_file("docs/alpha.txt", encoding="utf-16", verbose=True),
-        lambda: fs_tools.write_file("out.txt", "x", mode="append", overwrite=False),
+        lambda: fs_tools.write_file("output/out.txt", "x", mode="append", overwrite=False),
         lambda: fs_tools.list_files("docs", None, recursive=True),
         lambda: fs_tools.search_in_file("docs/alpha.txt", "python", regex=True),
     ],
@@ -674,7 +707,7 @@ def test_json_serialisable_results(workspace):
     results = [
         fs_tools.read_file("docs/alpha.txt"),
         fs_tools.list_files("docs"),
-        fs_tools.write_file("out.txt", "x"),
+        fs_tools.write_file("output/out.txt", "x"),
         fs_tools.search_in_file("docs/alpha.txt", "python"),
         fs_tools.read_file("../escape.txt"),
     ]
@@ -703,10 +736,10 @@ def test_relative_paths_do_not_depend_on_the_current_directory(workspace, monkey
     whose boundary moves with the shell is not a sandbox. It would also be an
     escape route: `cd` somewhere else and every relative path follows.
     """
-    fs_tools.write_file("anchored.md", "content")
+    fs_tools.write_file("output/anchored.md", "content")
     monkeypatch.chdir(workspace / "docs")
 
-    result = fs_tools.read_file("anchored.md")
+    result = fs_tools.read_file("output/anchored.md")
 
     assert result["success"] is True
     assert result["content"] == "content"

@@ -136,15 +136,15 @@ def test_agent_chains_three_tool_steps_before_answering(workspace, history):
         wants_tools(tool_call("list_files", {"directory": "docs"}, "c1")),
         wants_tools(tool_call("read_file", {"filepath": "docs/alpha.txt"}, "c2")),
         wants_tools(tool_call(
-            "write_file", {"filepath": "out/summary.md", "content": "Python, Kafka"}, "c3"
+            "write_file", {"filepath": "output/summary.md", "content": "Python, Kafka"}, "c3"
         )),
-        answers("Wrote out/summary.md."),
+        answers("Wrote output/summary.md."),
     ])
 
-    reply = agent.run_assistant("Summarise the doc into out/summary.md", history, client=client)
+    reply = agent.run_assistant("Summarise the doc into output/summary.md", history, client=client)
 
-    assert reply == "Wrote out/summary.md."
-    assert (workspace / "out" / "summary.md").read_text(encoding="utf-8") == "Python, Kafka"
+    assert reply == "Wrote output/summary.md."
+    assert (workspace / "output" / "summary.md").read_text(encoding="utf-8") == "Python, Kafka"
     assert len(client.requests) == 4
     # Every request offered tools. None was a forced text-only follow-up.
     assert all(r.get("tools") == agent.TOOLS for r in client.requests)

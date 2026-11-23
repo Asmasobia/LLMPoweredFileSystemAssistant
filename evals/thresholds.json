@@ -1,37 +1,37 @@
 {
-  "about": "Written by retrieval_eval.py --write-thresholds from labels f2cfd66c6e6c: each metric from that run minus 0.02. Regenerate when the labels change.",
+  "about": "Written by retrieval_eval.py --write-thresholds from labels f2cfd66c6e6c: each metric from that run minus 0.01. Regenerate when the labels change.",
   "minimums": {
     "chroma/section/vector": {
-      "recall@5": 0.938,
-      "mrr": 0.908
+      "recall@5": 0.948,
+      "mrr": 0.918
     },
     "chroma/fixed/vector": {
-      "recall@5": 0.927,
-      "mrr": 0.908
+      "recall@5": 0.937,
+      "mrr": 0.918
     },
     "pg/section/vector": {
-      "recall@5": 0.938,
-      "mrr": 0.908
+      "recall@5": 0.948,
+      "mrr": 0.918
     },
     "pg/section/keyword": {
-      "recall@5": 0.905,
-      "mrr": 0.874
+      "recall@5": 0.915,
+      "mrr": 0.884
     },
     "pg/section/hybrid": {
-      "recall@5": 0.952,
-      "mrr": 0.908
+      "recall@5": 0.962,
+      "mrr": 0.918
     },
     "pg/fixed/vector": {
-      "recall@5": 0.927,
-      "mrr": 0.908
+      "recall@5": 0.937,
+      "mrr": 0.918
     },
     "pg/fixed/keyword": {
-      "recall@5": 0.905,
-      "mrr": 0.853
+      "recall@5": 0.915,
+      "mrr": 0.863
     },
     "pg/fixed/hybrid": {
-      "recall@5": 0.952,
-      "mrr": 0.924
+      "recall@5": 0.962,
+      "mrr": 0.934
     }
   }
 }

@@ -239,7 +239,9 @@ def check(report, thresholds_path) -> list:
     return failures
 
 
-THRESHOLD_MARGIN = 0.02
+# Below 1/53 (0.0189), what one query that loses everything costs the average,
+# so losing a whole query fails the gate.
+THRESHOLD_MARGIN = 0.01
 
 
 def thresholds_from(report, margin=THRESHOLD_MARGIN) -> dict:
