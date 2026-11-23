@@ -42,7 +42,6 @@ import json
 import sys
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, ToolMessage
-from langgraph.errors import GraphRecursionError
 from langgraph.graph import END, START, MessagesState, StateGraph
 from langgraph.types import Command, interrupt
 
@@ -51,6 +50,20 @@ from llm_file_assistant import MAX_ITERATIONS, MODEL, SYSTEM_PROMPT, TOOLS, exec
 NEEDS_APPROVAL = {"write_file"}
 DECLINED = {"success": False, "error": "The user declined this write. Nothing was written."}
 CAP_MESSAGE = f"Stopped after {MAX_ITERATIONS} model calls without a final answer."
+
+
+def model_calls_this_turn(messages) -> int:
+    """
+    Model replies since the user last spoke. Counted from the saved messages
+    rather than by LangGraph's recursion_limit, which starts again every time a
+    paused run is resumed, so each approval used to grant a fresh allowance.
+    """
+    count = 0
+    for m in reversed(messages):
+        if isinstance(m, HumanMessage):
+            break
+        count += isinstance(m, AIMessage)
+    return count
 
 
 def build_graph(model, checkpointer=None):
@@ -97,23 +110,34 @@ def build_graph(model, checkpointer=None):
             ))
         return {"messages": replies}
 
+    def capped(state: MessagesState):
+        return {"messages": [AIMessage(CAP_MESSAGE)]}
+
     def route(state: MessagesState):
         last = state["messages"][-1]
         return "tools" if last.tool_calls or getattr(last, "invalid_tool_calls", None) else END
 
+    def after_tools(state: MessagesState):
+        # Checked only after tools have replied, so stopping here never leaves a
+        # tool call unanswered.
+        return "capped" if model_calls_this_turn(state["messages"]) >= MAX_ITERATIONS else "agent"
+
     g = StateGraph(MessagesState)
     g.add_node("agent", agent)
     g.add_node("tools", tools)
+    g.add_node("capped", capped)
     g.add_edge(START, "agent")
     g.add_conditional_edges("agent", route, ["tools", END])
-    g.add_edge("tools", "agent")
+    g.add_conditional_edges("tools", after_tools, ["agent", "capped"])
+    g.add_edge("capped", END)
     return g.compile(checkpointer=checkpointer)
 
 
 def run_config(thread_id: str) -> dict:
-    # Each model call and each tool step is one graph step, so MAX_ITERATIONS
-    # model calls take at most 2 * MAX_ITERATIONS steps.
-    return {"configurable": {"thread_id": thread_id}, "recursion_limit": 2 * MAX_ITERATIONS}
+    # Not the cap: model_calls_this_turn is. This is a backstop set above it
+    # (a model and a tool step per call, plus the capped step), because hitting
+    # it can stop the run between a tool call and its reply.
+    return {"configurable": {"thread_id": thread_id}, "recursion_limit": 2 * MAX_ITERATIONS + 5}
 
 
 def step(graph, thread_id: str, user_input=None, resume=None) -> dict:
@@ -122,10 +146,7 @@ def step(graph, thread_id: str, user_input=None, resume=None) -> dict:
     `resume`. Returns {"pending": [approval requests]} or {"answer": text}.
     """
     payload = Command(resume=resume) if resume is not None else {"messages": [HumanMessage(user_input)]}
-    try:
-        result = graph.invoke(payload, run_config(thread_id))
-    except GraphRecursionError:
-        return {"answer": CAP_MESSAGE}
+    result = graph.invoke(payload, run_config(thread_id))
     if result.get("__interrupt__"):
         return {"pending": [i.value for i in result["__interrupt__"]]}
     last = result["messages"][-1]

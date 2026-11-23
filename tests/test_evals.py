@@ -259,3 +259,17 @@ def test_thresholds_sit_just_below_the_run_they_came_from():
         "pg/section/hybrid": {"metrics": {"all": {"recall@5": 0.9, "mrr": 0.01}}}}}
     t = retrieval_eval.thresholds_from(report, margin=0.02)
     assert t["minimums"]["pg/section/hybrid"] == {"recall@5": 0.88, "mrr": 0.0}
+
+
+def test_gate_fails_when_any_configuration_loses_one_whole_query():
+    """Run against the committed results and thresholds, as CI uses them."""
+    report = json.loads(retrieval_eval.RESULTS_PATH.read_text(encoding="utf-8"))
+    path = retrieval_eval.PROJECT_ROOT / "evals" / "thresholds.json"
+    assert retrieval_eval.check(report, path) == []
+    for name, result in report["results"].items():
+        metrics = result["metrics"]["all"]
+        for metric in ("recall@5", "mrr"):
+            before = metrics[metric]
+            metrics[metric] = before - 1 / metrics["n"]
+            assert any(name in f and metric in f for f in retrieval_eval.check(report, path))
+            metrics[metric] = before
