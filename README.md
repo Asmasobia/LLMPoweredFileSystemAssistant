@@ -486,6 +486,13 @@ that it catches invented facts, not to give a grounding rate for the system.
 - **No summarisation of long conversations.** The checkpointer keeps every
   message of a thread forever, so a long-running thread eventually exceeds the
   model's context window. There is also no command to list or delete threads.
+- **Saved memory keeps injected text too.** File contents enter the conversation
+  as tool results, the checkpointer saves them, and the whole thread is sent to
+  the model on every later turn, including after a restart. So an instruction
+  hidden in one résumé is replayed for as long as that thread is used. The
+  sandbox and write approval still limit what it can make the agent do, but not
+  what it can make the model say. Nothing here marks which saved text came from
+  an untrusted file, or decides what is safe to keep, and no test covers this.
 - **No structured logging of tool calls.** For an agent, the sequence of calls
   *is* the execution trace, and reconstructing a bad run from stdout is guesswork.
 - **The vector stores are written outside the sandbox check.** Résumés are read
